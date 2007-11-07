@@ -1,0 +1,36 @@
+#!/bin/sh
+
+for i in $(distfind)
+do
+    cd $i
+    echo ------------------------------------------------------------------
+    echo $i
+    echo ------------------------------------------------------------------
+    echo
+
+    if [ -f BUILD.SKIP ]; then
+        echo Skipping because of BUILD.SKIP
+        echo
+
+        # Still clean the directory - we don't want it to show up on the
+        # summary page. Also do a summary so that the now-cleaned directory is
+        # gone from the summary page.
+
+        distclean
+        smokesummary
+        continue
+    fi
+
+    rm -f smoketee.txt
+    distsmoke 2>&1 | tee -a smoketee.txt
+
+    # Don't distclean so the generated test files (t/embedded) remain: They are
+    # referenced from smoke.html pages.
+
+    # Run smokesummary after each distribution so results are visible
+    # immediately
+
+    smokesummary
+
+    echo
+done

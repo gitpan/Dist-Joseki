@@ -1,0 +1,8 @@
+#!/bin/sh
+cd dotfiles
+for i in *
+do
+    cp -pr $i ~/.$i
+done
+chmod 600 ~/.pause
+

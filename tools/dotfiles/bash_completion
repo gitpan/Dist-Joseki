@@ -1,0 +1,157 @@
+# bash completion basics:
+#
+# 'complete -F _foo bar' get completions for command 'bar' from
+# function '_foo()' which must put the completions into $COMPREPLY.
+#
+# Within such a function, $COMP_WORDS is an array holding the words
+# of the current command line.
+#
+# $COMP_CWORD is an index into that array corresponding to the current
+# cursor position.
+#
+# ${COMP_WORDS[@]} expands to all those words; ${COMP_WORDS[COMP_CWORD]}
+# is the current word at the cursor.
+#
+# COMPREPLY=( $(somecmd) ) sets the reply to the output of the command,
+# separated into array elements by $IFS
+#
+# If, in the following documentation, it says 'somecmd completes
+# to somelist', then it's implied that somelist is also filtered
+# using the current word so that only completions for what you've
+# typed already appear. E.g., with nidump, if you have interfaces
+# lo0, en0 and en1 defined and type 'nidump en[TAB]', only en0 and
+# en1 appear as possible completions. Sometimes this is achieved
+# using compgen, sometimes using grep, and sometimes within the
+# perl programs used to find completions.
+
+# ----------------------------------------------------------------------
+# some pmtools commands complete to installed perl modules
+
+complete -F _perlmodules pmall pman pmcat pmdesc pmdirs pmexp pmfunc \
+    pmgen pminst pmload pmls pmpath pmvers
+
+# ----------------------------------------------------------------------
+# ifconfig completes to interfaces output by 'ifconfig -a'.
+
+[ $UNAME = Darwin ] && have ifconfig &&
+{
+_ifconfig()
+{
+    COMPREPLY=( $( compgen -W '$( ifconfig -a | perl -lne"print \$1 if /^(\w+):/" )' -- ${COMP_WORDS[COMP_CWORD]} ) )
+    return 0
+}
+complete -F _ifconfig ifconfig
+}
+
+# ----------------------------------------------------------------------
+# nidump completes to the formats accepted by nidump.
+
+[ $UNAME = Darwin ] && have nidump &&
+{
+_nidump()
+{
+    COMPREPLY=( $( compgen -W 'aliases bootptab bootparams ethers \
+        exports fstab group hosts networks passwd printcap protocols \
+        resolv.conf rpc services mountmaps' -- ${COMP_WORDS[COMP_CWORD]} ))
+    return 0
+}
+complete -F _nidump nidump
+}
+
+# ----------------------------------------------------------------------
+# cdpm (see ~/.bashrc for alias def) completes to my perl module distributions
+
+# for a directory structure based on h2xs's ideas, e.g. A/MANIFEST,
+# B/C/MANIFEST etc., use:
+# COMPREPLY=( $( find ~/cvs/ | perl -lne'print $1 if m!.*/cvs/+(.*)/MANIFEST!' | grep ^${COMP_WORDS[COMP_CWORD]} ) )
+
+_cdpm()
+{
+    COMPREPLY=( $( ls -1 ~/cvs | grep ^${COMP_WORDS[COMP_CWORD]} ) )
+    return 0
+}
+complete -F _cdpm cdpm
+
+# ----------------------------------------------------------------------
+# vit and cdt (see ~/.bashrc for alias def) complete to vim's perl tags
+
+_ptags()
+{
+    COMPREPLY=( $(grep -h ^${COMP_WORDS[COMP_CWORD]} $PTAGSFILE | cut -f 1) )
+    return 0
+}
+complete -F _ptags vit cdt
+
+# ----------------------------------------------------------------------
+# mutt completions
+
+_mutt()
+{
+    local cur curopt i
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+
+    # if [[ "$cur" == -* ]]; then
+    if [ "$cur" == "-" ]; then
+        COMPREPLY=( $( compgen -W '-a -b -c -e -f -F -h -H -i -m \
+                  -n -p -R -s -v -x -y -z -Z' -- $cur ) )
+        return 0
+    fi
+
+    i=0
+    # walk back through command line and find last option
+    while [ $i -le $COMP_CWORD -a ${#COMPREPLY[@]} -eq 0 ]; do
+        curopt=${COMP_WORDS[COMP_CWORD-$i]}
+        case "$curopt" in
+        -f)
+                    COMPREPLY=( $( find ~/Mail -type f | \
+                        grep ^${COMP_WORDS[COMP_CWORD]} ) )
+                    ;;
+                -@(b|c))
+                    COMPREPLY=( $( cat ~/.mutt-aliases | awk '{print $2}' | \
+                        grep ^${COMP_WORDS[COMP_CWORD]} | sort -u ) )
+                    ;;
+
+        esac
+        i=$(( ++i ))
+    done
+}
+complete -F _mutt mutt
+
+# complete -d pushd cd rmdir
+complete -f -X '!*.@(zip|ZIP|jar|JAR|exe|EXE|pk3)' zipinfo
+complete -f -X '!*.@(Z|gz|tgz|Gz)' gzcat
+complete -f -X '!*.Z' uncompress
+complete -f -X '!*.@(gif|jp?(e)g|tif?(f)|png|p[bgp]m|bmp|pdf|GIF|JPG|JP?(E)G|TIF?(F)|PNG|P[BGP]M|BMP|PDF)' preview
+complete -f -X '!*.html' appletviewer
+complete -fd -X '!*.@(pod|pm|pl)' pod2{html,latex,man,pdf,test,text,usage}
+
+
+# Note: I modified the _cd() function in /etc/bash_completion to omit CVS
+# directories if no CDPATH is set. The relevant part was before
+#
+#	# Use standard dir completion if no CDPATH or parameter starts with /,
+#	# ./ or ../
+#	if [ -z "${CDPATH:-}" ] || [[ "$cur" == ?(.)?(.)/* ]]; then
+#		_filedir -d
+#		return 0
+#	fi
+#
+# and now reads
+#
+#	# Use standard dir completion if no CDPATH or parameter starts with /,
+#	# ./ or ../
+#	if [ -z "${CDPATH:-}" ] || [[ "$cur" == ?(.)?(.)/* ]]; then
+#		_filedir -d
+#
+#		# omit CVS directories
+#		for (( i = 0; i < ${#COMPREPLY[@]}; i++ ))
+#		do
+#			if [[ ${COMPREPLY[$i]} == "${cur}CVS" ]]; then
+#				unset COMPREPLY[$i]
+#			fi
+#		done
+#
+#		return 0
+#	fi

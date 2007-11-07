@@ -1,0 +1,11 @@
+Revision history for Perl extension Dist::Joseki.
+
+0.03  Mi Nov  7 17:38:43 CET 2007
+        - getting ready for initial release
+
+0.02  Do Okt 18 10:09:39 CEST 2007
+        - fixed version requirement of Test::More
+
+0.01  Mi Okt  3 18:38:05 CEST 2007
+        - original version
+

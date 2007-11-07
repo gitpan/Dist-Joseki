@@ -1,0 +1,134 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+use File::Spec;
+use File::Path;
+use FindBin '$Bin';
+use Test::TAP::HTMLMatrix;
+use Test::TAP::Model::Visual;
+use YAML qw/LoadFile DumpFile/;
+
+
+our $VERSION = '0.03';
+
+
+sub safe_system {
+    my @args = @_;
+    system(@args) == 0 or die "system @args failed: $?";
+}
+
+
+sub smoke {
+    # Run smoke tests. Assumes that 'make' has already been run.
+    my $meta = LoadFile('META.yml') or die "can't load META.yml\n";
+    my $distname = $meta->{name};
+
+    local $ENV{HARNESS_VERBOSE} = 1;
+    my $model = Test::TAP::Model::Visual->new_with_tests(glob("t/*.t"));
+
+    my $smoke_html_filename = 'smoke.html';
+    my $smoke_yaml_filename = 'smoke.yaml';
+
+    open my $fh, ">$smoke_html_filename" or
+        die "can't open $smoke_html_filename for writing: $!\n";
+    my $v = Test::TAP::HTMLMatrix->new($model, $distname);
+    $v->has_inline_css(1);
+    print $fh "$v";
+    close $fh or die "can't close $smoke_html_filename: $!\n";
+
+    # force scalar context so localtime() outputs readable string
+    my $start_time = localtime($model->{meat}{start_time});
+    my $end_time   = localtime($model->{meat}{end_time});
+
+    my %summary = (
+        distname   => $distname,
+        start_time => $start_time,
+        end_time   => $end_time,
+    );
+
+    for (qw(percentage seen todo skipped passed
+            failed unexpectedly_succeeded ratio)) {
+
+        my $method = "total_$_";
+        $summary{$_} = $model->$method;
+    }
+    DumpFile($smoke_yaml_filename, \%summary);
+}
+
+
+sub cover {
+    # Run coverage tests. Assumes that 'make' has already been run.
+    safe_system('cover -delete');
+    safe_system('HARNESS_PERL_SWITCHES=-MDevel::Cover=-ignore,^inc/ make test');
+    safe_system('cover');
+}
+
+
+if (-e 'BUILD.SKIP') {
+    warn "Skipping build because of BUILD.SKIP\n";
+    exit;
+}
+
+safe_system('perl Makefile.PL && make');
+smoke();
+
+if (-e 'COVER.SKIP') {
+    warn "Skipping coverage tests because of COVER.SKIP\n";
+    exit;
+}
+
+cover();
+
+
+__END__
+
+=head1 NAME
+
+Dist::Joseki - tools for the prolific module author
+
+=head1 SYNOPSIS
+
+None yet (see below).
+
+=head1 DESCRIPTION
+
+None yet. This is an early release; fully functional, but undocumented. The
+next release will have more documentation.
+
+=head1 TAGS
+
+If you talk about this module in blogs, on del.icio.us or anywhere else,
+please use the C<distjoseki> tag.
+
+=head1 BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests to
+C<bug-dist-joseki@rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org>.
+
+=head1 INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
+
+=head1 AVAILABILITY
+
+The latest version of this module is available from the Comprehensive Perl
+Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
+site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+
+=head1 AUTHOR
+
+Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2007 by Marcel GrE<uuml>nauer
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
