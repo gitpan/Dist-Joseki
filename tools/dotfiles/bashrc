@@ -34,7 +34,7 @@ export LC_COLLATE=C
 export DISPLAY=:0.0
 export TEST_AUTHOR=1
 export PROJROOT
-PROJROOT=${PROJROOT:-~/svk/hanekomu-cpan}
+export PTAGSFILE=~/.ptags
 
 export CPPFLAGS
 for d in /{sw,usr/local}/include
@@ -47,9 +47,6 @@ for d in /{sw,usr/local}/lib
 do
     test -d $d && LDFLAGS="-L$d $LDFLAGS"
 done
-
-# so subversion can work with asian characters:
-export LC_ALL=de_DE.utf-8
 
 # remove domain name from hostname, if domain name
 # is in hostname (otherwise, just hostname).
@@ -116,11 +113,6 @@ if [ -n "$PS1" ]; then
 fi
 unset bash bminor bmajor
 
-
-
-export PTAGSFILE=~/.ptags
-export PERL5OPT="-MDevel::SearchINC::FindLib=$PROJROOT"
-export PERL5LIB=~/home/software/sgftools/lib:/usr/local/svn/perl:$PERL5LIB
 
 
 projptags () {

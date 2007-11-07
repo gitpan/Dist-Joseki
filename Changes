@@ -1,5 +1,8 @@
 Revision history for Perl extension Dist::Joseki.
 
+0.04  Mi Nov  7 18:15:13 CET 2007
+        - remove german LC_ALL from tools/dotfiles/bashrc
+
 0.03  Mi Nov  7 17:38:43 CET 2007
         - getting ready for initial release
 
