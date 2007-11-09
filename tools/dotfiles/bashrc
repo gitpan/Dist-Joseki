@@ -114,6 +114,15 @@ fi
 unset bash bminor bmajor
 
 
+# list all instances of one or more files found within the $PATH.
+
+wh () {
+    perl -MFile::Which -e'
+        for $file (@ARGV) {
+            print "$_\n" for grep { !$seen{$_}++ } which($file)
+        }
+    ' $*;
+}
 
 projptags () {
     rm -f $PTAGSFILE
@@ -129,11 +138,20 @@ projptags () {
 }
 
 
+ORIGPATH=$PATH
 
 set_project () {
     export PROJROOT=$1
     export PERL5OPT="-MDevel::SearchINC::FindLib=$PROJROOT"
     export CF_CONF=local
+
+    PATH=$ORIGPATH
+    for i in $(distfind)
+    do
+        if [ -d $i/bin ]; then
+            PATH=$PATH:$i/bin
+        fi
+    done
 }
 
 

@@ -9,7 +9,7 @@ use File::Find;
 use Getopt::Long;
 
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 
 my @lib;

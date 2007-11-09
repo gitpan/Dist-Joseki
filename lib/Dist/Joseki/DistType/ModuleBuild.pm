@@ -5,7 +5,7 @@ use strict;
 
 use base 'Dist::Joseki::DistType::Base';
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 
 sub is_built {

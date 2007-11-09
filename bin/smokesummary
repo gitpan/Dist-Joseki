@@ -10,7 +10,7 @@ use YAML 'LoadFile';
 use Template;
 
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 
 my @smoke;
