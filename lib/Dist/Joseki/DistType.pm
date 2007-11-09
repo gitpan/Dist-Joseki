@@ -6,7 +6,7 @@ use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
 
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 sub new {

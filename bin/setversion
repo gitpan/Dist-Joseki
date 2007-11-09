@@ -7,7 +7,7 @@ use File::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 our $version : Getopt(version|v=s);

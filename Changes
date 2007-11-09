@@ -4,6 +4,13 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - Added requirements
+    date: 2007-11-09T18:03:45Z
+    tags:
+      - BUGFIX
+    version: 0.07
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - 'removed ShipIt::Step::{DistClean,Manifest} as they now live in their own distributions - it was not clean to have them here'
     date: 2007-11-09T10:33:29Z
     tags:
