@@ -25,8 +25,8 @@ umask 022
 IGNORE_EOF=1
 
 export LESSCHARSET=iso8859
-export EDITOR=vim
-export CVSEDITOR=vim
+export EDITOR=/usr/bin/vim
+export CVSEDITOR=/usr/bin/vim
 export CVS_RSH=ssh
 export PAGER=less
 export TEST_MODE=1
@@ -76,7 +76,7 @@ cd () {
 # vim: If args are given, open those files. If no arg is given, use
 # viminfo to jump to last known cursor position
 
-vi () { vim ${@:- -c "normal '0"}; }
+vi () { /usr/bin/vim ${@:- -c "normal '0"}; }
 
 # perl module development
 cdpm () { cd $(dirname $(pmpath $1)); }
@@ -126,7 +126,7 @@ wh () {
 
 projptags () {
     rm -f $PTAGSFILE
-    ptags --use --exclude ~/.ptags_exclude $(find $PROJROOT -mindepth 1 -maxdepth 1 -type d -not -name [._]\* | perl -pe'chomp; $_ = "--lib $_ "') >>$PTAGSFILE
+    ptags $* --use --exclude ~/.ptags_exclude $(find $PROJROOT -mindepth 1 -maxdepth 1 -type d -not -name [._]\* | perl -pe'chomp; $_ = "--lib $_ "') >>$PTAGSFILE
     ptags --perllib --exclude ~/.ptags_exclude >>$PTAGSFILE
 
     if [ -f $PTAGS_DYNAMIC ]; then
@@ -149,7 +149,7 @@ set_project () {
     for i in $(distfind)
     do
         if [ -d $i/bin ]; then
-            PATH=$PATH:$i/bin
+            PATH=$i/bin:$PATH
         fi
     done
 }

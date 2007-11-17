@@ -1,60 +1,48 @@
-package Dist::Joseki::DistType::ModuleBuild;
+package Dist::Joseki::Version;
 
-use warnings;
 use strict;
+use warnings;
+use File::Find;
+use File::Slurp;
+use Module::Changes;
 
-use base 'Dist::Joseki::DistType::Base';
+
+our $VERSION = '0.01';
 
 
-our $VERSION = '0.08';
+use base qw(Dist::Joseki::Base);
 
 
-sub is_built {
-    my $self = shift;
-    -e 'Build';
+sub get_newest_version {
+    my ($self, $changes_filename) = @_;
+
+    die "can't find Changes file\n" unless -f $changes_filename;
+    die "can't read Changes file\n" unless -e $changes_filename;
+
+    Module::Changes->make_object_for_type('parser_yaml')
+        ->parse_from_file($changes_filename)
+        ->newest_release->version
 }
 
 
-sub ACTION_build {
-    my $self = shift;
-    return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
-}
+sub set_version {
+    my ($self, $version, @dir) = @_;
+    $self->assert_is_dist_base_dir;
 
+    find(sub {
+        return unless -f && -r;
+        return if /\.swp$/;
+        my $contents = read_file($_);
+        if ($contents =~ s/(\$VERSION\s*=\s*([\'\"]))(.+?)\2/$1$version$2/) {
+            open my $fh, '>', $_ or
+                die "can't open $File::Find::name for writing: $!\n";
+            print $fh $contents;
+            close $fh or die "can't close $File::Find::name: $!\n";
+        } else {
+            warn "$File::Find::name: no \$VERSION line\n";
+        }
+    }, grep { -d $_ } @dir);
 
-sub ACTION_default {
-    my $self = shift;
-    $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
-}
-
-
-sub ACTION_distclean {
-    my $self = shift;
-    return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
-}
-
-
-sub ACTION_disttest {
-    my $self = shift;
-    $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
-}
-
-
-sub ACTION_distinstall {
-    my $self = shift;
-    $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
-}
-
-
-sub ACTION_manifest {
-    my $self = shift;
-    $self->depends_on('build');
-    unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
 }
 
 
@@ -67,24 +55,17 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::DistType::ModuleBuild - Distribution type class for Module::Build distributions
+Dist::Joseki::Version - Get and set version numbers within the distribution
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::DistType::ModuleBuild->new;
+    Dist::Joseki::Version->new;
 
 =head1 DESCRIPTION
 
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
+None yet.
 
-Dist::Joseki::DistType::ModuleBuild inherits from
-L<Dist::Joseki::DistType::Base>.
-
-The superclass L<Dist::Joseki::DistType::Base> defines these methods and
-functions:
-
-    _call_action(), depends_on(), finish()
+Dist::Joseki::Version inherits from L<Dist::Joseki::Base>.
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
@@ -130,7 +111,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.01 of L<Dist::Joseki::Version>.
 
 =head1 BUGS AND LIMITATIONS
 

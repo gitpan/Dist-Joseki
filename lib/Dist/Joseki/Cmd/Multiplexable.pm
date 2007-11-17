@@ -1,61 +1,51 @@
-package Dist::Joseki::DistType::ModuleBuild;
+package Dist::Joseki::Cmd::Multiplexable;
 
-use warnings;
 use strict;
-
-use base 'Dist::Joseki::DistType::Base';
-
-
-our $VERSION = '0.08';
+use warnings;
+use Dist::Joseki::Find;
 
 
-sub is_built {
-    my $self = shift;
-    -e 'Build';
+our $VERSION = '0.01';
+
+
+use base qw(Dist::Joseki::Cmd::Command);
+
+
+sub options {
+    my ($self, $app, $cmd_config) = @_;
+    return (
+        $self->SUPER::options($app, $cmd_config),
+        [ 'proj|p' => 'Repeat this for all distributions in the project' ],
+    );
 }
 
 
-sub ACTION_build {
+sub run {
     my $self = shift;
-    return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
+
+    $self->SUPER::run(@_);
+    if (defined $self->opt('proj')) {
+
+        $self->hook_before_dist_loop;
+        for my $dist (Dist::Joseki::Find->new->find_dists) {
+            chdir $dist or die "can't chdir to $dist: $!\n";
+            $self->hook_in_dist_loop_begin($dist);
+            $self->run_single;
+            $self->hook_in_dist_loop_end($dist);
+        }
+        $self->hook_after_dist_loop;
+
+    } else {
+        $self->run_single;
+    }
 }
 
 
-sub ACTION_default {
-    my $self = shift;
-    $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
-}
-
-
-sub ACTION_distclean {
-    my $self = shift;
-    return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
-}
-
-
-sub ACTION_disttest {
-    my $self = shift;
-    $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
-}
-
-
-sub ACTION_distinstall {
-    my $self = shift;
-    $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
-}
-
-
-sub ACTION_manifest {
-    my $self = shift;
-    $self->depends_on('build');
-    unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
-}
+sub hook_before_dist_loop   {}
+sub hook_after_dist_loop    {}
+sub hook_in_dist_loop_begin {}
+sub hook_in_dist_loop_end   {}
+sub run_single              {}
 
 
 1;
@@ -67,28 +57,43 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::DistType::ModuleBuild - Distribution type class for Module::Build distributions
+Dist::Joseki::Cmd::Multiplexable - Base class for potentially project-wide commands
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::DistType::ModuleBuild->new;
+    Dist::Joseki::Cmd::Multiplexable->new;
 
 =head1 DESCRIPTION
 
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
+None yet.
 
-Dist::Joseki::DistType::ModuleBuild inherits from
-L<Dist::Joseki::DistType::Base>.
+Dist::Joseki::Cmd::Multiplexable inherits from
+L<Dist::Joseki::Cmd::Command>.
 
-The superclass L<Dist::Joseki::DistType::Base> defines these methods and
+The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
 
-    _call_action(), depends_on(), finish()
+    args(), args_clear(), args_count(), args_index(), args_pop(),
+    args_push(), args_set(), args_shift(), args_splice(), args_unshift(),
+    clear_args(), clear_opt(), count_args(), delete_opt(), exists_opt(),
+    index_args(), keys_opt(), opt(), opt_clear(), opt_delete(),
+    opt_exists(), opt_has_value(), opt_keys(), opt_spec(), opt_values(),
+    pop_args(), push_args(), set_args(), shift_args(), splice_args(),
+    unshift_args(), validate(), validate_args(), values_opt()
+
+The superclass L<App::Cmd::Command> defines these methods and functions:
+
+    new(), _option_processing_params(), _usage_text(), abstract(), app(),
+    command_names(), prepare(), usage(), usage_desc(), usage_error()
+
+The superclass L<App::Cmd::ArgProcessor> defines these methods and
+functions:
+
+    _process_args()
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
-    new(), assert_is_dist_base_dir(), bool_prompt(), print_header(),
+    assert_is_dist_base_dir(), bool_prompt(), print_header(),
     read_from_cmd(), safe_system()
 
 The superclass L<Class::Accessor::Complex> defines these methods and
@@ -130,7 +135,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.01 of L<Dist::Joseki::Cmd::Multiplexable>.
 
 =head1 BUGS AND LIMITATIONS
 

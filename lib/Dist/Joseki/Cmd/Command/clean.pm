@@ -1,60 +1,42 @@
-package Dist::Joseki::DistType::ModuleBuild;
+package Dist::Joseki::Cmd::Command::clean;
 
-use warnings;
 use strict;
-
-use base 'Dist::Joseki::DistType::Base';
-
-
-our $VERSION = '0.08';
+use warnings;
+use Dist::Joseki;
+use Dist::Joseki::Find;
 
 
-sub is_built {
+our $VERSION = '0.01';
+
+
+use base 'Dist::Joseki::Cmd::Multiplexable';
+
+
+sub run_single {
     my $self = shift;
-    -e 'Build';
+
+    $self->SUPER::run_single(@_);
+    $self->assert_is_dist_base_dir;
+    my $dist = Dist::Joseki->get_dist_type;
+    $dist->ACTION_distclean;
+    $dist->finish;
+
+    unlink 'smoke.html', 'smoke.yaml', 'smoketee.txt';
+    $self->safe_system('cover -delete') if -d 'cover_db';
 }
 
 
-sub ACTION_build {
+sub hook_after_dist_loop {
     my $self = shift;
-    return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
+    $self->SUPER::hook_after_dist_loop(@_);
+    unlink "$_/smoke.html" for Dist::Joseki::Find->new->projroot;
 }
 
 
-sub ACTION_default {
-    my $self = shift;
-    $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
-}
-
-
-sub ACTION_distclean {
-    my $self = shift;
-    return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
-}
-
-
-sub ACTION_disttest {
-    my $self = shift;
-    $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
-}
-
-
-sub ACTION_distinstall {
-    my $self = shift;
-    $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
-}
-
-
-sub ACTION_manifest {
-    my $self = shift;
-    $self->depends_on('build');
-    unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
+sub hook_in_dist_loop_begin {
+    my ($self, $dist) = @_;
+    $self->SUPER::hook_in_dist_loop_begin($dist);
+    $self->print_header($dist);
 }
 
 
@@ -67,28 +49,48 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::DistType::ModuleBuild - Distribution type class for Module::Build distributions
+Dist::Joseki::Cmd::Command::clean - 'clean' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::DistType::ModuleBuild->new;
+    Dist::Joseki::Cmd::Command::clean->new;
 
 =head1 DESCRIPTION
 
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
+None yet.
 
-Dist::Joseki::DistType::ModuleBuild inherits from
-L<Dist::Joseki::DistType::Base>.
+Dist::Joseki::Cmd::Command::clean inherits from
+L<Dist::Joseki::Cmd::Multiplexable>.
 
-The superclass L<Dist::Joseki::DistType::Base> defines these methods and
+The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
+and functions:
+
+    hook_before_dist_loop(), hook_in_dist_loop_end(), options(), run()
+
+The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
 
-    _call_action(), depends_on(), finish()
+    args(), args_clear(), args_count(), args_index(), args_pop(),
+    args_push(), args_set(), args_shift(), args_splice(), args_unshift(),
+    clear_args(), clear_opt(), count_args(), delete_opt(), exists_opt(),
+    index_args(), keys_opt(), opt(), opt_clear(), opt_delete(),
+    opt_exists(), opt_has_value(), opt_keys(), opt_spec(), opt_values(),
+    pop_args(), push_args(), set_args(), shift_args(), splice_args(),
+    unshift_args(), validate(), validate_args(), values_opt()
+
+The superclass L<App::Cmd::Command> defines these methods and functions:
+
+    new(), _option_processing_params(), _usage_text(), abstract(), app(),
+    command_names(), prepare(), usage(), usage_desc(), usage_error()
+
+The superclass L<App::Cmd::ArgProcessor> defines these methods and
+functions:
+
+    _process_args()
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
-    new(), assert_is_dist_base_dir(), bool_prompt(), print_header(),
+    assert_is_dist_base_dir(), bool_prompt(), print_header(),
     read_from_cmd(), safe_system()
 
 The superclass L<Class::Accessor::Complex> defines these methods and
@@ -130,7 +132,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::clean>.
 
 =head1 BUGS AND LIMITATIONS
 

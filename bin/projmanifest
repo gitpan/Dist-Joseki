@@ -1,7 +1,0 @@
-#!/bin/sh
-
-for i in $(distfind)
-do
-    cd $i
-    distmanifest
-done

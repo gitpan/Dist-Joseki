@@ -1,44 +1,20 @@
-#!/usr/bin/env perl
-
-use warnings;
-use strict;
-use Dist::Joseki;
-
-
-our $VERSION = '0.07';
-
-
-my $dist = Dist::Joseki->get_dist_type;
-$dist->ACTION_manifest;
-$dist->ACTION_distclean;
-
-
-__END__
-
-=head1 NAME
-
-Dist::Joseki - tools for the prolific module author
-
-=head1 SYNOPSIS
-
-None yet (see below).
-
-=head1 DESCRIPTION
-
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
-
 =head1 TAGS
 
 If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
+please use the C<{% tag %}> tag.
+
+{%- IF p.version %}
+=head1 VERSION 
+                   
+This document describes version {% p.version %} of L<{% p.package %}>.
+{% END -%}
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-dist-joseki@rt.cpan.org>, or through the web interface at
+C<{% rt_email %}>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION
@@ -51,16 +27,21 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
+{%- IF other_authors %}
+=head1 AUTHORS
+{% ELSE %}
 =head1 AUTHOR
+{% END -%}
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
+{%- FOR author = other_authors %}
+{% author %}
+{% END -%}
+
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 by Marcel GrE<uuml>nauer
+Copyright {% year %} by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-=cut
-

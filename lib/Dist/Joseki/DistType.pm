@@ -6,7 +6,7 @@ use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
 
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 sub new {
@@ -22,13 +22,15 @@ sub new {
 
 __END__
 
+
+
 =head1 NAME
 
-Dist::Joseki - tools for the prolific module author
+Dist::Joseki::DistType - Distribution type class wrapper
 
 =head1 SYNOPSIS
 
-None yet (see below).
+    Dist::Joseki::DistType->new;
 
 =head1 DESCRIPTION
 
@@ -40,12 +42,16 @@ next release will have more documentation.
 If you talk about this module in blogs, on del.icio.us or anywhere else,
 please use the C<distjoseki> tag.
 
+=head1 VERSION 
+                   
+This document describes version 0.08 of L<Dist::Joseki::DistType>.
+
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-dist-joseki@rt.cpan.org>, or through the web interface at
+C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION
@@ -68,6 +74,7 @@ Copyright 2007 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
 
 =cut
 

@@ -1,0 +1,7 @@
+change:
+    tagbase: &tagbase //local/hanekomu-cpan/tags
+props:
+    manifest_skip: ~/svk/hanekomu-cpan/Dist-Joseki/tools/MANIFEST.SKIP
+tagcheck:
+    tagbase: *tagbase
+

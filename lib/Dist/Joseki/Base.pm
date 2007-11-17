@@ -1,60 +1,74 @@
-package Dist::Joseki::DistType::ModuleBuild;
+package Dist::Joseki::Base;
 
-use warnings;
 use strict;
-
-use base 'Dist::Joseki::DistType::Base';
-
-
-our $VERSION = '0.08';
+use warnings;
+use Term::ReadLine ();
 
 
-sub is_built {
-    my $self = shift;
-    -e 'Build';
+our $VERSION = '0.01';
+
+
+use base qw(Class::Accessor::Complex);
+
+
+__PACKAGE__->mk_new;
+
+
+our $term = Term::ReadLine->new("prompt");
+
+
+sub read_from_cmd {
+    my ($self, $cmd) = @_;
+    open my $fh, '-|', $cmd or die "can't read from pipe $cmd: $!\n";
+    my @result = <$fh>;
+    close $fh;
+    wantarray ? @result : join '' => @result;
 }
 
 
-sub ACTION_build {
-    my $self = shift;
-    return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
+sub safe_system {
+    my ($self, @args) = @_;
+    system(@args) == 0 or die "system @args failed: $?";
 }
 
 
-sub ACTION_default {
+sub assert_is_dist_base_dir {
     my $self = shift;
-    $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
+    die "Looks like this is not a distribution base directory\n"
+        unless -e 'Makefile.PL' || -e 'Build.PL';
 }
 
 
-sub ACTION_distclean {
-    my $self = shift;
-    return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
+sub bool_prompt {
+    my ($self, $question, $default) = @_;
+    $default = uc($default || "");
+    die "bogus default" unless $default =~ /^[YN]?$/;
+    my $opts = " [y/n]";
+    $opts = " [Y/n]" if $default eq "Y";
+    $opts = " [y/N]" if $default eq "N";
+
+    my $to_bool = sub {
+        my $yn = shift;
+        return 1 if $yn =~ /^y/i;
+        return 0 if $yn =~ /^n/i;
+        return;
+    };
+
+    while (1) {
+        my $ans = $term->readline("$question$opts ");
+        my $bool = $to_bool->($ans || $default);
+        return $bool if defined $bool;
+        warn "Please answer 'y' or 'n'\n";
+    }
 }
 
 
-sub ACTION_disttest {
-    my $self = shift;
-    $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
-}
-
-
-sub ACTION_distinstall {
-    my $self = shift;
-    $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
-}
-
-
-sub ACTION_manifest {
-    my $self = shift;
-    $self->depends_on('build');
-    unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
+sub print_header {
+    my ($self, $text) = @_;
+    1 while chomp $text;
+    print "\n", '-' x 75, "\n";
+    print "$text\n";
+    print '-' x 75, "\n\n";
 }
 
 
@@ -67,29 +81,17 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::DistType::ModuleBuild - Distribution type class for Module::Build distributions
+Dist::Joseki::Base - Base class for Dist::Joseki classes
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::DistType::ModuleBuild->new;
+    Dist::Joseki::Base->new;
 
 =head1 DESCRIPTION
 
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
+None yet.
 
-Dist::Joseki::DistType::ModuleBuild inherits from
-L<Dist::Joseki::DistType::Base>.
-
-The superclass L<Dist::Joseki::DistType::Base> defines these methods and
-functions:
-
-    _call_action(), depends_on(), finish()
-
-The superclass L<Dist::Joseki::Base> defines these methods and functions:
-
-    new(), assert_is_dist_base_dir(), bool_prompt(), print_header(),
-    read_from_cmd(), safe_system()
+Dist::Joseki::Base inherits from L<Class::Accessor::Complex>.
 
 The superclass L<Class::Accessor::Complex> defines these methods and
 functions:
@@ -119,7 +121,16 @@ functions:
 
 =over 4
 
+=item new
 
+    my $obj = Dist::Joseki::Base->new;
+    my $obj = Dist::Joseki::Base->new(%args);
+
+Creates and returns a new object. The constructor will accept as arguments a
+list of pairs, from component name to initial value. For each pair, the named
+component is initialized by calling the method of the same name with the given
+value. If called with a single hash reference, it is dereferenced and its
+key/value pairs are set as described before.
 
 =back
 
@@ -130,7 +141,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.01 of L<Dist::Joseki::Base>.
 
 =head1 BUGS AND LIMITATIONS
 

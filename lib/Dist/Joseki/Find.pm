@@ -1,60 +1,68 @@
-package Dist::Joseki::DistType::ModuleBuild;
+package Dist::Joseki::Find;
 
-use warnings;
 use strict;
-
-use base 'Dist::Joseki::DistType::Base';
-
-
-our $VERSION = '0.08';
+use warnings;
+use File::Find;
 
 
-sub is_built {
+our $VERSION = '0.01';
+
+
+use base qw(Dist::Joseki::Base);
+
+
+sub projroot {
     my $self = shift;
-    -e 'Build';
+    my @projroot =
+        map { s/^~/$ENV{HOME}/; $_ }
+        split /\s*;\s*/ =>
+        $ENV{PROJROOT};
+    wantarray ? @projroot : \@projroot;
 }
 
 
-sub ACTION_build {
-    my $self = shift;
-    return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
-}
+sub find_dists {
+    my ($self, $restrict_path) = @_;
 
+    if (defined $restrict_path) {
+        $restrict_path = [ $restrict_path ] unless
+            ref $restrict_path eq 'ARRAY'
+    } else {
+        $restrict_path = [];
+    }
 
-sub ACTION_default {
-    my $self = shift;
-    $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
-}
+    my %restrict_path = map { $_ => 1 } @$restrict_path;  # lookup hash
 
+    my @distro;
 
-sub ACTION_distclean {
-    my $self = shift;
-    return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
-}
+    find (sub {
+        return unless -d;
 
+        # prune some things first for efficiency reasons - otherwise find() gets
+        # quite slow.
 
-sub ACTION_disttest {
-    my $self = shift;
-    $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
-}
+        if (/^(\.svn|blib|skel)$/) {
+            $File::Find::prune = 1;
+            return;
+        }
 
+        if (-e "$_/Build.PL" || -e "$_/Makefile.PL") {
 
-sub ACTION_distinstall {
-    my $self = shift;
-    $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
-}
+            # only remember the distro if there was no path restriction, or if
+            # it is within the restrict_path specs
 
+            if (@$restrict_path == 0 || exists $restrict_path{$_}) {
+                push @distro => $File::Find::name;
+            }
 
-sub ACTION_manifest {
-    my $self = shift;
-    $self->depends_on('build');
-    unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
+            # but prune anyway - we assume there are no distributions below a
+            # directory that contains a Build.PL or a Makefile.PL.
+
+            $File::Find::prune = 1;
+        }
+    }, $self->projroot);
+
+    wantarray ? @distro : \@distro;
 }
 
 
@@ -67,24 +75,17 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::DistType::ModuleBuild - Distribution type class for Module::Build distributions
+Dist::Joseki::Find - find distributions within the project roots
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::DistType::ModuleBuild->new;
+    Dist::Joseki::Find->new;
 
 =head1 DESCRIPTION
 
-None yet. This is an early release; fully functional, but undocumented. The
-next release will have more documentation.
+None yet.
 
-Dist::Joseki::DistType::ModuleBuild inherits from
-L<Dist::Joseki::DistType::Base>.
-
-The superclass L<Dist::Joseki::DistType::Base> defines these methods and
-functions:
-
-    _call_action(), depends_on(), finish()
+Dist::Joseki::Find inherits from L<Dist::Joseki::Base>.
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
@@ -130,7 +131,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.01 of L<Dist::Joseki::Find>.
 
 =head1 BUGS AND LIMITATIONS
 

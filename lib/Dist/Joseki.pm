@@ -5,7 +5,7 @@ use strict;
 use Dist::Joseki::DistType;
 
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 sub get_dist_type { Dist::Joseki::DistType->new }
@@ -15,6 +15,8 @@ sub get_dist_type { Dist::Joseki::DistType->new }
 
 
 __END__
+
+
 
 =head1 NAME
 
@@ -37,12 +39,16 @@ distributions.
 If you talk about this module in blogs, on del.icio.us or anywhere else,
 please use the C<distjoseki> tag.
 
+=head1 VERSION 
+                   
+This document describes version 0.08 of L<Dist::Joseki>.
+
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-dist-joseki@rt.cpan.org>, or through the web interface at
+C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION
@@ -65,6 +71,7 @@ Copyright 2007 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
 
 =cut
 

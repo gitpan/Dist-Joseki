@@ -20,6 +20,7 @@ alias vit='vi -t'
 alias cdp='cd $(distfind --printroots)'
 alias rgrep='grep -Pr --exclude-from=$HOME/.grepignore'
 alias vless="/usr/share/vim/vim52/macros/less.sh"
+alias sdv="svk diff | view -"
 
 alias preview='open -a Preview'
 alias finder='open -a Finder "`pwd`"'
@@ -36,7 +37,8 @@ alias print2on1='lpr -o media=A4 -o sides=two-sided-long-edge'
 alias probupdate='prob_update.pl --dir ~/problems/99ok --db ~/probdb.txt'
 
 # backup
-alias sync_to_10_0_1_2='rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ 10.0.1.2:/Users/marcel/backup/haengma'
+alias sync_to_jeongseok='rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ jeongseok.local:/Users/marcel/backup/haengma'
+alias sync_to_maekjeom='rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ maekjeom.local:/Users/marcel/backup/haengma'
 
 # servers
 test -f ~/.ssh/config && for h in \

@@ -6,32 +6,23 @@ use warnings;
 use strict;
 use Config;
 use File::Find;
-use Getopt::Long;
+use Getopt::Attribute;
 
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
-my @lib;
-my $perllib;      # whether to include perl's installed modules
-my $win;          # whether to use backslashes in file names
-my $use;          # whether to 'use' the package, as that might print out
-                  # additional tags
-my $verbose;
-my $exclude_file; # in which you can specify tag name patterns to exclude
+our @lib     : Getopt(lib=s);
+our $perllib : Getopt(perllib);  # whether to include perl's installed modules
+our $win     : Getopt(win);      # whether to use backslashes in file names
+our $use     : Getopt(use);  # whether to 'use' the package; might gen more tags
+our $verbose : Getopt(verbose|v);
+our $exclude_file : Getopt(exclude=s); # containts tag name patterns to exclude
 
 my @tag;
 
 sub make_tag (@);
 
-GetOptions(
-    perllib     => \$perllib,
-    'lib=s'     => \@lib,
-    win         => \$win,
-    use         => \$use,
-    verbose     => \$verbose,
-    'exclude=s' => \$exclude_file,
-);
 push @lib, $Config{sitelibexp}, $Config{privlibexp} if $perllib;
 exit unless @lib;
 
@@ -54,7 +45,7 @@ for (@lib) {
 
 if ($use) {
     open STDOUT, ">&", $oldout or die "can't dup \$oldout: $!\n";
-    make_tag map { "$_\n" } split /\n/ => $use_ptags  if $use_ptags;
+    make_tag map { "$_\n" } split /\n/ => $use_ptags if $use_ptags;
 }
 
 # process exclude patterns
@@ -247,7 +238,18 @@ sub _find {
 
         $verbose && warn ">>> use [$package]\n";
         {
+            local $SIG{__WARN__} = sub {
+                my $warning = shift;
+                return if $warning =~ /Too late to run INIT block at/;
+                CORE::warn($warning);
+            };
+
             no warnings;
+            
+            # localise global variables so that no matter what the module does
+            # with them, they will be restored at the end of the block
+
+            local @INC = @INC;
             eval "use $package";
         }
 
@@ -274,40 +276,6 @@ None yet (see below).
 
 None yet. This is an early release; fully functional, but undocumented. The
 next release will have more documentation.
-
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
-
-=head1 BUGS AND LIMITATIONS
-
-No bugs have been reported.
-
-Please report any bugs or feature requests to
-C<bug-dist-joseki@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
-
-=head1 AVAILABILITY
-
-The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
-
-=head1 AUTHOR
-
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2007 by Marcel GrE<uuml>nauer
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
 
 =cut
 

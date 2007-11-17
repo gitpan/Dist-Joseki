@@ -1,7 +1,52 @@
 ---
 global:
-  name: Dist::Joseki.
+  name: Dist-Joseki
 releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - projclean also removes cover_db/; small changes to dotfiles
+      - added 'depends' command
+      - 'ptags: switched to Getopt::Attribute'
+      - 'ptags: when use()ing a module, have local __WARN__ sighandler and local @INC to catch annoying warnings'
+      - added opt() and args() to command class so they don't have to be passed around all the time
+      - "'dist depends': added restrict_to_CPAN_distributions() and restrict_to_non_core_modules() functionality"
+      - 'tools/dotfiles/.aliases: removed sync_to_10_0_1_2, added sync_to_jeongseok and sync_to_maekjeom'
+      - 'tools/dotfiles/.bashrc: projptags() now passes args to ptags'
+      - 'tools/dotfiles/.rsync-exclude: added .cpan/build and Local'
+      - "tools/install_dotfiles: fixed copying so MANIFEST.SKIP and install_dotfiles aren't themselves copied"
+      - added Twitter step to .shipit
+      - added Module::AutoInstall and process_templates() to Makefile.PL
+      - 'added Dist::Joseki::Base, Dist::Joseki::SVK and Dist::Joseki::Version, which were refactored from various commands'
+      - added Dist::Joseki::Cmd::Command::change
+      - updated tools/dotfiles/.distrc with 'change' config
+      - 'Dist::Joseki::Cmd::Command::change: added format_message so the commit messages look nice'
+      - slightly improved format_message()
+      - slightly improved format_message()
+      - fixed filename in tools/dotfiles/.distrc
+      - 'Dist::Joseki::Base: added bool_prompt()'
+      - "Dist::Joseki::Cmd::Command::change: added 'svk status' handling"
+      - 'Dist::Joseki::SVK: added status(), add()'
+      - added lib/Dist/Joseki/SVK
+      - added lib/Dist/Joseki/SVK/Status.pm
+      - deleted tools/dotfiles/.mitlib/standard_pod_zid
+      - 'lib/*: converted to template'
+      - 'bin/*: removed standard pod section'
+      - updated MANIFEST
+      - 'tools/.mitlib/standard_pod: added support for version and other_author'
+      - 'bin/ptags: fixed @INC setting'
+      - updated MANIFEST
+      - 'Dist::Joseki::Cmd::Command::smoke: now uses three-arg open()'
+      - added t/perlcriticrc
+      - deleted t/README
+      - 'Dist::Joseki::Cmd::Command::clean: fixed argument passing in hook_after_dist_loop()'
+      - 'Dist::Joseki::Cmd::Command::clean: added hook_in_dist_loop_begin()'
+      - 'Dist::Joseki::Cmd::Command::manifest: hook_in_dist_loop_begin() now calls SUPER::'
+      - 'Dist::Joseki::Cmd::Command::smoke: added --cover option; coverage tests will only be run if this option is given'
+      - 'Dist::Joseki::Cmd::Command::smoke: added hook_in_dist_loop_begin()'
+    date: 2007-11-17T12:57:29Z
+    tags:
+      - NEWFEATURE
+    version: 0.08
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
       - Added requirements

@@ -1,8 +1,7 @@
 #!/bin/sh
-cd dotfiles
-for i in *
+for i in dotfiles/.[a-z]*
 do
-    cp -pr $i ~/.$i
+    cp -pr $i ~
 done
 chmod 600 ~/.pause
 
