@@ -5,7 +5,7 @@ use warnings;
 use Dist::Joseki;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -122,7 +122,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::manifest>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::manifest>.
 
 =head1 BUGS AND LIMITATIONS
 

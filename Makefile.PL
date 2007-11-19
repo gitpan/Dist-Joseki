@@ -5,6 +5,7 @@ name 'Dist-Joseki';
 all_from 'lib/Dist/Joseki.pm';
 perl_version '5.006';
 
+requires 'App::Cmd';
 requires 'Class::Accessor::Complex';
 requires 'Data::Rmap';
 requires 'File::Basename';

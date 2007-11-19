@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base qw(App::Cmd::Command Dist::Joseki::Base);
@@ -376,7 +376,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command>.
 
 =head1 BUGS AND LIMITATIONS
 

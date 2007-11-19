@@ -4,6 +4,20 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.09
+      - '.shipit: uses ApplyYAMLChangeLogVersion step'
+      - Dist::Joseki::Cmd::Command::version has --file option now
+      - Dist::Joseki::Version has better filename error reporting in get_newest_version()
+      - 'Makefile.PL: added App::Cmd to requirements'
+      - 'Dist::Joseki::Cmd::Command::change: recognized a modified MANIFEST and generate simple message for that change'
+      - 'Dist::Joseki::Cmd::Command::props: added private/; now prints header during loop while -p'
+      - "tools/dotfiles/.vimrc: added 'set complete' command now that Vim::Complete is there"
+      - 'Dist::Joseki::Cmd::Command::tagcheck: print dist name when looping over dists'
+    date: 2007-11-18T13:27:34Z
+    tags: []
+    version: 0.09
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - projclean also removes cover_db/; small changes to dotfiles
       - added 'depends' command
       - 'ptags: switched to Getopt::Attribute'

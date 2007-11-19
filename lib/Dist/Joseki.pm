@@ -5,7 +5,7 @@ use strict;
 use Dist::Joseki::DistType;
 
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 
 sub get_dist_type { Dist::Joseki::DistType->new }
@@ -41,7 +41,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki>.
+This document describes version 0.09 of L<Dist::Joseki>.
 
 =head1 BUGS AND LIMITATIONS
 

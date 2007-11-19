@@ -11,7 +11,7 @@ use Parse::CPAN::Packages;
 use Perl::Version;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -242,7 +242,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::depends>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::depends>.
 
 =head1 BUGS AND LIMITATIONS
 

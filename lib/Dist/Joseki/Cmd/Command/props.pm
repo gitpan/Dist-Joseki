@@ -7,7 +7,7 @@ use Dist::Joseki::Find;
 use File::Copy;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -41,7 +41,7 @@ sub run_single {
     $self->svk_ignore(qw(
         Makefile META.yml inc blib pm_to_blib Build _build cover_db
         smoke.html smoke.yaml smoketee.txt BUILD.SKIP COVER.SKIP CPAN.SKIP
-        "t/000_standard__*"
+        private "t/000_standard__*"
     ));
 
     if (defined $self->opt('manifestskip')) {
@@ -56,6 +56,13 @@ sub hook_after_dist_loop {
     my $self = shift;
     $self->SUPER::hook_after_dist_loop(@_);
     $self->svk_ignore("$_/smoke.html") for Dist::Joseki::Find->new->projroot;
+}
+
+
+sub hook_in_dist_loop_begin {
+    my ($self, $dist) = @_;
+    $self->SUPER::hook_in_dist_loop_begin($dist);
+    $self->print_header($dist);
 }
 
 
@@ -84,8 +91,7 @@ L<Dist::Joseki::Cmd::Multiplexable>.
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
-    hook_before_dist_loop(), hook_in_dist_loop_begin(),
-    hook_in_dist_loop_end(), run()
+    hook_before_dist_loop(), hook_in_dist_loop_end(), run()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -152,7 +158,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::props>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::props>.
 
 =head1 BUGS AND LIMITATIONS
 

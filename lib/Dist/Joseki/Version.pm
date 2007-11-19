@@ -7,7 +7,7 @@ use File::Slurp;
 use Module::Changes;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base qw(Dist::Joseki::Base);
@@ -16,8 +16,8 @@ use base qw(Dist::Joseki::Base);
 sub get_newest_version {
     my ($self, $changes_filename) = @_;
 
-    die "can't find Changes file\n" unless -f $changes_filename;
-    die "can't read Changes file\n" unless -e $changes_filename;
+    die "can't find $changes_filename\n" unless -f $changes_filename;
+    die "can't read $changes_filename\n" unless -e $changes_filename;
 
     Module::Changes->make_object_for_type('parser_yaml')
         ->parse_from_file($changes_filename)
@@ -111,7 +111,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Version>.
+This document describes version 0.09 of L<Dist::Joseki::Version>.
 
 =head1 BUGS AND LIMITATIONS
 

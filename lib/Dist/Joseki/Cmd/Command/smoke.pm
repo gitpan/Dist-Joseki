@@ -16,7 +16,7 @@ use YAML qw/LoadFile DumpFile/;
 
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -441,7 +441,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::smoke>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::smoke>.
 
 =head1 BUGS AND LIMITATIONS
 

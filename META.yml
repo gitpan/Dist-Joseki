@@ -18,6 +18,7 @@ no_index:
     - inc
     - t
 requires: 
+  App::Cmd: 0
   Class::Accessor::Complex: 0
   Data::Rmap: 0
   File::Basename: 0
@@ -34,4 +35,4 @@ requires:
   Test::TAP::HTMLMatrix: 0
   YAML: 0
   perl: 5.6.0
-version: 0.08
+version: 0.09

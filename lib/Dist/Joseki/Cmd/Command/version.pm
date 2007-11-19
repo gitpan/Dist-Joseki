@@ -5,7 +5,7 @@ use warnings;
 use Dist::Joseki::Version;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -21,6 +21,12 @@ sub options {
         [
             'version|v=s',
             'new version number',
+        ],
+
+        [
+            'file|f=s',
+            'location of the Changes file',
+            { default => $cmd_config->{file} || 'Changes' },
         ],
 
         [
@@ -44,11 +50,10 @@ sub validate {
     # either --sync or a --version number will do
 
     if (defined $self->opt('sync')) {
-        my $changes_filename = 'Changes';
         die "can't use --sync together with --version\n" if
             defined $self->opt('version');
         $self->opt(version =>
-            Dist::Joseki::Version->new->get_newest_version($changes_filename),
+            Dist::Joseki::Version->new->get_newest_version($self->opt('file')),
         );
 
     } else {
@@ -157,7 +162,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::version>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::version>.
 
 =head1 BUGS AND LIMITATIONS
 

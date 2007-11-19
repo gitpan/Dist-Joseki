@@ -5,7 +5,7 @@ use warnings;
 use Term::ReadLine ();
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base qw(Class::Accessor::Complex);
@@ -141,7 +141,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Base>.
+This document describes version 0.09 of L<Dist::Joseki::Base>.
 
 =head1 BUGS AND LIMITATIONS
 

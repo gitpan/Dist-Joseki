@@ -7,7 +7,7 @@ use Dist::Joseki::Version;
 use File::Temp 'tempfile';
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -122,8 +122,16 @@ sub run {
 
     my $status = $svk->status;
 
+    my %modified = map { $_ => 1 } $status->modified;
+
+    # simple change, don't require a --message for that
+    if (defined $modified{MANIFEST}) {
+        $self->add_message($changes, "updated MANIFEST");
+        delete $modified{MANIFEST};
+    }
+
     die "need --message because there are files with svk status 'M'\n"
-        if $status->modified_count && (@{ $self->opt('message') || [] } == 0);
+        if (keys %modified) && (@{ $self->opt('message') || [] } == 0);
 
     if ($status->unversioned_count) {
         print "There are unversioned files:\n";
@@ -259,7 +267,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::change>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::change>.
 
 =head1 BUGS AND LIMITATIONS
 

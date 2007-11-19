@@ -6,7 +6,7 @@ use strict;
 use base 'Dist::Joseki::DistType::Base';
 
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 
 sub is_built {
@@ -130,7 +130,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.08 of L<Dist::Joseki::DistType::MakeMaker>.
+This document describes version 0.09 of L<Dist::Joseki::DistType::MakeMaker>.
 
 =head1 BUGS AND LIMITATIONS
 

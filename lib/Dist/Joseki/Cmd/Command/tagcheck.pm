@@ -5,7 +5,7 @@ use warnings;
 use Dist::Joseki::SVK;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.09';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -51,6 +51,14 @@ sub run_single {
 }
 
 
+sub hook_in_dist_loop_begin {
+    my ($self, $dist) = @_;
+    $self->SUPER::hook_in_dist_loop_begin($dist);
+    $dist =~ s!.*/!!;
+    print "$dist: ";
+}
+
+
 1;
 
 
@@ -77,7 +85,7 @@ The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
     hook_after_dist_loop(), hook_before_dist_loop(),
-    hook_in_dist_loop_begin(), hook_in_dist_loop_end(), run()
+    hook_in_dist_loop_end(), run()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -144,7 +152,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Dist::Joseki::Cmd::Command::tagcheck>.
+This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::tagcheck>.
 
 =head1 BUGS AND LIMITATIONS
 
