@@ -13,13 +13,17 @@ requires 'File::Copy';
 requires 'File::Path';
 requires 'File::Slurp';
 requires 'Getopt::Attribute';
+requires 'IO::Prompt';
 requires 'Module::Changes';
 requires 'Module::CoreList';
 requires 'Module::ExtractUse';
 requires 'Parse::CPAN::Packages';
 requires 'Perl::Version';
 requires 'Test::TAP::HTMLMatrix';
+requires 'Text::Diff';
 requires 'Template';
+requires 'URI';
+requires 'Web::Scraper';
 requires 'YAML';
 
 build_requires 'Test::More' => '0.70';

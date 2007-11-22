@@ -35,6 +35,8 @@ export DISPLAY=:0.0
 export TEST_AUTHOR=1
 export PROJROOT
 export PTAGSFILE=~/.ptags
+# for iTerm:
+export TERM=linux
 
 export CPPFLAGS
 for d in /{sw,usr/local}/include
@@ -126,8 +128,7 @@ wh () {
 
 projptags () {
     rm -f $PTAGSFILE
-    ptags $* --use --exclude ~/.ptags_exclude $(find $PROJROOT -mindepth 1 -maxdepth 1 -type d -not -name [._]\* | perl -pe'chomp; $_ = "--lib $_ "') >>$PTAGSFILE
-    ptags --perllib --exclude ~/.ptags_exclude >>$PTAGSFILE
+    ptags $* --use $PROJROOT --exclude ~/.ptags_exclude >>$PTAGSFILE
 
     if [ -f $PTAGS_DYNAMIC ]; then
         echo Generating dynamic ptags
@@ -153,7 +154,6 @@ set_project () {
         fi
     done
 }
-
 
 
 set_prompt

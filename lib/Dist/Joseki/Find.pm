@@ -5,7 +5,7 @@ use warnings;
 use File::Find;
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 use base qw(Dist::Joseki::Base);
@@ -89,8 +89,8 @@ Dist::Joseki::Find inherits from L<Dist::Joseki::Base>.
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
-    new(), assert_is_dist_base_dir(), bool_prompt(), print_header(),
-    read_from_cmd(), safe_system()
+    new(), assert_is_dist_base_dir(), print_header(), read_from_cmd(),
+    safe_system()
 
 The superclass L<Class::Accessor::Complex> defines these methods and
 functions:
@@ -131,7 +131,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.09 of L<Dist::Joseki::Find>.
+This document describes version 0.10 of L<Dist::Joseki::Find>.
 
 =head1 BUGS AND LIMITATIONS
 

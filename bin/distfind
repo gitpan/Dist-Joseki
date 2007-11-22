@@ -6,12 +6,15 @@ use Dist::Joseki::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
-our $prefix : Getopt(prefix=s);
-our $suffix : Getopt(suffix=s);
-our $join : Getopt(join=s);
+our $prefix    : Getopt(prefix|p=s);
+our $suffix    : Getopt(suffix|s=s);
+our $join      : Getopt(join|j=s);
+
+# print one entry per line? disregard --join in that case
+our $line_mode : Getopt(line|l);
 
 # only print projroots, then exit -- no distfind
 our $print_roots : Getopt(printroots);
@@ -32,7 +35,12 @@ $join = ' ' unless defined $join;
 $prefix = '' unless defined $prefix;
 $suffix = '' unless defined $suffix;
 
-print join $join => map { "$prefix$_$suffix" } @distro;
+@distro = map { "$prefix$_$suffix" } @distro;
+if ($line_mode) {
+    print "$_\n" for @distro;
+} else {
+    print join $join => @distro;
+}
 
 
 __END__

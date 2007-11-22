@@ -5,7 +5,7 @@ use warnings;
 use Term::ReadLine ();
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 use base qw(Class::Accessor::Complex);
@@ -36,30 +36,6 @@ sub assert_is_dist_base_dir {
     my $self = shift;
     die "Looks like this is not a distribution base directory\n"
         unless -e 'Makefile.PL' || -e 'Build.PL';
-}
-
-
-sub bool_prompt {
-    my ($self, $question, $default) = @_;
-    $default = uc($default || "");
-    die "bogus default" unless $default =~ /^[YN]?$/;
-    my $opts = " [y/n]";
-    $opts = " [Y/n]" if $default eq "Y";
-    $opts = " [y/N]" if $default eq "N";
-
-    my $to_bool = sub {
-        my $yn = shift;
-        return 1 if $yn =~ /^y/i;
-        return 0 if $yn =~ /^n/i;
-        return;
-    };
-
-    while (1) {
-        my $ans = $term->readline("$question$opts ");
-        my $bool = $to_bool->($ans || $default);
-        return $bool if defined $bool;
-        warn "Please answer 'y' or 'n'\n";
-    }
 }
 
 
@@ -141,7 +117,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.09 of L<Dist::Joseki::Base>.
+This document describes version 0.10 of L<Dist::Joseki::Base>.
 
 =head1 BUGS AND LIMITATIONS
 

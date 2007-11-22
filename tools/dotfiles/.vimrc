@@ -173,7 +173,7 @@ nmap ,c :make<CR>
 "imap <C-k><C-d> <Esc><C-k><C-d>
 "       look up any keyword
 "
-nmap <C-k><C-i> ?^package <CR>w:exec ":tag __ISA__".expand("<cword>")<CR>
+nmap <C-k><C-i> ?^package <CR>w:exec ":tag __SUBCLASS__".expand("<cword>")<CR>
 imap <C-k><C-i> <Esc><C-k><C-i>
 "       jump to subclasses, use :tp and :tn to navigate
 "
@@ -185,7 +185,8 @@ nmap <C-k><C-u> ?^package <CR>w:exec expand("!perl $PROJROOT/t/00test_classes.t 
 imap <C-k><C-u> <Esc><C-k><C-u>
 "       run unit tests for the current class (and other classes containing the name)
 "
-nmap <C-k><C-b> :let mylastpat=@/<CR>/^use\s\+base<CR>/[A-Z]<CR>:exec ":tag ".expand("<cword>")<CR>:let @/=mylastpat<CR>
+"nmap <C-k><C-b> :let mylastpat=@/<CR>/^use\s\+base<CR>/[A-Z]<CR>:exec ":tag ".expand("<cword>")<CR>:let @/=mylastpat<CR>
+nmap <C-k><C-b> ?^package <CR>w:exec ":tag __SUPER__".expand("<cword>")<CR>
 imap <C-k><C-b> <Esc><C-k><C-b>
 "       jump to base class
 "

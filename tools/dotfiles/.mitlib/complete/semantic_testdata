@@ -1,0 +1,26 @@
+{%-
+    USE p = PodGenerated;
+    USE s = DataSemantic;
+    base = s.base_class_from_testdata_class(p.package);
+    comp = s.companion_class_from_base_class(base);
+-%}
+
+=head1 NAME
+
+{% p.package %} - Testdata classes
+
+=head1 SYNOPSIS
+
+None.
+
+=head1 DESCRIPTION
+
+Defines test data for L<{% comp %}>, 
+but it is also used in the corresponding value and domain classes,
+i.e., L<{% comp.replace('^Data::Semantic::', 'Class::Value::') %}> and
+L<{% comp.replace('^Data::Semantic::', 'Data::Domain::') %}>.
+
+{% PROCESS standard_pod %}
+
+=cut
+

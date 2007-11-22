@@ -16,7 +16,7 @@ use YAML qw/LoadFile DumpFile/;
 
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -399,8 +399,8 @@ functions:
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
-    assert_is_dist_base_dir(), bool_prompt(), print_header(),
-    read_from_cmd(), safe_system()
+    assert_is_dist_base_dir(), print_header(), read_from_cmd(),
+    safe_system()
 
 The superclass L<Class::Accessor::Complex> defines these methods and
 functions:
@@ -441,7 +441,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::smoke>.
+This document describes version 0.10 of L<Dist::Joseki::Cmd::Command::smoke>.
 
 =head1 BUGS AND LIMITATIONS
 

@@ -29,6 +29,7 @@ alias term80='osascript -e"tell application \"Terminal\" to set the number of co
 alias term80all='osascript -e"tell application \"Terminal\" to set the number of columns of every window to 80"'
 alias ffg='find . -type f | grep -v .svn'
 alias todo='vi $PROJROOT/TODO'
+alias blib='make distclean; perl Makefile.PL && make && vi $(find blib/lib/ -name \*.pm)'
 
 alias print4on1='lpr -o media=A4 -o sides=two-sided-long-edge -o number-up=2'
 alias print2on1='lpr -o media=A4 -o sides=two-sided-long-edge'
@@ -45,5 +46,6 @@ test -f ~/.ssh/config && for h in \
     `perl -ne'push @h,$1 if /^host (\w+)/;END{print "@h"}' ~/.ssh/config`
     do
         alias $h="ssh $h"
+        alias "i$h"="iterm-ssh $h"
     done
 

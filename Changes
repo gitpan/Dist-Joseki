@@ -4,6 +4,28 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.10
+      - 'bin/ptags: --lib and --perllib are gone, instead @INC is searched, but only modules in and under --use=<path> are loaded; __ISA__ becomes __SUBCLASS__; __SUPER__ is new'
+      - 'tools/dotfiles/.bashrc: projptags() has only one call to ptags now'
+      - tools/dotfiles/.vimrc now uses the __SUBCLASS__ and __SUPER__ tags
+      - 'bin/ptags: removed support for Class::MethodMaker-generated tags'
+      - "tools/dotfiles/.aliases: added 'blib' and iterm-ssh-related aliases"
+      - "tools/dotfiles/.bashrc: set TERM=linux for iTerm's benefit"
+      - added tools/dotfiles/.mitlib/complete
+      - updated t/perlcriticrc
+      - updated MANIFEST
+      - 'Makefile.PL: added new requirements from bin/chkbundle'
+      - added bin/chkbundle
+      - updated MANIFEST
+      - 'bin/chkbundle: fixed bugs'
+      - 'bin/distfind: added --line option'
+      - uses IO::Prompt instead of the custom bool_prompt() now
+      - 'bin/ptags: removed combine(), was unused'
+    date: 2007-11-22T13:03:21Z
+    tags: []
+    version: 0.10
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.09
       - '.shipit: uses ApplyYAMLChangeLogVersion step'
       - Dist::Joseki::Cmd::Command::version has --file option now

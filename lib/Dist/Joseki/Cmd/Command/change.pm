@@ -5,9 +5,10 @@ use warnings;
 use Dist::Joseki::SVK;
 use Dist::Joseki::Version;
 use File::Temp 'tempfile';
+use IO::Prompt;
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -136,7 +137,7 @@ sub run {
     if ($status->unversioned_count) {
         print "There are unversioned files:\n";
         print "    $_\n" for $status->unversioned;
-        if ($self->bool_prompt("Do you want to 'svk add' them?", 'y')) {
+        if (prompt -YN, "Do you want to 'svk add' them?") {
             $svk->add($status->unversioned);
             $self->add_message($changes, "added $_") for $status->unversioned;
         }
@@ -207,8 +208,8 @@ functions:
 
 The superclass L<Dist::Joseki::Base> defines these methods and functions:
 
-    assert_is_dist_base_dir(), bool_prompt(), print_header(),
-    read_from_cmd(), safe_system()
+    assert_is_dist_base_dir(), print_header(), read_from_cmd(),
+    safe_system()
 
 The superclass L<Class::Accessor::Complex> defines these methods and
 functions:
@@ -267,7 +268,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.09 of L<Dist::Joseki::Cmd::Command::change>.
+This document describes version 0.10 of L<Dist::Joseki::Cmd::Command::change>.
 
 =head1 BUGS AND LIMITATIONS
 
