@@ -7,7 +7,7 @@ use Dist::Joseki::Find;
 use File::Copy;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -158,7 +158,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::Cmd::Command::props>.
+This document describes version 0.11 of L<Dist::Joseki::Cmd::Command::props>.
 
 =head1 BUGS AND LIMITATIONS
 

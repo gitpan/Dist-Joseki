@@ -6,15 +6,12 @@ use Getopt::Attribute;
 use IO::Prompt;
 use Parse::CPAN::Packages;
 use Pod::Usage;
-use Term::ReadLine;
 use Text::Diff;
 use URI;
 use Web::Scraper;
 
 
-our $VERSION = '0.10';
-
-our $term = Term::ReadLine->new("prompt");
+our $VERSION = '0.11';
 
 
 sub usage ($;$$) {

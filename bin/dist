@@ -5,7 +5,7 @@ use strict;
 use Dist::Joseki::Cmd;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 Dist::Joseki::Cmd->new->run;

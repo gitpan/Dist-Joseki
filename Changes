@@ -4,6 +4,14 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.11
+      - 'bin/chkbundle, Dist::Joseki::Base: Term::ReadLine no longer necessary because we use IO::Prompt now'
+      - 'tools/dotfiles: updated with new aliases and PATH settings'
+    date: 2007-11-24T14:26:55Z
+    tags: []
+    version: 0.11
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.10
       - 'bin/ptags: --lib and --perllib are gone, instead @INC is searched, but only modules in and under --use=<path> are loaded; __ISA__ becomes __SUBCLASS__; __SUPER__ is new'
       - 'tools/dotfiles/.bashrc: projptags() has only one call to ptags now'

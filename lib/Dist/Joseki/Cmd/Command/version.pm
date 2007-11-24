@@ -5,7 +5,7 @@ use warnings;
 use Dist::Joseki::Version;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -162,7 +162,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::Cmd::Command::version>.
+This document describes version 0.11 of L<Dist::Joseki::Cmd::Command::version>.
 
 =head1 BUGS AND LIMITATIONS
 

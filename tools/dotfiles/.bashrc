@@ -56,11 +56,14 @@ export HOSTNAME=`hostname | sed s/\\\..\*//g`
 
 export PATH
 export MANPATH
-for d in /usr /{usr,opt}/{local,share,local/share} /usr/local/gwTeX ~{,/home,/perl}
+for d in /usr /{usr,opt}/{local,share,local/share} ~{,/home,/perl}
 do
     test -d $d/bin && PATH=$d/bin:$PATH
     test -d $d/man && MANPATH=$d/man:$MANPATH
 done
+
+TESTPATH=/usr/local/teTeX/bin/i386-apple-darwin-current
+test -d $TESTPATH && PATH=$TESTPATH:$PATH
 
 LESSPIPE=`which lesspipe.sh`
 [[ $LESSPIPE ]] && export LESSOPEN="|$LESSPIPE %s"

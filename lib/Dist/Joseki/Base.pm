@@ -2,19 +2,15 @@ package Dist::Joseki::Base;
 
 use strict;
 use warnings;
-use Term::ReadLine ();
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base qw(Class::Accessor::Complex);
 
 
 __PACKAGE__->mk_new;
-
-
-our $term = Term::ReadLine->new("prompt");
 
 
 sub read_from_cmd {
@@ -117,7 +113,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::Base>.
+This document describes version 0.11 of L<Dist::Joseki::Base>.
 
 =head1 BUGS AND LIMITATIONS
 

@@ -6,7 +6,7 @@ use YAML 'LoadFile';
 use Data::Rmap;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base 'App::Cmd';
@@ -76,7 +76,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::Cmd>.
+This document describes version 0.11 of L<Dist::Joseki::Cmd>.
 
 =head1 BUGS AND LIMITATIONS
 

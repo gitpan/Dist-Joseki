@@ -5,7 +5,7 @@ use warnings;
 use Module::Changes;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base qw(Dist::Joseki::Base);
@@ -725,7 +725,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::SVK::Status>.
+This document describes version 0.11 of L<Dist::Joseki::SVK::Status>.
 
 =head1 BUGS AND LIMITATIONS
 

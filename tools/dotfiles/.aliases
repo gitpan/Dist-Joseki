@@ -21,6 +21,8 @@ alias cdp='cd $(distfind --printroots)'
 alias rgrep='grep -Pr --exclude-from=$HOME/.grepignore'
 alias vless="/usr/share/vim/vim52/macros/less.sh"
 alias sdv="svk diff | view -"
+alias rfcsync='rsync -avz --delete ftp.rfc-editor.org::rfcs-text-only ~/mirrors/rfc/'
+alias ctsync='sync_cpantesters -a MARCEL -d ~/dev/cpan-testers'
 
 alias preview='open -a Preview'
 alias finder='open -a Finder "`pwd`"'

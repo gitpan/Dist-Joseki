@@ -5,7 +5,7 @@ use warnings;
 use File::Find;
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 use base qw(Dist::Joseki::Base);
@@ -131,7 +131,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::Find>.
+This document describes version 0.11 of L<Dist::Joseki::Find>.
 
 =head1 BUGS AND LIMITATIONS
 

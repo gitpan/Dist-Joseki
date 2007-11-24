@@ -6,7 +6,7 @@ use strict;
 use base 'Dist::Joseki::DistType::Base';
 
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 sub is_built {
@@ -130,7 +130,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.10 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.11 of L<Dist::Joseki::DistType::ModuleBuild>.
 
 =head1 BUGS AND LIMITATIONS
 
