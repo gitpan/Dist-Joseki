@@ -4,6 +4,21 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.12
+      - 'Dist::Joseki::SVK: removed useless line'
+      - updated dotfiles
+      - 'tools/: added new functionality'
+      - moved generated documentation of interited methods to after documentation of this class' methods so the manpage is more readable
+      - 'bin/ptags: warn if there were problems use()ing a package'
+      - "tools/install_dotfiles: don't cp -pr, just cp -r - sometimes there were problems with -p when cp said 'No such file or directory'"
+      - "updated dotfiles: don't chmod .pause; .aliases' todo now points to ~/svk/dev/TODO"
+      - updated .screenrc
+      - 'ptags now accepts multiple -v options, and has better error reporting if a use() fails'
+    date: 2008-02-12T15:57:00Z
+    tags: []
+    version: 0.12
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.11
       - 'bin/chkbundle, Dist::Joseki::Base: Term::ReadLine no longer necessary because we use IO::Prompt now'
       - 'tools/dotfiles: updated with new aliases and PATH settings'

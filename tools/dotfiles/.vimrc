@@ -181,8 +181,8 @@ nmap <C-k><C-t> ?^package <CR>w:exec ":tag __TEST__".expand("<cword>")<CR>
 imap <C-k><C-t> <Esc><C-k><C-t>
 "       jump to partner class (test <-> normal, see ptags program)
 "
-nmap <C-k><C-u> ?^package <CR>w:exec expand("!perl $PROJROOT/t/00test_classes.t --exact <cword>")<CR>
-imap <C-k><C-u> <Esc><C-k><C-u>
+"nmap <C-k><C-u> ?^package <CR>w:exec expand("!perl $PROJROOT/t/00test_classes.t --exact <cword>")<CR>
+"imap <C-k><C-u> <Esc><C-k><C-u>
 "       run unit tests for the current class (and other classes containing the name)
 "
 "nmap <C-k><C-b> :let mylastpat=@/<CR>/^use\s\+base<CR>/[A-Z]<CR>:exec ":tag ".expand("<cword>")<CR>:let @/=mylastpat<CR>
@@ -347,3 +347,21 @@ function! Filetype_Perl()
 
   let &l:path=perlpath
 endfunction
+
+
+fun! UsePackage()
+    let default = expand("<cword>")
+    call inputsave()
+    let module = input("Module (default " . default . "): ")
+    call inputrestore()
+    if module == ""
+        let module = default
+    endif
+    normal mz
+    normal G$
+    call search("^use ", "b")
+    call append(line("."), "use " . module . ";")
+    normal `z
+endfunction
+nmap <C-k><C-u> :call UsePackage()<CR>
+imap <C-k><C-u> <Esc><C-k><C-u>a

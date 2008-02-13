@@ -1,7 +1,5 @@
 #!/bin/sh
 for i in dotfiles/.[a-z]*
 do
-    cp -pr $i ~
+    cp -r $i ~
 done
-chmod 600 ~/.pause
-

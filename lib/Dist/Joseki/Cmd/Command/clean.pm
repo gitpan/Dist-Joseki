@@ -6,7 +6,7 @@ use Dist::Joseki;
 use Dist::Joseki::Find;
 
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -59,6 +59,14 @@ Dist::Joseki::Cmd::Command::clean - 'clean' command for Dist::Joseki::Cmd
 
 None yet.
 
+=head1 METHODS
+
+=over 4
+
+
+
+=back
+
 Dist::Joseki::Cmd::Command::clean inherits from
 L<Dist::Joseki::Cmd::Multiplexable>.
 
@@ -96,8 +104,7 @@ The superclass L<Dist::Joseki::Base> defines these methods and functions:
 The superclass L<Class::Accessor::Complex> defines these methods and
 functions:
 
-    carp(), cluck(), croak(), flatten(), mk_abstract_accessors(),
-    mk_array_accessors(), mk_boolean_accessors(),
+    mk_abstract_accessors(), mk_array_accessors(), mk_boolean_accessors(),
     mk_class_array_accessors(), mk_class_hash_accessors(),
     mk_class_scalar_accessors(), mk_concat_accessors(),
     mk_forward_accessors(), mk_hash_accessors(), mk_integer_accessors(),
@@ -115,15 +122,7 @@ The superclass L<Class::Accessor> defines these methods and functions:
 The superclass L<Class::Accessor::Installer> defines these methods and
 functions:
 
-    install_accessor(), subname()
-
-=head1 METHODS
-
-=over 4
-
-
-
-=back
+    install_accessor()
 
 =head1 TAGS
 
@@ -132,7 +131,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.11 of L<Dist::Joseki::Cmd::Command::clean>.
+This document describes version 0.12 of L<Dist::Joseki::Cmd::Command::clean>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -158,7 +157,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

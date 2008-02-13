@@ -17,7 +17,7 @@ alias kk='kill -9'
 alias dusn='du -ksc * .[A-Za-z]* | sort -n'
 alias rwget='wget -U "Internet Explorer" -r -E -k -K -p -np'
 alias vit='vi -t'
-alias cdp='cd $(distfind --printroots)'
+alias cdp='cd $(distfind --printroots | cut -d" " -f 1)'
 alias rgrep='grep -Pr --exclude-from=$HOME/.grepignore'
 alias vless="/usr/share/vim/vim52/macros/less.sh"
 alias sdv="svk diff | view -"
@@ -30,7 +30,7 @@ alias term='open -a Terminal "`pwd`"'
 alias term80='osascript -e"tell application \"Terminal\" to set the number of columns of the front window to 80"'
 alias term80all='osascript -e"tell application \"Terminal\" to set the number of columns of every window to 80"'
 alias ffg='find . -type f | grep -v .svn'
-alias todo='vi $PROJROOT/TODO'
+alias todo='vi ~/svk/dev/TODO'
 alias blib='make distclean; perl Makefile.PL && make && vi $(find blib/lib/ -name \*.pm)'
 
 alias print4on1='lpr -o media=A4 -o sides=two-sided-long-edge -o number-up=2'
@@ -40,8 +40,15 @@ alias print2on1='lpr -o media=A4 -o sides=two-sided-long-edge'
 alias probupdate='prob_update.pl --dir ~/problems/99ok --db ~/probdb.txt'
 
 # backup
-alias sync_to_jeongseok='rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ jeongseok.local:/Users/marcel/backup/haengma'
-alias sync_to_maekjeom='rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ maekjeom.local:/Users/marcel/backup/haengma'
+
+sync_to () {
+    rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ $1:/Users/marcel/backup/haengma
+}
+
+alias sync_to_jeongseok='sync_to jeongseok.local'
+alias sync_to_maekjeom='sync_to maekjeom.local'
+alias sync_to_daungasse='sync_to daungasse'
+alias sync_to_pcgr='sync_to pcgr'
 
 # servers
 test -f ~/.ssh/config && for h in \

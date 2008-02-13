@@ -9,7 +9,7 @@ use File::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 # --use: whether to 'use' the package; might gen more tags. The value is the
@@ -17,8 +17,10 @@ our $VERSION = '0.11';
 
 our $use     : Getopt(use=s);
 our $win     : Getopt(win);      # whether to use backslashes in file names
-our $verbose : Getopt(verbose|v);
+our $verbose : Getopt(verbose|v+);
 our $exclude_file : Getopt(exclude=s); # containts tag name patterns to exclude
+
+$verbose = 0 unless defined $verbose;
 
 my @tag;
 
@@ -74,7 +76,7 @@ print for grep { /^[^\t]+\t[^\t]+\t[^\t]+\n$/ } sort @tag;
 
 sub make_tag (@) {
     for my $def (@_) {
-        # $verbose && warn $def;
+        $verbose >= 2 && warn $def;
         push @tag => $def;
     }
 }
@@ -206,7 +208,10 @@ sub _find {
             # with them, they will be restored at the end of the block
 
             local @INC = @INC;
-            eval "use $package";
+
+            my $eval = "use $package";
+            eval $eval;
+            warn "can't eval [$eval]: $@" if $@;
         }
 
         # Also determine inheritance and make tags

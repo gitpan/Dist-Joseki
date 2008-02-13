@@ -6,7 +6,7 @@ use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
 
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 sub new {
@@ -44,7 +44,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.11 of L<Dist::Joseki::DistType>.
+This document describes version 0.12 of L<Dist::Joseki::DistType>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -70,7 +70,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

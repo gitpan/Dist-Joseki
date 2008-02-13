@@ -17,8 +17,6 @@
 Test companion class for L<{% base %}>. Gets its
 test data from L<{% s.testdata_class_from_base_class(base) %}>.
 
-{% p.write_inheritance %}
-
 =head1 METHODS
 
 =over 4
@@ -26,6 +24,8 @@ test data from L<{% s.testdata_class_from_base_class(base) %}>.
 {% p.write_methods %}
 
 =back
+
+{% p.write_inheritance %}
 
 {% PROCESS standard_pod %}
 

@@ -6,7 +6,7 @@ use YAML 'LoadFile';
 use Data::Rmap;
 
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 use base 'App::Cmd';
@@ -43,6 +43,14 @@ Dist::Joseki::Cmd - Application class for 'dist' program
 
 None yet.
 
+=head1 METHODS
+
+=over 4
+
+
+
+=back
+
 Dist::Joseki::Cmd inherits from L<App::Cmd>.
 
 The superclass L<App::Cmd> defines these methods and functions:
@@ -61,14 +69,6 @@ functions:
 
     _process_args()
 
-=head1 METHODS
-
-=over 4
-
-
-
-=back
-
 =head1 TAGS
 
 If you talk about this module in blogs, on del.icio.us or anywhere else,
@@ -76,7 +76,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.11 of L<Dist::Joseki::Cmd>.
+This document describes version 0.12 of L<Dist::Joseki::Cmd>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -102,7 +102,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
