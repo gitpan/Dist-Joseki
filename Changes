@@ -4,6 +4,13 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.13
+      - 'bin/ptags: add_overall_tags(): __SUPER__* tag generation is now more robust in the face of missing superclasses'
+    date: 2008-02-13T23:07:19Z
+    tags: []
+    version: 0.13
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.12
       - 'Dist::Joseki::SVK: removed useless line'
       - updated dotfiles

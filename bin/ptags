@@ -9,7 +9,7 @@ use File::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 # --use: whether to 'use' the package; might gen more tags. The value is the
@@ -233,11 +233,19 @@ sub _find {
 
 sub add_overall_tags {
     our (%has_super_class, %filename_for);
-    while (my ($class, $super) = each %has_super_class) {
-        make_tag 
-            sprintf("__SUPER__%s\t%s\t?^package %s\\>\n",
-                $class, $filename_for{$_}, $_
-            ) for @{ $super || [] };
+    while (my ($class, $super_array_ref) = each %has_super_class) {
+
+        for my $super (@{ $super_array_ref || [] }) {
+            unless (defined $filename_for{$super}) {
+                warn sprintf
+                    "class [%s]: can't get filename of superclass [%s]\n",
+                    $class, $super;
+                next;
+            }
+            make_tag 
+                sprintf("__SUPER__%s\t%s\t?^package %s\\>\n",
+                    $class, $filename_for{$super}, $super);
+        }
     }
 }
 

@@ -6,7 +6,7 @@ use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 sub new {
@@ -44,7 +44,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.12 of L<Dist::Joseki::DistType>.
+This document describes version 0.13 of L<Dist::Joseki::DistType>.
 
 =head1 BUGS AND LIMITATIONS
 

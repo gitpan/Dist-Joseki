@@ -7,7 +7,7 @@ use File::Slurp;
 use Module::Changes;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 use base qw(Dist::Joseki::Base);
@@ -110,7 +110,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.12 of L<Dist::Joseki::Version>.
+This document describes version 0.13 of L<Dist::Joseki::Version>.
 
 =head1 BUGS AND LIMITATIONS
 

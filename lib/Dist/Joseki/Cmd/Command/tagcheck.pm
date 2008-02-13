@@ -5,7 +5,7 @@ use warnings;
 use Dist::Joseki::SVK;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -151,7 +151,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.12 of L<Dist::Joseki::Cmd::Command::tagcheck>.
+This document describes version 0.13 of L<Dist::Joseki::Cmd::Command::tagcheck>.
 
 =head1 BUGS AND LIMITATIONS
 

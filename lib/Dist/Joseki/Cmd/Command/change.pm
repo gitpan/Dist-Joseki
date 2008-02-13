@@ -8,7 +8,7 @@ use File::Temp 'tempfile';
 use IO::Prompt;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -267,7 +267,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.12 of L<Dist::Joseki::Cmd::Command::change>.
+This document describes version 0.13 of L<Dist::Joseki::Cmd::Command::change>.
 
 =head1 BUGS AND LIMITATIONS
 

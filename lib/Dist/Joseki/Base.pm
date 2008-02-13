@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 use base qw(Class::Accessor::Complex);
@@ -112,7 +112,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.12 of L<Dist::Joseki::Base>.
+This document describes version 0.13 of L<Dist::Joseki::Base>.
 
 =head1 BUGS AND LIMITATIONS
 
