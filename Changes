@@ -4,6 +4,26 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.14
+      - "tools: small updates. pv is now called pver so it doesn't conflict with the pipe viewer tool; reinstated ls with color support"
+      - Dist::Joseki::Cmd::Multiplexable now catches errors during run_single()
+      - Dist::Joseki::Cmd::Command::smoke adds a --resume option to skip smoke tests if there is a smoke.html already; it also handles errors during run_single()
+      - 'Dist::Joseki::Cmd::Command::smoke: fixed bug where problems were reported when there were none'
+      - also include config info in summary page
+      - added default handle_dist_error() to Dist::Joseki::Cmd::Multiplexable
+      - "Dist::Joseki::DistType::*: replaced fixed calls to 'perl' with calls to the 'current executable'"
+      - updated dotfiles
+      - '.shipit: fixed svk.tagpattern'
+      - Dist::Joseki::Cmd::Command::tagcheck now looks for svk.tagpattern in .shipit as well
+      - bin/ptags_sort sorts according to @INC order
+      - Makefile.PL now also requires ShipIt
+      - added bin/ptags_sort
+      - "tools/dotfiles/.mitlib/standard_pod: added support for per-module 'local' authors"
+    date: 2008-04-18T20:24:34Z
+    tags: []
+    version: 0.14
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.13
       - 'bin/ptags: add_overall_tags(): __SUPER__* tag generation is now more robust in the face of missing superclasses'
     date: 2008-02-13T23:07:19Z

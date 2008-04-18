@@ -3,6 +3,7 @@ bin/dist
 bin/distfind
 bin/perlinfo
 bin/ptags
+bin/ptags_sort
 Changes
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm

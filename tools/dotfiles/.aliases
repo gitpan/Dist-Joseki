@@ -7,7 +7,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../../'
 alias cdd='cd -'
-alias ls='/usr/local/bin/ls --color=auto'
+alias ls='ls --color=auto'
 alias l='ls -al'
 alias la='ls -al'
 alias al='ls -al'
@@ -45,8 +45,8 @@ sync_to () {
     rsync -av --delete --exclude-from=/Users/marcel/.rsync-exclude --delete-excluded ~ $1:/Users/marcel/backup/haengma
 }
 
-alias sync_to_jeongseok='sync_to jeongseok.local'
-alias sync_to_maekjeom='sync_to maekjeom.local'
+alias sync_to_jeongseok='sync_to jeongseok'
+alias sync_to_maekjeom='sync_to maekjeom'
 alias sync_to_daungasse='sync_to daungasse'
 alias sync_to_pcgr='sync_to pcgr'
 

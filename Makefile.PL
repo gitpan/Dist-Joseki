@@ -19,6 +19,7 @@ requires 'Module::CoreList';
 requires 'Module::ExtractUse';
 requires 'Parse::CPAN::Packages';
 requires 'Perl::Version';
+requires 'ShipIt';
 requires 'Test::TAP::HTMLMatrix';
 requires 'Text::Diff';
 requires 'Template';

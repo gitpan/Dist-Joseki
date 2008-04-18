@@ -27,21 +27,27 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-{%- IF other_authors %}
+{%-
+    UNLESS other_authors;
+        other_authors = [];
+    END;
+
+    any_other_authors = other_authors.merge(local_authors);
+    IF any_other_authors %}
 =head1 AUTHORS
 {% ELSE %}
 =head1 AUTHOR
 {% END -%}
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
-
-{%- FOR author = other_authors %}
+{%- FOR author = any_other_authors %}
 {% author %}
 {% END -%}
 
+Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+
 =head1 COPYRIGHT AND LICENSE
 
-Copyright {% year %} by Marcel GrE<uuml>nauer
+Copyright {% year %} by the author{%- IF any_other_authors %}s{% END %}.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

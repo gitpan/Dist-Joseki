@@ -3,6 +3,7 @@ package Dist::Joseki::Cmd::Command::smoke;
 use strict;
 use warnings;
 use Cwd 'abs_path';
+use Config 'myconfig';
 use Dist::Joseki;
 use Dist::Joseki::Find;
 use File::Basename;
@@ -14,12 +15,13 @@ use Test::TAP::Model::Visual;
 use YAML qw/LoadFile DumpFile/;
 
 
-
-
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
+
+
+__PACKAGE__->mk_hash_accessors(qw(dist_errors));
 
 
 sub options {
@@ -31,6 +33,11 @@ sub options {
         [
             'cover|c',
             'also run coverage tests',
+        ],
+
+        [
+            'resume|r',
+            'skip tests if there is a smoke.html already',
         ],
 
         [
@@ -49,8 +56,16 @@ sub options {
 sub run_smoke_tests {
     my $self = shift;
 
+    my $smoke_html_filename = 'smoke.html';
+    my $smoke_yaml_filename = 'smoke.yaml';
+
     if (-e 'BUILD.SKIP') {
         warn "Skipping build because of BUILD.SKIP\n";
+        return;
+    }
+
+    if ($self->opt_has_value('resume') && -e $smoke_html_filename) {
+        warn "Skipping tests because --resume is given and smoke.html exists\n";
         return;
     }
 
@@ -63,9 +78,6 @@ sub run_smoke_tests {
 
     local $ENV{HARNESS_VERBOSE} = 1;
     my $model = Test::TAP::Model::Visual->new_with_tests(glob("t/*.t"));
-
-    my $smoke_html_filename = 'smoke.html';
-    my $smoke_yaml_filename = 'smoke.yaml';
 
     open my $fh, '>', $smoke_html_filename or
         die "can't open $smoke_html_filename for writing: $!\n";
@@ -164,7 +176,7 @@ sub create_summary {
             my $html = do { local $/; <$fh> };
             close $fh or die "can't close $coverage_html: $!\n";
 
-            # crude, but effective
+            # crude but effective
             ($summary->{coverage_total}) =
                 $html =~ m!">(\d+\.\d+)</td></tr>\D+$!s;
         }
@@ -183,8 +195,19 @@ sub create_summary {
 
     my $template = $self->get_template;
     my $tt = Template->new;
-    $tt->process(\$template, { smoke => \@smoke }, $self->opt('summary')) ||
-        die $tt->error;
+    $tt->process(\$template, {
+        smoke  => \@smoke,
+        errors => scalar($self->dist_errors),
+        config => myconfig(),
+    }, $self->opt('summary')) || die $tt->error;
+}
+
+
+sub run {
+    my $self = shift;
+
+    $self->SUPER::run(@_);
+    $self->create_summary;
 }
 
 
@@ -195,7 +218,22 @@ sub run_single {
     $self->assert_is_dist_base_dir;
     $self->run_smoke_tests;
     $self->run_coverage_tests;
+
+    # create summary here as well as in run() so if we're iterating over all
+    # dists we can watch the summary grow
+
     $self->create_summary;
+}
+
+
+sub handle_dist_error {
+    my ($self, $dist, $error) = @_;
+
+    # we maintain a hash of lists, so get a reference and manipulate it
+    # directly
+
+    my $dist_errors = $self->dist_errors;
+    push @{ $dist_errors->{$dist} } => $error;
 }
 
 
@@ -243,6 +281,14 @@ td.allpass {
 
 td.partial {
     background-color: #fffb50;
+}
+
+p.disterrorhead {
+    font-weight: bold;
+}
+
+li.disterror {
+    color: red;
 }
 
 -->
@@ -334,8 +380,32 @@ td.partial {
         <td class="[% tdclass %]">[% dist.end_time %]</td>
     </tr>
 [% END %]
-
 </table>
+
+[% IF errors.size > 0 %]
+    <h2>Errors</h2>
+
+    <p>There were problems.</p>
+
+    [% FOREACH dist IN errors.keys.sort %]
+        <p class="disterrorhead">[% dist %]</p>
+
+        <ul>
+        [% FOREACH error IN errors.$dist %]
+            <li class="disterror">[% error %]</li>
+        [% END %]
+        </ul>
+    [% END %]
+[% END %]
+
+<h2>Config</h2>
+
+<pre>
+<code>
+[% config %]
+</code>
+</pre>
+
 </body>
 </html>
 EOTEMPLATE
@@ -371,7 +441,92 @@ None yet.
 
 =over 4
 
+=item clear_dist_errors
 
+    $obj->clear_dist_errors;
+
+Deletes all keys and values from the hash.
+
+=item delete_dist_errors
+
+    $obj->delete_dist_errors(@keys);
+
+Takes a list of keys and deletes those keys from the hash.
+
+=item dist_errors
+
+    my %hash     = $obj->dist_errors;
+    my $hash_ref = $obj->dist_errors;
+    my $value    = $obj->dist_errors($key);
+    my @values   = $obj->dist_errors([ qw(foo bar) ]);
+    $obj->dist_errors(%other_hash);
+    $obj->dist_errors(foo => 23, bar => 42);
+
+Get or set the hash values. If called without arguments, it returns the hash
+in list context, or a reference to the hash in scalar context. If called
+with a list of key/value pairs, it sets each key to its corresponding value,
+then returns the hash as described before.
+
+If called with exactly one key, it returns the corresponding value.
+
+If called with exactly one array reference, it returns an array whose elements
+are the values corresponding to the keys in the argument array, in the same
+order. The resulting list is returned as an array in list context, or a
+reference to the array in scalar context.
+
+If called with exactly one hash reference, it updates the hash with the given
+key/value pairs, then returns the hash in list context, or a reference to the
+hash in scalar context.
+
+=item dist_errors_clear
+
+    $obj->dist_errors_clear;
+
+Deletes all keys and values from the hash.
+
+=item dist_errors_delete
+
+    $obj->dist_errors_delete(@keys);
+
+Takes a list of keys and deletes those keys from the hash.
+
+=item dist_errors_exists
+
+    if ($obj->dist_errors_exists($key)) { ... }
+
+Takes a key and returns a true value if the key exists in the hash, and a
+false value otherwise.
+
+=item dist_errors_keys
+
+    my @keys = $obj->dist_errors_keys;
+
+Returns a list of all hash keys in no particular order.
+
+=item dist_errors_values
+
+    my @values = $obj->dist_errors_values;
+
+Returns a list of all hash values in no particular order.
+
+=item exists_dist_errors
+
+    if ($obj->exists_dist_errors($key)) { ... }
+
+Takes a key and returns a true value if the key exists in the hash, and a
+false value otherwise.
+
+=item keys_dist_errors
+
+    my @keys = $obj->keys_dist_errors;
+
+Returns a list of all hash keys in no particular order.
+
+=item values_dist_errors
+
+    my @values = $obj->values_dist_errors;
+
+Returns a list of all hash values in no particular order.
 
 =back
 
@@ -382,7 +537,7 @@ The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
     hook_after_dist_loop(), hook_before_dist_loop(),
-    hook_in_dist_loop_end(), run()
+    hook_in_dist_loop_end(), try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -440,7 +595,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.13 of L<Dist::Joseki::Cmd::Command::smoke>.
+This document describes version 0.14 of L<Dist::Joseki::Cmd::Command::smoke>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -460,13 +615,13 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

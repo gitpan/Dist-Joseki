@@ -9,7 +9,7 @@ use File::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 # --use: whether to 'use' the package; might gen more tags. The value is the
@@ -26,7 +26,19 @@ my @tag;
 
 sub make_tag (@);
 
-our @lib = grep { !/^\.+$/ } @INC;
+# Go through libs in reverse @INC order. I assume that custom libs will be
+# unshif()ed onto @INC so they come first. That means that the main perl libs
+# will come last. By going through the libs in reverse order, a local version
+# of a module will take precedence over a module that's installed system-wide.
+# This is useful if you have a module both under development in your $PROJROOT
+# as well as installed system-wide; in this case you most likely want tags to
+# point to the locally installed version.
+#
+# On the other hand, it might not matter anyway because if you sort the ptags
+# file, the order of equal tags will depend on the sort order of the path. But
+# see the ptags_sort program.
+
+our @lib = grep { !/^\.+$/ } reverse @INC;
 exit unless @lib;
 
 local $/;

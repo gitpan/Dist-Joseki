@@ -6,7 +6,7 @@ use strict;
 use base 'Dist::Joseki::DistType::Base';
 
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 sub is_built {
@@ -18,35 +18,35 @@ sub is_built {
 sub ACTION_build {
     my $self = shift;
     return if $self->is_built;
-    $self->safe_system('perl', 'Build.PL');
+    $self->safe_system($^X, 'Build.PL');
 }
 
 
 sub ACTION_default {
     my $self = shift;
     $self->depends_on('build');
-    $self->safe_system('perl', 'Build');
+    $self->safe_system($^X, 'Build');
 }
 
 
 sub ACTION_distclean {
     my $self = shift;
     return unless $self->is_built;
-    $self->safe_system('perl', 'Build', 'distclean');
+    $self->safe_system($^X, 'Build', 'distclean');
 }
 
 
 sub ACTION_disttest {
     my $self = shift;
     $self->depends_on('default');
-    $self->safe_system('perl', 'Build', 'test');
+    $self->safe_system($^X, 'Build', 'test');
 }
 
 
 sub ACTION_distinstall {
     my $self = shift;
     $self->depends_on('disttest');
-    $self->safe_system('sudo', 'perl', 'Build', 'install');
+    $self->safe_system('sudo', $^X, 'Build', 'install');
 }
 
 
@@ -54,7 +54,7 @@ sub ACTION_manifest {
     my $self = shift;
     $self->depends_on('build');
     unlink 'MANIFEST';
-    $self->safe_system('perl', 'Build', 'manifest');
+    $self->safe_system($^X, 'Build', 'manifest');
 }
 
 
@@ -129,7 +129,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.13 of L<Dist::Joseki::DistType::ModuleBuild>.
+This document describes version 0.14 of L<Dist::Joseki::DistType::ModuleBuild>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -149,13 +149,13 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

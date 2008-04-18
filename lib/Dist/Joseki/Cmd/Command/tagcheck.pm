@@ -3,9 +3,10 @@ package Dist::Joseki::Cmd::Command::tagcheck;
 use strict;
 use warnings;
 use Dist::Joseki::SVK;
+use ShipIt::Conf;
 
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -21,7 +22,7 @@ sub options {
         [
             'tagbase|b=s',
             'depot path where tagged versions are',
-            { default => $cmd_config->{tagbase} },
+            # no defaults here, they are more complicated. see get_tagbase()
         ],
 
         [
@@ -29,17 +30,46 @@ sub options {
             'location of the Changes file',
             { default => $cmd_config->{file} || 'Changes' },
         ],
+
+        [
+            'verbose|v',
+            'be verbose',
+            { default => 0 },
+        ],
     );
 }
 
+
+sub get_tagbase {
+    my $self = shift;
+
+    return $self->opt('tagbase') if defined $self->opt('tagbase');
+
+    my $shipit_conf = ShipIt::Conf->parse('.shipit');
+    my $tagbase = $shipit_conf->value('svk.tagpattern');
+    if (defined $tagbase) {
+
+        # svk.tagpattern will be the complete pattern, but we need the tag
+        # base path. Usually it will be the last '/tags/' directory in the
+        # pattern, so let's try to be smart.
+
+        $tagbase =~ s!^(.*/tags)/.*$!$1!;
+        return $tagbase;
+    }
+
+    return $self->app->config->{tagcheck};
+}
 
 sub run_single {
     my $self = shift;
 
     $self->SUPER::run_single(@_);
 
+    my $tagbase = $self->get_tagbase;
+    print "tagbase [$tagbase]\n" if $self->opt('verbose');
+
     my $svk = Dist::Joseki::SVK->new(
-        tag_base         => $self->opt('tagbase'),
+        tag_base         => $tagbase,
         changes_filename => $self->opt('file'),
     );
 
@@ -92,8 +122,8 @@ L<Dist::Joseki::Cmd::Multiplexable>.
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
-    hook_after_dist_loop(), hook_before_dist_loop(),
-    hook_in_dist_loop_end(), run()
+    handle_dist_error(), hook_after_dist_loop(), hook_before_dist_loop(),
+    hook_in_dist_loop_end(), run(), try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -151,7 +181,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.13 of L<Dist::Joseki::Cmd::Command::tagcheck>.
+This document describes version 0.14 of L<Dist::Joseki::Cmd::Command::tagcheck>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -171,13 +201,13 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

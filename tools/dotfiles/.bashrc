@@ -30,7 +30,7 @@ export CVSEDITOR=/usr/bin/vim
 export CVS_RSH=ssh
 export PAGER=less
 export TEST_MODE=1
-export LC_COLLATE=C
+#export LC_COLLATE=C
 export DISPLAY=:0.0
 export TEST_AUTHOR=1
 export PROJROOT
@@ -56,7 +56,7 @@ export HOSTNAME=`hostname | sed s/\\\..\*//g`
 
 export PATH
 export MANPATH
-for d in /usr /{usr,opt}/{local,share,local/share,git,git/share} ~{,/home,/perl}
+for d in /usr /{usr,opt}/{local,share,local/share,local/pgsql,git,git/share} ~{,/home,/perl}
 do
     test -d $d/bin && PATH=$d/bin:$PATH
     test -d $d/man && MANPATH=$d/man:$MANPATH
@@ -86,7 +86,7 @@ vi () { /usr/bin/vim ${@:- -c "normal '0"}; }
 # perl module development
 cdpm () { cd $(dirname $(pmpath $1)); }
 
-pv () {
+pver () {
     perl -MCPAN -e"print CPAN::Shell->format_result(q{Module}, q{$1})"
 }
 
@@ -138,7 +138,8 @@ projptags () {
         $PTAGS_DYNAMIC >>$PTAGSFILE
     fi
 
-    sort -o $PTAGSFILE $PTAGSFILE
+    ptags_sort <$PTAGSFILE >$PTAGSFILE.sorted
+    mv $PTAGSFILE.sorted $PTAGSFILE
 }
 
 

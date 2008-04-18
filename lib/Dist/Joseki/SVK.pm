@@ -6,7 +6,7 @@ use Module::Changes;
 use Dist::Joseki::SVK::Status;
 
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 use base qw(Dist::Joseki::Base);
@@ -186,7 +186,7 @@ please use the C<distjoseki> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.13 of L<Dist::Joseki::SVK>.
+This document describes version 0.14 of L<Dist::Joseki::SVK>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -206,13 +206,13 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

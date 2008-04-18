@@ -32,6 +32,7 @@ requires:
   Module::ExtractUse: 0
   Parse::CPAN::Packages: 0
   Perl::Version: 0
+  ShipIt: 0
   Template: 0
   Test::TAP::HTMLMatrix: 0
   Text::Diff: 0
@@ -39,4 +40,4 @@ requires:
   Web::Scraper: 0
   YAML: 0
   perl: 5.6.0
-version: 0.13
+version: 0.14
