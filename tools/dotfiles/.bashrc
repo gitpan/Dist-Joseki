@@ -75,6 +75,9 @@ cd () {
     ls --color=auto
 }
 
+# see /etc/bash_completion/bash_completion: _cd()
+cdignore=( CVS .svn )
+
 (which ncftp >/dev/null) && alias ftp=ncftp
 
 
@@ -147,7 +150,7 @@ ORIGPATH=$PATH
 
 set_project () {
     export PROJROOT=$1
-    export PERL5OPT="-MDevel::SearchINC::FindLib=$PROJROOT"
+    export PERL5OPT="-MDevel::SearchINC=$PROJROOT"
     export CF_CONF=local
 
     PATH=$ORIGPATH

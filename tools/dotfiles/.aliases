@@ -16,11 +16,12 @@ alias ll='ls -l'
 alias kk='kill -9'
 alias dusn='du -ksc * .[A-Za-z]* | sort -n'
 alias rwget='wget -U "Internet Explorer" -r -E -k -K -p -np'
+alias np='nopaste -s Rafb -x'
 alias vit='vi -t'
 alias cdp='cd $(distfind --printroots | cut -d" " -f 1)'
 alias rgrep='grep -Pr --exclude-from=$HOME/.grepignore'
 alias vless="/usr/share/vim/vim52/macros/less.sh"
-alias sdv="svk diff | view -"
+alias sdv="svn diff | view -"
 alias rfcsync='rsync -avz --delete ftp.rfc-editor.org::rfcs-text-only ~/mirrors/rfc/'
 alias ctsync='sync_cpantesters -a MARCEL -d ~/dev/cpan-testers'
 
@@ -29,8 +30,8 @@ alias finder='open -a Finder "`pwd`"'
 alias term='open -a Terminal "`pwd`"'
 alias term80='osascript -e"tell application \"Terminal\" to set the number of columns of the front window to 80"'
 alias term80all='osascript -e"tell application \"Terminal\" to set the number of columns of every window to 80"'
-alias ffg='find . -type f | grep -v .svn'
-alias todo='vi ~/svk/dev/TODO'
+alias ffg='find . -type f | ack -v "\.(svn|git)"'
+alias todo='vi ~/code/dev/TODO'
 alias blib='make distclean; perl Makefile.PL && make && vi $(find blib/lib/ -name \*.pm)'
 
 alias print4on1='lpr -o media=A4 -o sides=two-sided-long-edge -o number-up=2'

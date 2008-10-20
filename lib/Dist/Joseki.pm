@@ -5,7 +5,7 @@ use strict;
 use Dist::Joseki::DistType;
 
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 
 sub get_dist_type { Dist::Joseki::DistType->new }
@@ -34,21 +34,11 @@ Dist::Joseki offers you tools that help you in developing Perl module
 distributions if you stick to a certain formulaic style of structuring your
 distributions.
 
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
-
-=head1 VERSION 
-                   
-This document describes version 0.14 of L<Dist::Joseki>.
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
+Please report any bugs or feature requests through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION

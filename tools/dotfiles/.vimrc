@@ -225,6 +225,11 @@ nmap ,mm :%s/<C-v><CR>$/<CR>
 "    endif
 "endfunction
 "
+
+function! YAMLTestMappings()
+    noremap <buffer> ,t :!regprove.pl %:p<CR>
+endfunction
+
 "
 "       prevent sourcing autocommands more than once
 "
@@ -251,6 +256,7 @@ if !exists("autocommands_loaded")
   autocmd BufEnter    *.pod  call Filetype_Perl()
   autocmd BufEnter    *.t    call Filetype_Perl()
 
+  autocmd FileType yaml      call YAMLTestMappings()
 
   autocmd BufNewFile  *.txt  set noai
   autocmd BufLeave    *.txt  set ai

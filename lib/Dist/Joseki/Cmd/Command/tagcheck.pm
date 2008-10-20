@@ -6,7 +6,7 @@ use Dist::Joseki::SVK;
 use ShipIt::Conf;
 
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';
@@ -174,21 +174,11 @@ functions:
 
     install_accessor()
 
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
-
-=head1 VERSION 
-                   
-This document describes version 0.14 of L<Dist::Joseki::Cmd::Command::tagcheck>.
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
+Please report any bugs or feature requests through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION

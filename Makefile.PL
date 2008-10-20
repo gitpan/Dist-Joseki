@@ -8,6 +8,7 @@ perl_version '5.006';
 requires 'App::Cmd';
 requires 'Class::Accessor::Complex';
 requires 'Data::Rmap';
+requires 'Error';
 requires 'File::Basename';
 requires 'File::Copy';
 requires 'File::Path';
@@ -27,18 +28,14 @@ requires 'URI';
 requires 'Web::Scraper';
 requires 'YAML';
 
-build_requires 'Test::More' => '0.70';
+recommends 'Test::Pod';
+recommends 'Test::Pod::Coverage';
+
+test_requires 'Test::More' => '0.70';
+test_requires 'Test::Compile';
 
 install_script glob('bin/*');
 
-process_templates(
-    first_year => 2007,
-    rest_from  => "$ENV{HOME}/.mitlib/standard_pod",
-    start_tag  => '{%',
-    end_tag    => '%}',
-);
-
-use_standard_tests(without => 'pod_coverage');
 auto_install;
 auto_include;
 WriteAll;

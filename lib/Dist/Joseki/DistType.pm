@@ -6,7 +6,7 @@ use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
 
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 
 sub new {
@@ -37,21 +37,11 @@ Dist::Joseki::DistType - Distribution type class wrapper
 None yet. This is an early release; fully functional, but undocumented. The
 next release will have more documentation.
 
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
-
-=head1 VERSION 
-                   
-This document describes version 0.14 of L<Dist::Joseki::DistType>.
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
+Please report any bugs or feature requests through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION

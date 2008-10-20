@@ -6,9 +6,10 @@ use Dist::Joseki::SVK;
 use Dist::Joseki::Version;
 use File::Temp 'tempfile';
 use IO::Prompt;
+use ShipIt::Conf;
 
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 
 use base 'Dist::Joseki::Cmd::Command';
@@ -91,6 +92,16 @@ sub add_message {
 }
 
 
+sub get_commit_header {
+    my $self = shift;
+    my $shipit_conf = ShipIt::Conf->parse('.shipit');
+    my $commit_header = $shipit_conf->value('commit.header');
+    return '' unless defined $commit_header;
+    chomp $commit_header;
+    "$commit_header\n";
+}
+
+
 sub run {
     my $self = shift;
 
@@ -156,6 +167,8 @@ sub run {
        ->format_to_file($changes, $self->opt('file'));
 
     my ($fh, $filename) = tempfile();
+    my $commit_header = $self->get_commit_header;
+    print $fh $commit_header if length $commit_header;
     print $fh $self->commit_msg;
     close $fh or die "can't close tempfile $filename: $!\n";
 
@@ -260,21 +273,11 @@ functions:
 
     install_accessor()
 
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<distjoseki> tag.
-
-=head1 VERSION 
-                   
-This document describes version 0.14 of L<Dist::Joseki::Cmd::Command::change>.
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-dist-joseki@rt.cpan.org>>, or through the web interface at
+Please report any bugs or feature requests through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION

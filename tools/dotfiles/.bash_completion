@@ -126,32 +126,3 @@ complete -f -X '!*.Z' uncompress
 complete -f -X '!*.@(gif|jp?(e)g|tif?(f)|png|p[bgp]m|bmp|pdf|GIF|JPG|JP?(E)G|TIF?(F)|PNG|P[BGP]M|BMP|PDF)' preview
 complete -f -X '!*.html' appletviewer
 complete -fd -X '!*.@(pod|pm|pl)' pod2{html,latex,man,pdf,test,text,usage}
-
-
-# Note: I modified the _cd() function in /etc/bash_completion to omit CVS
-# directories if no CDPATH is set. The relevant part was before
-#
-#	# Use standard dir completion if no CDPATH or parameter starts with /,
-#	# ./ or ../
-#	if [ -z "${CDPATH:-}" ] || [[ "$cur" == ?(.)?(.)/* ]]; then
-#		_filedir -d
-#		return 0
-#	fi
-#
-# and now reads
-#
-#	# Use standard dir completion if no CDPATH or parameter starts with /,
-#	# ./ or ../
-#	if [ -z "${CDPATH:-}" ] || [[ "$cur" == ?(.)?(.)/* ]]; then
-#		_filedir -d
-#
-#		# omit CVS directories
-#		for (( i = 0; i < ${#COMPREPLY[@]}; i++ ))
-#		do
-#			if [[ ${COMPREPLY[$i]} == "${cur}CVS" ]]; then
-#				unset COMPREPLY[$i]
-#			fi
-#		done
-#
-#		return 0
-#	fi

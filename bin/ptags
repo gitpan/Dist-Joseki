@@ -6,19 +6,20 @@ use warnings;
 use strict;
 use Config;
 use File::Find;
+use File::Find::Upwards ':all';
 use Getopt::Attribute;
 
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 
 # --use: whether to 'use' the package; might gen more tags. The value is the
 # path prefix under which to use() modules.
 
-our $use     : Getopt(use=s);
-our $win     : Getopt(win);      # whether to use backslashes in file names
-our $verbose : Getopt(verbose|v+);
-our $exclude_file : Getopt(exclude=s); # containts tag name patterns to exclude
+our $use          : Getopt(use=s);
+our $win          : Getopt(win);      # whether to use backslashes in file names
+our $verbose      : Getopt(verbose|v+);
+our $exclude_file : Getopt(exclude=s); # contains tag name patterns to exclude
 
 $verbose = 0 unless defined $verbose;
 
@@ -38,7 +39,12 @@ sub make_tag (@);
 # file, the order of equal tags will depend on the sort order of the path. But
 # see the ptags_sort program.
 
-our @lib = grep { !/^\.+$/ } reverse @INC;
+our @lib = grep { !/^\.+$/ } grep { ref ne 'CODE' } reverse @INC;
+{
+    no warnings 'once';
+    unshift @lib => @Devel::SearchINC::PATHS;
+}
+
 exit unless @lib;
 
 local $/;
@@ -95,7 +101,8 @@ sub make_tag (@) {
 
 
 sub _find {
-    if (-d && (/^(t|blib)$/ || -e 'PTAGS.SKIP')) {
+    # if (-d && (/^(t|blib)$/ || -e 'PTAGS.SKIP')) {
+    if (-d && (/^(t|blib)$/ || file_find_upwards('PTAGS.SKIP') )) {
         $verbose && warn "Skipping directory [$File::Find::name]\n";
         return $File::Find::prune = 1;
     }

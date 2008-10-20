@@ -1,179 +1,180 @@
----
-global:
-  name: Dist-Joseki
-releases:
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.14
-      - "tools: small updates. pv is now called pver so it doesn't conflict with the pipe viewer tool; reinstated ls with color support"
-      - Dist::Joseki::Cmd::Multiplexable now catches errors during run_single()
-      - Dist::Joseki::Cmd::Command::smoke adds a --resume option to skip smoke tests if there is a smoke.html already; it also handles errors during run_single()
-      - 'Dist::Joseki::Cmd::Command::smoke: fixed bug where problems were reported when there were none'
-      - also include config info in summary page
-      - added default handle_dist_error() to Dist::Joseki::Cmd::Multiplexable
-      - "Dist::Joseki::DistType::*: replaced fixed calls to 'perl' with calls to the 'current executable'"
-      - updated dotfiles
-      - '.shipit: fixed svk.tagpattern'
-      - Dist::Joseki::Cmd::Command::tagcheck now looks for svk.tagpattern in .shipit as well
-      - bin/ptags_sort sorts according to @INC order
-      - Makefile.PL now also requires ShipIt
-      - added bin/ptags_sort
-      - "tools/dotfiles/.mitlib/standard_pod: added support for per-module 'local' authors"
-    date: 2008-04-18T20:24:34Z
-    tags: []
-    version: 0.14
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.13
-      - 'bin/ptags: add_overall_tags(): __SUPER__* tag generation is now more robust in the face of missing superclasses'
-    date: 2008-02-13T23:07:19Z
-    tags: []
-    version: 0.13
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.12
-      - 'Dist::Joseki::SVK: removed useless line'
-      - updated dotfiles
-      - 'tools/: added new functionality'
-      - moved generated documentation of interited methods to after documentation of this class' methods so the manpage is more readable
-      - 'bin/ptags: warn if there were problems use()ing a package'
-      - "tools/install_dotfiles: don't cp -pr, just cp -r - sometimes there were problems with -p when cp said 'No such file or directory'"
-      - "updated dotfiles: don't chmod .pause; .aliases' todo now points to ~/svk/dev/TODO"
-      - updated .screenrc
-      - 'ptags now accepts multiple -v options, and has better error reporting if a use() fails'
-    date: 2008-02-12T15:57:00Z
-    tags: []
-    version: 0.12
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.11
-      - 'bin/chkbundle, Dist::Joseki::Base: Term::ReadLine no longer necessary because we use IO::Prompt now'
-      - 'tools/dotfiles: updated with new aliases and PATH settings'
-    date: 2007-11-24T14:26:55Z
-    tags: []
-    version: 0.11
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.10
-      - 'bin/ptags: --lib and --perllib are gone, instead @INC is searched, but only modules in and under --use=<path> are loaded; __ISA__ becomes __SUBCLASS__; __SUPER__ is new'
-      - 'tools/dotfiles/.bashrc: projptags() has only one call to ptags now'
-      - tools/dotfiles/.vimrc now uses the __SUBCLASS__ and __SUPER__ tags
-      - 'bin/ptags: removed support for Class::MethodMaker-generated tags'
-      - "tools/dotfiles/.aliases: added 'blib' and iterm-ssh-related aliases"
-      - "tools/dotfiles/.bashrc: set TERM=linux for iTerm's benefit"
-      - added tools/dotfiles/.mitlib/complete
-      - updated t/perlcriticrc
-      - updated MANIFEST
-      - 'Makefile.PL: added new requirements from bin/chkbundle'
-      - added bin/chkbundle
-      - updated MANIFEST
-      - 'bin/chkbundle: fixed bugs'
-      - 'bin/distfind: added --line option'
-      - uses IO::Prompt instead of the custom bool_prompt() now
-      - 'bin/ptags: removed combine(), was unused'
-    date: 2007-11-22T13:03:21Z
-    tags: []
-    version: 0.10
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - set the version to 0.09
-      - '.shipit: uses ApplyYAMLChangeLogVersion step'
-      - Dist::Joseki::Cmd::Command::version has --file option now
-      - Dist::Joseki::Version has better filename error reporting in get_newest_version()
-      - 'Makefile.PL: added App::Cmd to requirements'
-      - 'Dist::Joseki::Cmd::Command::change: recognized a modified MANIFEST and generate simple message for that change'
-      - 'Dist::Joseki::Cmd::Command::props: added private/; now prints header during loop while -p'
-      - "tools/dotfiles/.vimrc: added 'set complete' command now that Vim::Complete is there"
-      - 'Dist::Joseki::Cmd::Command::tagcheck: print dist name when looping over dists'
-    date: 2007-11-18T13:27:34Z
-    tags: []
-    version: 0.09
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - projclean also removes cover_db/; small changes to dotfiles
-      - added 'depends' command
-      - 'ptags: switched to Getopt::Attribute'
-      - 'ptags: when use()ing a module, have local __WARN__ sighandler and local @INC to catch annoying warnings'
-      - added opt() and args() to command class so they don't have to be passed around all the time
-      - "'dist depends': added restrict_to_CPAN_distributions() and restrict_to_non_core_modules() functionality"
-      - 'tools/dotfiles/.aliases: removed sync_to_10_0_1_2, added sync_to_jeongseok and sync_to_maekjeom'
-      - 'tools/dotfiles/.bashrc: projptags() now passes args to ptags'
-      - 'tools/dotfiles/.rsync-exclude: added .cpan/build and Local'
-      - "tools/install_dotfiles: fixed copying so MANIFEST.SKIP and install_dotfiles aren't themselves copied"
-      - added Twitter step to .shipit
-      - added Module::AutoInstall and process_templates() to Makefile.PL
-      - 'added Dist::Joseki::Base, Dist::Joseki::SVK and Dist::Joseki::Version, which were refactored from various commands'
-      - added Dist::Joseki::Cmd::Command::change
-      - updated tools/dotfiles/.distrc with 'change' config
-      - 'Dist::Joseki::Cmd::Command::change: added format_message so the commit messages look nice'
-      - slightly improved format_message()
-      - slightly improved format_message()
-      - fixed filename in tools/dotfiles/.distrc
-      - 'Dist::Joseki::Base: added bool_prompt()'
-      - "Dist::Joseki::Cmd::Command::change: added 'svk status' handling"
-      - 'Dist::Joseki::SVK: added status(), add()'
-      - added lib/Dist/Joseki/SVK
-      - added lib/Dist/Joseki/SVK/Status.pm
-      - deleted tools/dotfiles/.mitlib/standard_pod_zid
-      - 'lib/*: converted to template'
-      - 'bin/*: removed standard pod section'
-      - updated MANIFEST
-      - 'tools/.mitlib/standard_pod: added support for version and other_author'
-      - 'bin/ptags: fixed @INC setting'
-      - updated MANIFEST
-      - 'Dist::Joseki::Cmd::Command::smoke: now uses three-arg open()'
-      - added t/perlcriticrc
-      - deleted t/README
-      - 'Dist::Joseki::Cmd::Command::clean: fixed argument passing in hook_after_dist_loop()'
-      - 'Dist::Joseki::Cmd::Command::clean: added hook_in_dist_loop_begin()'
-      - 'Dist::Joseki::Cmd::Command::manifest: hook_in_dist_loop_begin() now calls SUPER::'
-      - 'Dist::Joseki::Cmd::Command::smoke: added --cover option; coverage tests will only be run if this option is given'
-      - 'Dist::Joseki::Cmd::Command::smoke: added hook_in_dist_loop_begin()'
-    date: 2007-11-17T12:57:29Z
-    tags:
-      - NEWFEATURE
-    version: 0.08
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - Added requirements
-    date: 2007-11-09T18:03:45Z
-    tags:
-      - BUGFIX
-    version: 0.07
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - 'removed ShipIt::Step::{DistClean,Manifest} as they now live in their own distributions - it was not clean to have them here'
-    date: 2007-11-09T10:33:29Z
-    tags:
-      - APIBREAK
-    version: 0.06
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - changed dotfiles/bashrc's set_project() to include bin/ directories of development distributions in $PATH.
-    date: 2007-11-08T13:17:56+01:00
-    tags: []
-    version: 0.05
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - remove german LC_ALL from tools/dotfiles/bashrc
-    date: 2007-11-07T18:15:13+01:00
-    tags: []
-    version: 0.04
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - getting ready for initial release
-    date: 2007-11-07T17:38:43+01:00
-    tags: []
-    version: 0.03
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - fixed version requirement of Test::More
-    date: 2007-10-18T10:09:39+02:00
-    tags: []
-    version: 0.02
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - original version
-    date: 2007-10-03T18:38:05+02:00
-    tags: []
-    version: 0.01
+Revision history for Perl extension Dist-Joseki
+
+0.15  Mon Oct 20 20:44:17 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - Changed dist style and Changes back to standard. People didn't like it -
+       the nail that sticks out gets hammered down.
+     - Added standard test files; this will also help with CPANTS.
+     - updated some dotfiles
+
+0.14  Thu, 29 May 2008 12:04:39 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.14
+     - tools: small updates. pv is now called pver so it doesn't conflict with
+       the pipe viewer tool; reinstated ls with color support
+     - Dist::Joseki::Cmd::Multiplexable now catches errors during run_single()
+     - Dist::Joseki::Cmd::Command::smoke adds a --resume option to skip smoke
+       tests if there is a smoke.html already; it also handles errors during
+       run_single()
+     - Dist::Joseki::Cmd::Command::smoke: fixed bug where problems were
+       reported when there were none
+     - also include config info in summary page
+     - added default handle_dist_error() to Dist::Joseki::Cmd::Multiplexable
+     - Dist::Joseki::DistType::*: replaced fixed calls to 'perl' with calls to
+       the 'current executable'
+     - updated dotfiles
+     - .shipit: fixed svk.tagpattern
+     - Dist::Joseki::Cmd::Command::tagcheck now looks for svk.tagpattern in
+       .shipit as well
+     - bin/ptags_sort sorts according to @INC order
+     - Makefile.PL now also requires ShipIt
+     - added bin/ptags_sort
+     - tools/dotfiles/.mitlib/standard_pod: added support for per-module
+       'local' authors
+     - .shipit: fixed svk.tagpattern
+     - Makefile.PL: add 'Error' prereq
+     - .shipit: added commit.header
+     - Dist::Joseki::Cmd::Command::change: print .shipit's commit.header at the
+       beginning of the commit message (for CodeRepos)
+     - Dist::Joseki::Cmd::Command::change: actually print it to the filehandle,
+       not STDOUT
+     - .shipit: fixed svk.tagpattern
+
+0.13  Wed, 13 Feb 2008 23:07:19 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.13
+     - bin/ptags: add_overall_tags(): __SUPER__* tag generation is now more
+       robust in the face of missing superclasses
+
+0.12  Tue, 12 Feb 2008 15:57:00 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.12
+     - Dist::Joseki::SVK: removed useless line
+     - updated dotfiles
+     - tools/: added new functionality
+     - moved generated documentation of interited methods to after
+       documentation of this class' methods so the manpage is more readable
+     - bin/ptags: warn if there were problems use()ing a package
+     - tools/install_dotfiles: don't cp -pr, just cp -r - sometimes there were
+       problems with -p when cp said 'No such file or directory'
+     - updated dotfiles: don't chmod .pause; .aliases' todo now points to
+       ~/svk/dev/TODO
+     - updated .screenrc
+     - ptags now accepts multiple -v options, and has better error reporting if
+       a use() fails
+
+0.11  Sat, 24 Nov 2007 14:26:55 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.11
+     - bin/chkbundle, Dist::Joseki::Base: Term::ReadLine no longer necessary
+       because we use IO::Prompt now
+     - tools/dotfiles: updated with new aliases and PATH settings
+
+0.10  Thu, 22 Nov 2007 13:03:21 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.10
+     - bin/ptags: --lib and --perllib are gone, instead @INC is searched, but
+       only modules in and under --use=<path> are loaded; __ISA__ becomes
+       __SUBCLASS__; __SUPER__ is new
+     - tools/dotfiles/.bashrc: projptags() has only one call to ptags now
+     - tools/dotfiles/.vimrc now uses the __SUBCLASS__ and __SUPER__ tags
+     - bin/ptags: removed support for Class::MethodMaker-generated tags
+     - tools/dotfiles/.aliases: added 'blib' and iterm-ssh-related aliases
+     - tools/dotfiles/.bashrc: set TERM=linux for iTerm's benefit
+     - added tools/dotfiles/.mitlib/complete
+     - updated t/perlcriticrc
+     - updated MANIFEST
+     - Makefile.PL: added new requirements from bin/chkbundle
+     - added bin/chkbundle
+     - updated MANIFEST
+     - bin/chkbundle: fixed bugs
+     - bin/distfind: added --line option
+     - uses IO::Prompt instead of the custom bool_prompt() now
+     - bin/ptags: removed combine(), was unused
+
+0.09  Sun, 18 Nov 2007 13:27:34 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - set the version to 0.09
+     - .shipit: uses ApplyYAMLChangeLogVersion step
+     - Dist::Joseki::Cmd::Command::version has --file option now
+     - Dist::Joseki::Version has better filename error reporting in
+       get_newest_version()
+     - Makefile.PL: added App::Cmd to requirements
+     - Dist::Joseki::Cmd::Command::change: recognized a modified MANIFEST and
+       generate simple message for that change
+     - Dist::Joseki::Cmd::Command::props: added private/; now prints header
+       during loop while -p
+     - tools/dotfiles/.vimrc: added 'set complete' command now that
+       Vim::Complete is there
+     - Dist::Joseki::Cmd::Command::tagcheck: print dist name when looping over
+       dists
+
+0.08  Sat, 17 Nov 2007 12:57:29 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - projclean also removes cover_db/; small changes to dotfiles
+     - added 'depends' command
+     - ptags: switched to Getopt::Attribute
+     - ptags: when use()ing a module, have local __WARN__ sighandler and local
+       @INC to catch annoying warnings
+     - added opt() and args() to command class so they don't have to be passed
+       around all the time
+     - 'dist depends': added restrict_to_CPAN_distributions() and
+       restrict_to_non_core_modules() functionality
+     - tools/dotfiles/.aliases: removed sync_to_10_0_1_2, added
+       sync_to_jeongseok and sync_to_maekjeom
+     - tools/dotfiles/.bashrc: projptags() now passes args to ptags
+     - tools/dotfiles/.rsync-exclude: added .cpan/build and Local
+     - tools/install_dotfiles: fixed copying so MANIFEST.SKIP and
+       install_dotfiles aren't themselves copied
+     - added Twitter step to .shipit
+     - added Module::AutoInstall and process_templates() to Makefile.PL
+     - added Dist::Joseki::Base, Dist::Joseki::SVK and Dist::Joseki::Version,
+       which were refactored from various commands
+     - added Dist::Joseki::Cmd::Command::change
+     - updated tools/dotfiles/.distrc with 'change' config
+     - Dist::Joseki::Cmd::Command::change: added format_message so the commit
+       messages look nice
+     - slightly improved format_message()
+     - slightly improved format_message()
+     - fixed filename in tools/dotfiles/.distrc
+     - Dist::Joseki::Base: added bool_prompt()
+     - Dist::Joseki::Cmd::Command::change: added 'svk status' handling
+     - Dist::Joseki::SVK: added status(), add()
+     - added lib/Dist/Joseki/SVK
+     - added lib/Dist/Joseki/SVK/Status.pm
+     - deleted tools/dotfiles/.mitlib/standard_pod_zid
+     - lib/*: converted to template
+     - bin/*: removed standard pod section
+     - updated MANIFEST
+     - tools/.mitlib/standard_pod: added support for version and other_author
+     - bin/ptags: fixed @INC setting
+     - updated MANIFEST
+     - Dist::Joseki::Cmd::Command::smoke: now uses three-arg open()
+     - added t/perlcriticrc
+     - deleted t/README
+     - Dist::Joseki::Cmd::Command::clean: fixed argument passing in
+       hook_after_dist_loop()
+     - Dist::Joseki::Cmd::Command::clean: added hook_in_dist_loop_begin()
+     - Dist::Joseki::Cmd::Command::manifest: hook_in_dist_loop_begin() now
+       calls SUPER::
+     - Dist::Joseki::Cmd::Command::smoke: added --cover option; coverage tests
+       will only be run if this option is given
+     - Dist::Joseki::Cmd::Command::smoke: added hook_in_dist_loop_begin()
+     - tags: NEWFEATURE
+
+0.07  Fri, 09 Nov 2007 18:03:45 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - Added requirements
+     - tags: BUGFIX
+
+0.06  Fri, 09 Nov 2007 10:33:29 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - removed ShipIt::Step::{DistClean,Manifest} as they now live in their own
+       distributions - it was not clean to have them here
+     - tags: APIBREAK
+
+0.05  Thu, 08 Nov 2007 13:17:56 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - changed dotfiles/bashrc's set_project() to include bin/ directories of
+       development distributions in $PATH.
+
+0.04  Wed, 07 Nov 2007 18:15:13 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - remove german LC_ALL from tools/dotfiles/bashrc
+
+0.03  Wed, 07 Nov 2007 17:38:43 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - getting ready for initial release
+
+0.02  Thu, 18 Oct 2007 10:09:39 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - fixed version requirement of Test::More
+
+0.01  Wed, 03 Oct 2007 18:38:05 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - original version
