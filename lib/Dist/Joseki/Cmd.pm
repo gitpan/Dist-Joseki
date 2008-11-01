@@ -6,7 +6,7 @@ use YAML 'LoadFile';
 use Data::Rmap;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 use base 'App::Cmd';

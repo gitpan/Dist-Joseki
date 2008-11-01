@@ -2,8 +2,6 @@ bin/chkbundle
 bin/dist
 bin/distfind
 bin/perlinfo
-bin/ptags
-bin/ptags_sort
 bin/version
 Changes
 inc/Module/AutoInstall.pm

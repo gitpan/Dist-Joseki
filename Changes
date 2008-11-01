@@ -1,6 +1,9 @@
 Revision history for Perl extension Dist-Joseki
 
-0.16 Fri Oct 31 15:02:02 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+0.17  Sat Nov  1 21:52:58 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - removed ptags and ptags_sort; they now live in Vim-Tag
+
+0.16  Fri Oct 31 15:02:02 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - Dist::Joseki::Version: set_version() prunes .svn directories
      - added VERSION to bin/ptags_sort and bin/version
      - changed all VERSION numbers to 0.16

@@ -26,7 +26,6 @@ requires:
   Error: 0
   File::Basename: 0
   File::Copy: 0
-  File::Find::Upwards: 0
   File::Path: 0
   File::Slurp: 0
   Getopt::Attribute: 0
@@ -47,4 +46,4 @@ requires:
   perl: 5.6.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.16
+version: 0.17

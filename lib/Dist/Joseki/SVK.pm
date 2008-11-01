@@ -6,7 +6,7 @@ use Module::Changes;
 use Dist::Joseki::SVK::Status;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 use base qw(Dist::Joseki::Base);

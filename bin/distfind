@@ -6,7 +6,7 @@ use Dist::Joseki::Find;
 use Getopt::Attribute;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 our $prefix    : Getopt(prefix|p=s);

@@ -11,7 +11,7 @@ use URI;
 use Web::Scraper;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 sub usage ($;$$) {

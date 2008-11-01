@@ -6,7 +6,7 @@ use Dist::Joseki;
 use Dist::Joseki::Find;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';

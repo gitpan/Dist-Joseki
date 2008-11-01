@@ -6,7 +6,7 @@ use Dist::Joseki::SVK;
 use ShipIt::Conf;
 
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';

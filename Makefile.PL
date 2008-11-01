@@ -11,7 +11,6 @@ requires 'Data::Rmap';
 requires 'Error';
 requires 'File::Basename';
 requires 'File::Copy';
-requires 'File::Find::Upwards';
 requires 'File::Path';
 requires 'File::Slurp';
 requires 'Getopt::Attribute';
