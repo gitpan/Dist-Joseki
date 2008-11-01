@@ -11,7 +11,7 @@ use Parse::CPAN::Packages;
 use Perl::Version;
 
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';

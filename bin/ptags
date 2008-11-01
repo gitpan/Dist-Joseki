@@ -8,9 +8,10 @@ use Config;
 use File::Find;
 use File::Find::Upwards ':all';
 use Getopt::Attribute;
+use UNIVERSAL::require;
 
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 
 # --use: whether to 'use' the package; might gen more tags. The value is the
@@ -227,10 +228,18 @@ sub _find {
             # with them, they will be restored at the end of the block
 
             local @INC = @INC;
+            $package->use;
+            if ($@) {
+                my $msg = "Error during [use $package]:";
 
-            my $eval = "use $package";
-            eval $eval;
-            warn "can't eval [$eval]: $@" if $@;
+                # Make some common error messages more legible
+                if ($@ =~ /can't open (.*?): No such file or directory/) {
+                    warn "$msg Can't find $1\n";
+                } else {
+                    # fallback error message
+                    warn "$msg $@";
+                }
+            }
         }
 
         # Also determine inheritance and make tags

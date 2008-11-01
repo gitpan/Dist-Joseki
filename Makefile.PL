@@ -11,6 +11,7 @@ requires 'Data::Rmap';
 requires 'Error';
 requires 'File::Basename';
 requires 'File::Copy';
+requires 'File::Find::Upwards';
 requires 'File::Path';
 requires 'File::Slurp';
 requires 'Getopt::Attribute';
@@ -25,6 +26,7 @@ requires 'Test::TAP::HTMLMatrix';
 requires 'Text::Diff';
 requires 'Template';
 requires 'URI';
+requires 'UNIVERSAL::require';
 requires 'Web::Scraper';
 requires 'YAML';
 

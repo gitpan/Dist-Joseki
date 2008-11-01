@@ -7,7 +7,7 @@ use File::Slurp;
 use Module::Changes;
 
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 
 use base qw(Dist::Joseki::Base);
@@ -30,8 +30,14 @@ sub set_version {
     $self->assert_is_dist_base_dir;
 
     find(sub {
+        if ($_ eq '.svn') {
+            $File::Find::prune = 1;
+            return;
+        }
+
         return unless -f && -r;
         return if /\.swp$/;
+
         my $contents = read_file($_);
         if ($contents =~ s/(\$VERSION\s*=\s*([\'\"]))(.+?)\2/$1$version$2/) {
             open my $fh, '>', $_ or

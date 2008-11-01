@@ -7,7 +7,7 @@ use Dist::Joseki::Find;
 use File::Copy;
 
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 
 use base 'Dist::Joseki::Cmd::Multiplexable';

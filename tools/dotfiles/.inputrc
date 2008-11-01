@@ -1,0 +1,5 @@
+# up and down arrow search through history lines that begin with what you've
+# just entered.
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward

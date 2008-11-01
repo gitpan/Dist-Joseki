@@ -6,6 +6,10 @@ use File::Slurp;
 use Module::Changes;
 use Getopt::Attribute;
 
+
+our $VERSION = '0.16';
+
+
 our $version : Getopt(version|v=s);
 our $version_from_changes : Getopt(changes|c);
 our @dir : Getopt(dir|d=s);

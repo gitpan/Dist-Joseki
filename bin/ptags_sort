@@ -13,6 +13,9 @@ use warnings;
 use strict;
 
 
+our $VERSION = '0.16';
+
+
 sub inc_order {
     my $path = shift;
     my $order = 0;

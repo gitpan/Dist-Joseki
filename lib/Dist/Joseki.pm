@@ -5,7 +5,7 @@ use strict;
 use Dist::Joseki::DistType;
 
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 
 sub get_dist_type { Dist::Joseki::DistType->new }

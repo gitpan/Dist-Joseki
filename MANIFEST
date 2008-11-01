@@ -58,6 +58,7 @@ tools/dotfiles/.bash_profile
 tools/dotfiles/.bashrc
 tools/dotfiles/.distrc
 tools/dotfiles/.grepignore
+tools/dotfiles/.inputrc
 tools/dotfiles/.rsync-exclude
 tools/dotfiles/.screenrc
 tools/dotfiles/.vim/doc/Align.txt

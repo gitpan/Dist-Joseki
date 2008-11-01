@@ -1,5 +1,12 @@
 Revision history for Perl extension Dist-Joseki
 
+0.16 Fri Oct 31 15:02:02 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - Dist::Joseki::Version: set_version() prunes .svn directories
+     - added VERSION to bin/ptags_sort and bin/version
+     - changed all VERSION numbers to 0.16
+     - better error reporting during 'use $package' in ptags
+     - added prereq for File::Find::Upwards, needed by ptags
+
 0.15  Mon Oct 20 20:44:17 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - Changed dist style and Changes back to standard. People didn't like it -
        the nail that sticks out gets hammered down.
