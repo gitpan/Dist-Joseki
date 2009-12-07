@@ -1,74 +1,56 @@
 package Dist::Joseki::Find;
-
 use strict;
 use warnings;
 use File::Find;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Dist::Joseki::Base);
-
 
 sub projroot {
     my $self = shift;
     my @projroot =
-        map { s/^~/$ENV{HOME}/; $_ }
-        split /\s*;\s*/ =>
-        $ENV{PROJROOT};
+      map { s/^~/$ENV{HOME}/; $_ }
+      split /\s*;\s*/ => $ENV{PROJROOT};
     wantarray ? @projroot : \@projroot;
 }
 
-
 sub find_dists {
     my ($self, $restrict_path) = @_;
-
     if (defined $restrict_path) {
-        $restrict_path = [ $restrict_path ] unless
-            ref $restrict_path eq 'ARRAY'
+        $restrict_path = [$restrict_path]
+          unless ref $restrict_path eq 'ARRAY';
     } else {
         $restrict_path = [];
     }
-
-    my %restrict_path = map { $_ => 1 } @$restrict_path;  # lookup hash
-
+    my %restrict_path = map { $_ => 1 } @$restrict_path;    # lookup hash
     my @distro;
-
-    find (sub {
-        return unless -d;
+    find(
+        sub {
+            return unless -d;
 
         # prune some things first for efficiency reasons - otherwise find() gets
         # quite slow.
-
-        if (/^(\.svn|blib|skel)$/) {
-            $File::Find::prune = 1;
-            return;
-        }
-
-        if (-e "$_/Build.PL" || -e "$_/Makefile.PL") {
-
-            # only remember the distro if there was no path restriction, or if
-            # it is within the restrict_path specs
-
-            if (@$restrict_path == 0 || exists $restrict_path{$_}) {
-                push @distro => $File::Find::name;
+            if (/^(\.svn|blib|skel)$/) {
+                $File::Find::prune = 1;
+                return;
             }
+            if (-e "$_/Build.PL" || -e "$_/Makefile.PL") {
 
-            # but prune anyway - we assume there are no distributions below a
-            # directory that contains a Build.PL or a Makefile.PL.
+              # only remember the distro if there was no path restriction, or if
+              # it is within the restrict_path specs
+                if (@$restrict_path == 0 || exists $restrict_path{$_}) {
+                    push @distro => $File::Find::name;
+                }
 
-            $File::Find::prune = 1;
-        }
-    }, $self->projroot);
-
+               # but prune anyway - we assume there are no distributions below a
+               # directory that contains a Build.PL or a Makefile.PL.
+                $File::Find::prune = 1;
+            }
+        },
+        $self->projroot
+    );
     wantarray ? @distro : \@distro;
 }
-
-
 1;
-
-
 __END__
 
 
@@ -138,7 +120,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -146,7 +128,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,34 +1,22 @@
 package Dist::Joseki::Cmd::Command;
-
 use strict;
 use warnings;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(App::Cmd::Command Dist::Joseki::Base);
-
-
+#<<<
 __PACKAGE__
     ->mk_array_accessors(qw(args))
     ->mk_hash_accessors(qw(opt));
-
+#>>>
 
 sub opt_spec {
     my ($self, $app) = @_;
     my ($name) = $self->command_names;
     my $cmd_config = $app->config->{$name};
-
-    return (
-        [ 'help|h' => 'This usage screen' ],
-        $self->options($app, $cmd_config),
-    )
+    return ([ 'help|h' => 'This usage screen' ],
+        $self->options($app, $cmd_config),);
 }
-
-
 sub options { () }
-
 
 sub opt_has_value {
     my ($self, $key) = @_;
@@ -36,26 +24,16 @@ sub opt_has_value {
     defined($value) && length($value);
 }
 
-
 sub validate_args {
     my ($self, $opt, $args) = @_;
-
     die $self->_usage_text if $opt->{help};
-
-    $self->opt(%{ $opt || {} });
+    $self->opt(%{ $opt   || {} });
     $self->args(@{ $args || [] });
-
     $self->validate;
 }
-
-
-sub validate {}
-sub run      {}
-
-
+sub validate { }
+sub run      { }
 1;
-
-
 __END__
 
 
@@ -76,7 +54,7 @@ None yet.
 
 =over 4
 
-=item args
+=item C<args>
 
     my @values    = $obj->args;
     my $array_ref = $obj->args;
@@ -88,19 +66,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item args_clear
+=item C<args_clear>
 
     $obj->args_clear;
 
 Deletes all elements from the array.
 
-=item args_count
+=item C<args_count>
 
     my $count = $obj->args_count;
 
 Returns the number of elements in the array.
 
-=item args_index
+=item C<args_index>
 
     my $element   = $obj->args_index(3);
     my @elements  = $obj->args_index(@indices);
@@ -111,19 +89,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item args_pop
+=item C<args_pop>
 
     my $value = $obj->args_pop;
 
 Pops the last element off the array, returning it.
 
-=item args_push
+=item C<args_push>
 
     $obj->args_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item args_set
+=item C<args_set>
 
     $obj->args_set(1 => $x, 5 => $y);
 
@@ -131,13 +109,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item args_shift
+=item C<args_shift>
 
     my $value = $obj->args_shift;
 
 Shifts the first element off the array, returning it.
 
-=item args_splice
+=item C<args_splice>
 
     $obj->args_splice(2, 1, $x, $y);
     $obj->args_splice(-1);
@@ -157,44 +135,44 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item args_unshift
+=item C<args_unshift>
 
     $obj->args_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item clear_args
+=item C<clear_args>
 
     $obj->clear_args;
 
 Deletes all elements from the array.
 
-=item clear_opt
+=item C<clear_opt>
 
     $obj->clear_opt;
 
 Deletes all keys and values from the hash.
 
-=item count_args
+=item C<count_args>
 
     my $count = $obj->count_args;
 
 Returns the number of elements in the array.
 
-=item delete_opt
+=item C<delete_opt>
 
     $obj->delete_opt(@keys);
 
 Takes a list of keys and deletes those keys from the hash.
 
-=item exists_opt
+=item C<exists_opt>
 
     if ($obj->exists_opt($key)) { ... }
 
 Takes a key and returns a true value if the key exists in the hash, and a
 false value otherwise.
 
-=item index_args
+=item C<index_args>
 
     my $element   = $obj->index_args(3);
     my @elements  = $obj->index_args(@indices);
@@ -205,13 +183,13 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item keys_opt
+=item C<keys_opt>
 
     my @keys = $obj->keys_opt;
 
 Returns a list of all hash keys in no particular order.
 
-=item opt
+=item C<opt>
 
     my %hash     = $obj->opt;
     my $hash_ref = $obj->opt;
@@ -236,50 +214,50 @@ If called with exactly one hash reference, it updates the hash with the given
 key/value pairs, then returns the hash in list context, or a reference to the
 hash in scalar context.
 
-=item opt_clear
+=item C<opt_clear>
 
     $obj->opt_clear;
 
 Deletes all keys and values from the hash.
 
-=item opt_delete
+=item C<opt_delete>
 
     $obj->opt_delete(@keys);
 
 Takes a list of keys and deletes those keys from the hash.
 
-=item opt_exists
+=item C<opt_exists>
 
     if ($obj->opt_exists($key)) { ... }
 
 Takes a key and returns a true value if the key exists in the hash, and a
 false value otherwise.
 
-=item opt_keys
+=item C<opt_keys>
 
     my @keys = $obj->opt_keys;
 
 Returns a list of all hash keys in no particular order.
 
-=item opt_values
+=item C<opt_values>
 
     my @values = $obj->opt_values;
 
 Returns a list of all hash values in no particular order.
 
-=item pop_args
+=item C<pop_args>
 
     my $value = $obj->pop_args;
 
 Pops the last element off the array, returning it.
 
-=item push_args
+=item C<push_args>
 
     $obj->push_args(@values);
 
 Pushes elements onto the end of the array.
 
-=item set_args
+=item C<set_args>
 
     $obj->set_args(1 => $x, 5 => $y);
 
@@ -287,13 +265,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item shift_args
+=item C<shift_args>
 
     my $value = $obj->shift_args;
 
 Shifts the first element off the array, returning it.
 
-=item splice_args
+=item C<splice_args>
 
     $obj->splice_args(2, 1, $x, $y);
     $obj->splice_args(-1);
@@ -313,13 +291,13 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item unshift_args
+=item C<unshift_args>
 
     $obj->unshift_args(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item values_opt
+=item C<values_opt>
 
     my @values = $obj->values_opt;
 
@@ -383,7 +361,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -391,7 +369,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,56 +1,45 @@
 package Dist::Joseki::Cmd::Command::props;
-
 use strict;
 use warnings;
 use Dist::Joseki;
 use Dist::Joseki::Find;
 use File::Copy;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base 'Dist::Joseki::Cmd::Multiplexable';
-
 
 sub options {
     my ($self, $app, $cmd_config) = @_;
     return (
         $self->SUPER::options($app, $cmd_config),
-
-        [
-            'manifestskip|m=s',
+        [   'manifestskip|m=s',
             'location of master MANIFEST.SKIP file',
             { default => $cmd_config->{manifest_skip} },
         ],
     );
 }
 
-
 sub svk_ignore {
     my ($self, @files) = @_;
     $self->safe_system(sprintf 'svk ignore %s', join ' ' => @files);
 }
 
-
 sub run_single {
     my $self = shift;
-
     $self->SUPER::run_single(@_);
     $self->assert_is_dist_base_dir;
-    $self->svk_ignore(qw(
-        Makefile META.yml inc blib pm_to_blib Build _build cover_db
-        smoke.html smoke.yaml smoketee.txt BUILD.SKIP COVER.SKIP CPAN.SKIP
-        private "t/000_standard__*"
-    ));
-
+    $self->svk_ignore(
+        qw(
+          Makefile META.yml inc blib pm_to_blib Build _build cover_db
+          smoke.html smoke.yaml smoketee.txt BUILD.SKIP COVER.SKIP CPAN.SKIP
+          private "t/000_standard__*"
+          )
+    );
     if (defined $self->opt('manifestskip')) {
-        copy($self->opt('manifestskip'), 'MANIFEST.SKIP') ||
-            die sprintf "can't cp %s to MANIFEST.SKIP: $!\n",
-                $self->opt('manifestskip');;
+        copy($self->opt('manifestskip'), 'MANIFEST.SKIP')
+          || die sprintf "can't cp %s to MANIFEST.SKIP: $!\n",
+          $self->opt('manifestskip');
     }
 }
-
 
 sub hook_after_dist_loop {
     my $self = shift;
@@ -58,17 +47,12 @@ sub hook_after_dist_loop {
     $self->svk_ignore("$_/smoke.html") for Dist::Joseki::Find->new->projroot;
 }
 
-
 sub hook_in_dist_loop_begin {
     my ($self, $dist) = @_;
     $self->SUPER::hook_in_dist_loop_begin($dist);
     $self->print_header($dist);
 }
-
-
 1;
-
-
 __END__
 
 
@@ -166,7 +150,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -174,7 +158,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

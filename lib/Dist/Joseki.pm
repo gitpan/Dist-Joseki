@@ -1,26 +1,16 @@
 package Dist::Joseki;
-
+use 5.006;
 use warnings;
 use strict;
 use Dist::Joseki::DistType;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 sub get_dist_type { Dist::Joseki::DistType->new }
-
-
 1;
-
-
 __END__
-
-
 
 =head1 NAME
 
-Dist::Joseki - tools for the prolific module author
+Dist::Joseki - Tools for the prolific module author
 
 =head1 SYNOPSIS
 
@@ -49,7 +39,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -57,7 +47,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,7 +1,0 @@
-startup_message off
-defscrollback 1024
-
-# change default escape from ctrl-a to backtick
-# default was ^Aa
-
-escape ^Oo

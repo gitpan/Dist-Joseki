@@ -1,0 +1,44 @@
+# NAME
+
+Dist::Joseki - Tools for the prolific module author
+
+# SYNOPSIS
+
+# DESCRIPTION
+
+"Joseki" is a japanese term from the game Go and means "a formulaic sequence
+of moves which is established for giving equal outcomes to both players", but
+it has come into general use to describe any fixed form of behaviour.
+
+Dist::Joseki offers you tools that help you in developing Perl module
+distributions if you stick to a certain formulaic style of structuring your
+distributions.
+
+# BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests through the web interface at
+<http://rt.cpan.org>.
+
+# INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
+
+# AVAILABILITY
+
+The latest version of this module is available from the Comprehensive Perl
+Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
+site near you. Or see <http://search.cpan.org/dist/Dist-Joseki/>.
+
+# AUTHORS
+
+Marcel Gr&uuml;nauer, `<marcel@cpan.org>`
+
+# COPYRIGHT AND LICENSE
+
+Copyright 2007-2009 by the authors.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+

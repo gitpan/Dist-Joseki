@@ -1,83 +1,55 @@
 package Dist::Joseki::Cmd::Command::version;
-
 use strict;
 use warnings;
 use Dist::Joseki::Version;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base 'Dist::Joseki::Cmd::Command';
-
-
 sub usage_desc { 'version %o' }
-
 
 sub options {
     my ($self, $app, $cmd_config) = @_;
     return (
         $self->SUPER::options($app, $cmd_config),
-        [
-            'version|v=s',
-            'new version number',
-        ],
-
-        [
-            'file|f=s',
+        [ 'version|v=s', 'new version number', ],
+        [   'file|f=s',
             'location of the Changes file',
             { default => $cmd_config->{file} || 'Changes' },
         ],
-
-        [
-            'sync|s',
-            'use most recent version number from Changes file',
-        ],
-
-        [
-            'dir|d=s@',
+        [ 'sync|s', 'use most recent version number from Changes file', ],
+        [   'dir|d=s@',
             'directories in which to set the version number',
-            { default => $cmd_config->{dir} || [ qw(bin lib) ] },
+            { default => $cmd_config->{dir} || [qw(bin lib)] },
         ],
     );
 }
-
 
 sub validate {
     my $self = shift;
     $self->SUPER::validate(@_);
 
     # either --sync or a --version number will do
-
     if (defined $self->opt('sync')) {
-        die "can't use --sync together with --version\n" if
-            defined $self->opt('version');
-        $self->opt(version =>
-            Dist::Joseki::Version->new->get_newest_version($self->opt('file')),
+        die "can't use --sync together with --version\n"
+          if defined $self->opt('version');
+        $self->opt(
+            version => Dist::Joseki::Version->new->get_newest_version(
+                $self->opt('file')
+            ),
         );
-
     } else {
-        die "Version number is missing; use --version or -v\n" unless
-            defined $self->opt('version');
+        die "Version number is missing; use --version or -v\n"
+          unless defined $self->opt('version');
     }
 }
 
-
 sub run {
     my $self = shift;
-
     $self->SUPER::run(@_);
     $self->assert_is_dist_base_dir;
-    Dist::Joseki::Version->new->set_version(
-        $self->opt('version'),
-        @{ $self->opt('dir') || [] }
-    );
+    Dist::Joseki::Version->new->set_version($self->opt('version'),
+        @{ $self->opt('dir') || [] });
 }
-
-
 1;
-
-
 __END__
 
 
@@ -169,7 +141,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -177,7 +149,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

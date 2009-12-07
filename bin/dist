@@ -1,13 +1,6 @@
 #!/usr/bin/env perl
-
 use warnings;
 use strict;
 use Dist::Joseki::Cmd;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 Dist::Joseki::Cmd->new->run;
-
-

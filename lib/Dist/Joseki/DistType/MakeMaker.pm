@@ -1,19 +1,13 @@
 package Dist::Joseki::DistType::MakeMaker;
-
 use warnings;
 use strict;
-
 use base 'Dist::Joseki::DistType::Base';
-
-
-our $VERSION = '0.17';
-
+our $VERSION = '0.18';
 
 sub is_built {
     my $self = shift;
     -e 'Makefile';
 }
-
 
 sub ACTION_build {
     my $self = shift;
@@ -21,13 +15,11 @@ sub ACTION_build {
     $self->safe_system($^X, 'Makefile.PL');
 }
 
-
 sub ACTION_default {
     my $self = shift;
     $self->depends_on('build');
     $self->safe_system('make');
 }
-
 
 sub ACTION_distclean {
     my $self = shift;
@@ -35,13 +27,11 @@ sub ACTION_distclean {
     $self->safe_system('make', 'distclean');
 }
 
-
 sub ACTION_disttest {
     my $self = shift;
     $self->depends_on('default');
     $self->safe_system('make', 'test');
 }
-
 
 sub ACTION_distinstall {
     my $self = shift;
@@ -49,18 +39,13 @@ sub ACTION_distinstall {
     $self->safe_system('sudo', 'make', 'install');
 }
 
-
 sub ACTION_manifest {
     my $self = shift;
     unlink 'MANIFEST';
     $self->depends_on('build');
     $self->safe_system('make', 'manifest');
 }
-
-
 1;
-
-
 __END__
 
 
@@ -137,7 +122,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -145,7 +130,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

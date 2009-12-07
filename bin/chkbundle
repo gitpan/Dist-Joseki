@@ -1,5 +1,4 @@
 #!/usr/bin/env perl
-
 use warnings;
 use strict;
 use Getopt::Attribute;
@@ -9,10 +8,7 @@ use Pod::Usage;
 use Text::Diff;
 use URI;
 use Web::Scraper;
-
-
-our $VERSION = '0.17';
-
+our $VERSION = '0.18';
 
 sub usage ($;$$) {
     my ($message, $exitval, $verbose) = @_;
@@ -20,72 +16,56 @@ sub usage ($;$$) {
     # make sure there's exactly one newline;
     1 while chomp $message;
     $message .= "\n";
-
     $exitval ||= 1;
     $verbose ||= 2;
-
-    pod2usage({
-        -message => $message,
-        -exitval => $exitval,
-        -verbose => $verbose,
-        -output  => \*STDERR
-    });
+    pod2usage(
+        {   -message => $message,
+            -exitval => $exitval,
+            -verbose => $verbose,
+            -output  => \*STDERR
+        }
+    );
 }
-
 
 sub bundle_uri_for_prefix {
     my $prefix = shift;
-    my $dist = $prefix;
+    my $dist   = $prefix;
     $prefix =~ s/-/\//g;
     sprintf 'http://search.cpan.org/dist/%s-Bundle/lib/%s/Bundle.pm',
-        $dist, $prefix;
+      $dist, $prefix;
 }
 
-
 # $dist needs to be a distribution object created by Parse::CPAN::Packages
-
 sub get_primary_package {
     my $dist = shift;
 
     # Only take those packages whose names start with the equivalent of the
     # dist, i.e., for Foo-Bar, only use Foo::Bar and packages below that.
-
     (my $base_pkg = $dist->dist) =~ s/-/::/g;
-    
-    my @dist_packages = 
-        sort { length($a) <=> length($b) }
-        grep { index($_, $base_pkg) == 0 }
-        map  { $_->package }
-        @{ $dist->packages || [] };
-
+    my @dist_packages =
+      sort { length($a) <=> length($b) }
+      grep { index($_, $base_pkg) == 0 }
+      map { $_->package } @{ $dist->packages || [] };
     $dist_packages[0];
 }
-
-
-our $prefix        : Getopt(prefix|p=s);
+our $prefix : Getopt(prefix|p=s);
 our $packages_file : Getopt(packages|a=s);
-our $verbose       : Getopt(verbose|v);
-our $help          : Getopt(help|h);
-
+our $verbose : Getopt(verbose|v);
+our $help : Getopt(help|h);
 pod2usage(-verbose => 2, -exitval => 0) if $help || Getopt::Attribute->error;
 
 # also accept the name without giving -p
 $prefix = shift unless $prefix;
 usage "need --prefix\n" unless $prefix;
-
 $packages_file ||=
-    "$ENV{HOME}/mirrors/minicpan/modules/02packages.details.txt.gz";
-
+  "$ENV{HOME}/mirrors/minicpan/modules/02packages.details.txt.gz";
 $verbose && print "Parsing CPAN packages file...\n";
 my $parser = Parse::CPAN::Packages->new($packages_file);
 
-
 # Make sure we have a dash at the end. So when given 'Class-Accessor', make it
 # 'Class-Accessor-' so we don't get 'Class-AccessorMaker'.
-
 my $test_prefix = $prefix;
 $test_prefix .= '-' unless substr($prefix, -1) eq '-';
-
 my @dists_on_cpan;
 for my $dist ($parser->distributions) {
     my $name = $dist->dist;
@@ -94,18 +74,14 @@ for my $dist ($parser->distributions) {
     next unless index($name, $test_prefix) == 0;
     push @dists_on_cpan => get_primary_package($dist);
 }
-
-
 my $scraper = scraper {
     process '//p[preceding-sibling::h1[1]/a[@name="CONTENTS"]]',
-        'modules[]' => 'TEXT';
+      'modules[]' => 'TEXT';
 };
-
 my $uri = bundle_uri_for_prefix($prefix);
 $verbose && print "Scraping packages from current bundle's web page...\n";
 my $result = $scraper->scrape(URI->new($uri));
 my @dists_in_bundle = @{ $result->{modules} || [] };
-
 my %seen;
 $seen{$_}++ for @dists_on_cpan;
 delete $seen{$_} for @dists_in_bundle;
@@ -113,33 +89,25 @@ delete $seen{$_} for @dists_in_bundle;
 if (keys %seen) {
     print "$prefix-Bundle needs updating:\n\n";
     print diff
-        [ sort @dists_on_cpan   ],
-        [ sort @dists_in_bundle ],
-        {
-            STYLE      => 'Table',
-            FILENAME_A => 'On CPAN',
-            FILENAME_B => 'In Bundle',
+      [ sort @dists_on_cpan ], [ sort @dists_in_bundle ], {
+        STYLE      => 'Table',
+        FILENAME_A => 'On CPAN',
+        FILENAME_B => 'In Bundle',
 
-            # this is a kludge to say: show everything
-            CONTEXT    => (scalar @dists_on_cpan),
-        };
-
+        # this is a kludge to say: show everything
+        CONTEXT => (scalar @dists_on_cpan),
+      };
     exit unless prompt -YN, 'Do you want to ship it?';
-
     my $dir = sprintf '%s/%s-Bundle', $ENV{PROJROOT}, $prefix;
     $verbose && print "chdir $dir...\n";
     chdir $dir or die "can't cd to $dir: $!\n";
-
     $verbose && print "cleaning directory...\n";
     system 'dist clean' and die "can't run 'dist clean': $?\n";
-
     $verbose && print "running shipit...\n";
     exec 'shipit' or die "can't exec shipit: $!\n";
 } else {
     print "$prefix-Bundle is up to date.\n";
 }
-
-
 __END__
 
 =head1 NAME

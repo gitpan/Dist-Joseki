@@ -1,5 +1,4 @@
 package Dist::Joseki::Cmd::Command::smoke;
-
 use strict;
 use warnings;
 use Cwd 'abs_path';
@@ -13,74 +12,47 @@ use Template;
 use Test::TAP::HTMLMatrix;
 use Test::TAP::Model::Visual;
 use YAML qw/LoadFile DumpFile/;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base 'Dist::Joseki::Cmd::Multiplexable';
-
-
 __PACKAGE__->mk_hash_accessors(qw(dist_errors));
-
 
 sub options {
     my ($self, $app, $cmd_config) = @_;
-
     return (
         $self->SUPER::options($app, $cmd_config),
-
-        [
-            'cover|c',
-            'also run coverage tests',
-        ],
-
-        [
-            'resume|r',
-            'skip tests if there is a smoke.html already',
-        ],
-
-        [
-            'summary|s=s',
+        [ 'cover|c',  'also run coverage tests', ],
+        [ 'resume|r', 'skip tests if there is a smoke.html already', ],
+        [   'summary|s=s',
             'location of summary file',
-            { default => $cmd_config->{summary} ||
-                sprintf('%s/smoke.html',
-                    (Dist::Joseki::Find->new->projroot)[0]
-                ),
+            {   default => $cmd_config->{summary} || sprintf('%s/smoke.html',
+                    (Dist::Joseki::Find->new->projroot)[0]),
             },
         ],
     );
 }
 
-
 sub run_smoke_tests {
-    my $self = shift;
-
+    my $self                = shift;
     my $smoke_html_filename = 'smoke.html';
     my $smoke_yaml_filename = 'smoke.yaml';
-
     if (-e 'BUILD.SKIP') {
         warn "Skipping build because of BUILD.SKIP\n";
         return;
     }
-
     if ($self->opt_has_value('resume') && -e $smoke_html_filename) {
         warn "Skipping tests because --resume is given and smoke.html exists\n";
         return;
     }
-
     my $dist = Dist::Joseki->get_dist_type;
     $dist->ACTION_default;
 
     # Run smoke tests. Assumes that 'make' has already been run.
     my $meta = LoadFile('META.yml') or die "can't load META.yml\n";
     my $distname = $meta->{name};
-
     local $ENV{HARNESS_VERBOSE} = 1;
     my $model = Test::TAP::Model::Visual->new_with_tests(glob("t/*.t"));
-
-    open my $fh, '>', $smoke_html_filename or
-        die "can't open $smoke_html_filename for writing: $!\n";
+    open my $fh, '>', $smoke_html_filename
+      or die "can't open $smoke_html_filename for writing: $!\n";
     my $v = Test::TAP::HTMLMatrix->new($model, $distname);
     $v->has_inline_css(1);
     print $fh "$v";
@@ -89,16 +61,15 @@ sub run_smoke_tests {
     # force scalar context so localtime() outputs readable string
     my $start_time = localtime($model->{meat}{start_time});
     my $end_time   = localtime($model->{meat}{end_time});
-
-    my %summary = (
+    my %summary    = (
         distname   => $distname,
         start_time => $start_time,
         end_time   => $end_time,
     );
-
-    for (qw(percentage seen todo skipped passed
-            failed unexpectedly_succeeded ratio)) {
-
+    for (
+        qw(percentage seen todo skipped passed
+        failed unexpectedly_succeeded ratio)
+      ) {
         my $method = "total_$_";
         $summary{$_} = $model->$method;
     }
@@ -108,17 +79,13 @@ sub run_smoke_tests {
     # are referenced from smoke.html pages.
 }
 
-
 sub run_coverage_tests {
     my $self = shift;
-
     return unless $self->opt_has_value('cover');
-
     if (-e 'BUILD.SKIP') {
         warn "Skipping coverage tests because of BUILD.SKIP\n";
         return;
     }
-
     if (-e 'COVER.SKIP') {
         warn "Skipping coverage tests because of COVER.SKIP\n";
         return;
@@ -127,93 +94,84 @@ sub run_coverage_tests {
     # Run coverage tests. Assumes that 'make' has already been run.
     $self->safe_system('cover -delete');
     $self->safe_system(
-        'HARNESS_PERL_SWITCHES=-MDevel::Cover=-ignore,^inc/ make test'
-    );
+        'HARNESS_PERL_SWITCHES=-MDevel::Cover=-ignore,^inc/ make test');
     $self->safe_system('cover');
 }
 
-
 sub create_summary {
-    my $self = shift;
-
+    my $self        = shift;
     my $summary_dir = abs_path(dirname($self->opt('summary')));
     my @smoke;
+    find(
+        sub {
+            return unless -f && $_ eq 'smoke.yaml';
+            return if -e 'BUILD.SKIP';
+            my $summary = LoadFile($_);
+            unless ($summary->{distname}) {
+                warn "$File::Find::name defines no distname\n";
+                return;
+            }
 
-    find (sub {
-        return unless -f && $_ eq 'smoke.yaml';
-        return if -e 'BUILD.SKIP';
+            # assume the summary_dir path is above all of the @basedir paths
+            (my $rel_dir = $File::Find::dir) =~ s!^$summary_dir/!!;
+            $summary->{link} = "$rel_dir/smoke.html";
+            my $tee = 'smoketee.txt';
+            if (-e $tee) {
+                $summary->{rawlink} = "$rel_dir/$tee";
+                my $raw = do { local (@ARGV, $/) = $tee; <> };
+                $summary->{rawalert}++
+                  if $raw =~ /Use of uninitialized value/
+                      || $raw =~ / at .* line \d+/
+                      || $raw =~ /Failed test /
+                      || $raw =~ /Looks like you failed/
+                      || $raw =~
+                      /Looks like you planned \d+ tests but ran \d+ extra/
+                      || $raw =~ /No tests run!/;
+            }
+            my $coverage_html = "$File::Find::dir/cover_db/coverage.html";
+            if (-e $coverage_html) {
+                $summary->{coverage_link} = "$rel_dir/cover_db/coverage.html";
+                open my $fh, '<', $coverage_html
+                  or die "can't open $coverage_html: $!\n";
+                my $html = do { local $/; <$fh> };
+                close $fh or die "can't close $coverage_html: $!\n";
 
-        my $summary = LoadFile($_);
-
-        unless ($summary->{distname}) {
-            warn "$File::Find::name defines no distname\n";
-            return;
-        }
-
-        # assume the summary_dir path is above all of the @basedir paths
-        (my $rel_dir = $File::Find::dir) =~ s!^$summary_dir/!!;
-        $summary->{link}    = "$rel_dir/smoke.html";
-
-        my $tee = 'smoketee.txt';
-        if (-e $tee) {
-            $summary->{rawlink} = "$rel_dir/$tee";
-            my $raw = do { local (@ARGV, $/) = $tee; <> };
-            $summary->{rawalert}++ if
-                $raw =~ /Use of uninitialized value/ ||
-                $raw =~ / at .* line \d+/ ||
-                $raw =~ /Failed test / ||
-                $raw =~ /Looks like you failed/ ||
-                $raw =~ /Looks like you planned \d+ tests but ran \d+ extra/ ||
-                $raw =~ /No tests run!/;
-        }
-
-        my $coverage_html = "$File::Find::dir/cover_db/coverage.html";
-        if (-e $coverage_html) {
-            $summary->{coverage_link} = "$rel_dir/cover_db/coverage.html";
-
-            open my $fh, '<', $coverage_html or
-                die "can't open $coverage_html: $!\n";
-            my $html = do { local $/; <$fh> };
-            close $fh or die "can't close $coverage_html: $!\n";
-
-            # crude but effective
-            ($summary->{coverage_total}) =
-                $html =~ m!">(\d+\.\d+)</td></tr>\D+$!s;
-        }
-
-        $summary->{coverage_total} = sprintf "%.2f",
-            defined $summary->{coverage_total} ? $summary->{coverage_total} : 0;
-
-        push @smoke => $summary;
-    }, Dist::Joseki::Find->new->projroot);
-
+                # crude but effective
+                ($summary->{coverage_total}) =
+                  $html =~ m!">(\d+\.\d+)</td></tr>\D+$!s;
+            }
+            $summary->{coverage_total} = sprintf "%.2f",
+              defined $summary->{coverage_total}
+              ? $summary->{coverage_total}
+              : 0;
+            push @smoke => $summary;
+        },
+        Dist::Joseki::Find->new->projroot
+    );
     @smoke =
-        map  { $_->[0] }
-        sort { $a->[1] cmp $b->[1] }
-        map  { [ $_, $_->{distname} ] }
-        @smoke;
-
+      map  { $_->[0] }
+      sort { $a->[1] cmp $b->[1] }
+      map  { [ $_, $_->{distname} ] } @smoke;
     my $template = $self->get_template;
-    my $tt = Template->new;
-    $tt->process(\$template, {
-        smoke  => \@smoke,
-        errors => scalar($self->dist_errors),
-        config => myconfig(),
-    }, $self->opt('summary')) || die $tt->error;
+    my $tt       = Template->new;
+    $tt->process(
+        \$template,
+        {   smoke  => \@smoke,
+            errors => scalar($self->dist_errors),
+            config => myconfig(),
+        },
+        $self->opt('summary')
+    ) || die $tt->error;
 }
-
 
 sub run {
     my $self = shift;
-
     $self->SUPER::run(@_);
     $self->create_summary;
 }
 
-
 sub run_single {
     my $self = shift;
-
     $self->SUPER::run_single(@_);
     $self->assert_is_dist_base_dir;
     $self->run_smoke_tests;
@@ -221,23 +179,19 @@ sub run_single {
 
     # create summary here as well as in run() so if we're iterating over all
     # dists we can watch the summary grow
-
     $self->create_summary;
 }
-
 
 sub handle_dist_error {
     my ($self, $dist, $error) = @_;
 
     # we maintain a hash of lists, so get a reference and manipulate it
     # directly
-
     my $dist_errors = $self->dist_errors;
     push @{ $dist_errors->{$dist} } => $error;
 }
-
-
-sub get_template { <<'EOTEMPLATE' }
+sub get_template {
+    <<'EOTEMPLATE' }
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
     "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
@@ -410,17 +364,12 @@ li.disterror {
 </html>
 EOTEMPLATE
 
-
 sub hook_in_dist_loop_begin {
     my ($self, $dist) = @_;
     $self->SUPER::hook_in_dist_loop_begin($dist);
     $self->print_header($dist);
 }
-
-
 1;
-
-
 __END__
 
 
@@ -441,19 +390,19 @@ None yet.
 
 =over 4
 
-=item clear_dist_errors
+=item C<clear_dist_errors>
 
     $obj->clear_dist_errors;
 
 Deletes all keys and values from the hash.
 
-=item delete_dist_errors
+=item C<delete_dist_errors>
 
     $obj->delete_dist_errors(@keys);
 
 Takes a list of keys and deletes those keys from the hash.
 
-=item dist_errors
+=item C<dist_errors>
 
     my %hash     = $obj->dist_errors;
     my $hash_ref = $obj->dist_errors;
@@ -478,51 +427,51 @@ If called with exactly one hash reference, it updates the hash with the given
 key/value pairs, then returns the hash in list context, or a reference to the
 hash in scalar context.
 
-=item dist_errors_clear
+=item C<dist_errors_clear>
 
     $obj->dist_errors_clear;
 
 Deletes all keys and values from the hash.
 
-=item dist_errors_delete
+=item C<dist_errors_delete>
 
     $obj->dist_errors_delete(@keys);
 
 Takes a list of keys and deletes those keys from the hash.
 
-=item dist_errors_exists
+=item C<dist_errors_exists>
 
     if ($obj->dist_errors_exists($key)) { ... }
 
 Takes a key and returns a true value if the key exists in the hash, and a
 false value otherwise.
 
-=item dist_errors_keys
+=item C<dist_errors_keys>
 
     my @keys = $obj->dist_errors_keys;
 
 Returns a list of all hash keys in no particular order.
 
-=item dist_errors_values
+=item C<dist_errors_values>
 
     my @values = $obj->dist_errors_values;
 
 Returns a list of all hash values in no particular order.
 
-=item exists_dist_errors
+=item C<exists_dist_errors>
 
     if ($obj->exists_dist_errors($key)) { ... }
 
 Takes a key and returns a true value if the key exists in the hash, and a
 false value otherwise.
 
-=item keys_dist_errors
+=item C<keys_dist_errors>
 
     my @keys = $obj->keys_dist_errors;
 
 Returns a list of all hash keys in no particular order.
 
-=item values_dist_errors
+=item C<values_dist_errors>
 
     my @values = $obj->values_dist_errors;
 
@@ -603,7 +552,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -611,7 +560,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,22 +1,11 @@
 package Dist::Joseki::SVK::Status;
-
 use strict;
 use warnings;
 use Module::Changes;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Dist::Joseki::Base);
-
-
 __PACKAGE__->mk_array_accessors(qw(added deleted modified unversioned));
-
-
 1;
-
-
 __END__
 
 
@@ -37,7 +26,7 @@ None yet.
 
 =over 4
 
-=item added
+=item C<added>
 
     my @values    = $obj->added;
     my $array_ref = $obj->added;
@@ -49,19 +38,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item added_clear
+=item C<added_clear>
 
     $obj->added_clear;
 
 Deletes all elements from the array.
 
-=item added_count
+=item C<added_count>
 
     my $count = $obj->added_count;
 
 Returns the number of elements in the array.
 
-=item added_index
+=item C<added_index>
 
     my $element   = $obj->added_index(3);
     my @elements  = $obj->added_index(@indices);
@@ -72,19 +61,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item added_pop
+=item C<added_pop>
 
     my $value = $obj->added_pop;
 
 Pops the last element off the array, returning it.
 
-=item added_push
+=item C<added_push>
 
     $obj->added_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item added_set
+=item C<added_set>
 
     $obj->added_set(1 => $x, 5 => $y);
 
@@ -92,13 +81,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item added_shift
+=item C<added_shift>
 
     my $value = $obj->added_shift;
 
 Shifts the first element off the array, returning it.
 
-=item added_splice
+=item C<added_splice>
 
     $obj->added_splice(2, 1, $x, $y);
     $obj->added_splice(-1);
@@ -118,61 +107,61 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item added_unshift
+=item C<added_unshift>
 
     $obj->added_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item clear_added
+=item C<clear_added>
 
     $obj->clear_added;
 
 Deletes all elements from the array.
 
-=item clear_deleted
+=item C<clear_deleted>
 
     $obj->clear_deleted;
 
 Deletes all elements from the array.
 
-=item clear_modified
+=item C<clear_modified>
 
     $obj->clear_modified;
 
 Deletes all elements from the array.
 
-=item clear_unversioned
+=item C<clear_unversioned>
 
     $obj->clear_unversioned;
 
 Deletes all elements from the array.
 
-=item count_added
+=item C<count_added>
 
     my $count = $obj->count_added;
 
 Returns the number of elements in the array.
 
-=item count_deleted
+=item C<count_deleted>
 
     my $count = $obj->count_deleted;
 
 Returns the number of elements in the array.
 
-=item count_modified
+=item C<count_modified>
 
     my $count = $obj->count_modified;
 
 Returns the number of elements in the array.
 
-=item count_unversioned
+=item C<count_unversioned>
 
     my $count = $obj->count_unversioned;
 
 Returns the number of elements in the array.
 
-=item deleted
+=item C<deleted>
 
     my @values    = $obj->deleted;
     my $array_ref = $obj->deleted;
@@ -184,19 +173,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item deleted_clear
+=item C<deleted_clear>
 
     $obj->deleted_clear;
 
 Deletes all elements from the array.
 
-=item deleted_count
+=item C<deleted_count>
 
     my $count = $obj->deleted_count;
 
 Returns the number of elements in the array.
 
-=item deleted_index
+=item C<deleted_index>
 
     my $element   = $obj->deleted_index(3);
     my @elements  = $obj->deleted_index(@indices);
@@ -207,19 +196,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item deleted_pop
+=item C<deleted_pop>
 
     my $value = $obj->deleted_pop;
 
 Pops the last element off the array, returning it.
 
-=item deleted_push
+=item C<deleted_push>
 
     $obj->deleted_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item deleted_set
+=item C<deleted_set>
 
     $obj->deleted_set(1 => $x, 5 => $y);
 
@@ -227,13 +216,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item deleted_shift
+=item C<deleted_shift>
 
     my $value = $obj->deleted_shift;
 
 Shifts the first element off the array, returning it.
 
-=item deleted_splice
+=item C<deleted_splice>
 
     $obj->deleted_splice(2, 1, $x, $y);
     $obj->deleted_splice(-1);
@@ -253,13 +242,13 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item deleted_unshift
+=item C<deleted_unshift>
 
     $obj->deleted_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item index_added
+=item C<index_added>
 
     my $element   = $obj->index_added(3);
     my @elements  = $obj->index_added(@indices);
@@ -270,7 +259,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item index_deleted
+=item C<index_deleted>
 
     my $element   = $obj->index_deleted(3);
     my @elements  = $obj->index_deleted(@indices);
@@ -281,7 +270,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item index_modified
+=item C<index_modified>
 
     my $element   = $obj->index_modified(3);
     my @elements  = $obj->index_modified(@indices);
@@ -292,7 +281,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item index_unversioned
+=item C<index_unversioned>
 
     my $element   = $obj->index_unversioned(3);
     my @elements  = $obj->index_unversioned(@indices);
@@ -303,7 +292,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item modified
+=item C<modified>
 
     my @values    = $obj->modified;
     my $array_ref = $obj->modified;
@@ -315,19 +304,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item modified_clear
+=item C<modified_clear>
 
     $obj->modified_clear;
 
 Deletes all elements from the array.
 
-=item modified_count
+=item C<modified_count>
 
     my $count = $obj->modified_count;
 
 Returns the number of elements in the array.
 
-=item modified_index
+=item C<modified_index>
 
     my $element   = $obj->modified_index(3);
     my @elements  = $obj->modified_index(@indices);
@@ -338,19 +327,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item modified_pop
+=item C<modified_pop>
 
     my $value = $obj->modified_pop;
 
 Pops the last element off the array, returning it.
 
-=item modified_push
+=item C<modified_push>
 
     $obj->modified_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item modified_set
+=item C<modified_set>
 
     $obj->modified_set(1 => $x, 5 => $y);
 
@@ -358,13 +347,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item modified_shift
+=item C<modified_shift>
 
     my $value = $obj->modified_shift;
 
 Shifts the first element off the array, returning it.
 
-=item modified_splice
+=item C<modified_splice>
 
     $obj->modified_splice(2, 1, $x, $y);
     $obj->modified_splice(-1);
@@ -384,61 +373,61 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item modified_unshift
+=item C<modified_unshift>
 
     $obj->modified_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item pop_added
+=item C<pop_added>
 
     my $value = $obj->pop_added;
 
 Pops the last element off the array, returning it.
 
-=item pop_deleted
+=item C<pop_deleted>
 
     my $value = $obj->pop_deleted;
 
 Pops the last element off the array, returning it.
 
-=item pop_modified
+=item C<pop_modified>
 
     my $value = $obj->pop_modified;
 
 Pops the last element off the array, returning it.
 
-=item pop_unversioned
+=item C<pop_unversioned>
 
     my $value = $obj->pop_unversioned;
 
 Pops the last element off the array, returning it.
 
-=item push_added
+=item C<push_added>
 
     $obj->push_added(@values);
 
 Pushes elements onto the end of the array.
 
-=item push_deleted
+=item C<push_deleted>
 
     $obj->push_deleted(@values);
 
 Pushes elements onto the end of the array.
 
-=item push_modified
+=item C<push_modified>
 
     $obj->push_modified(@values);
 
 Pushes elements onto the end of the array.
 
-=item push_unversioned
+=item C<push_unversioned>
 
     $obj->push_unversioned(@values);
 
 Pushes elements onto the end of the array.
 
-=item set_added
+=item C<set_added>
 
     $obj->set_added(1 => $x, 5 => $y);
 
@@ -446,7 +435,7 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item set_deleted
+=item C<set_deleted>
 
     $obj->set_deleted(1 => $x, 5 => $y);
 
@@ -454,7 +443,7 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item set_modified
+=item C<set_modified>
 
     $obj->set_modified(1 => $x, 5 => $y);
 
@@ -462,7 +451,7 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item set_unversioned
+=item C<set_unversioned>
 
     $obj->set_unversioned(1 => $x, 5 => $y);
 
@@ -470,31 +459,31 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item shift_added
+=item C<shift_added>
 
     my $value = $obj->shift_added;
 
 Shifts the first element off the array, returning it.
 
-=item shift_deleted
+=item C<shift_deleted>
 
     my $value = $obj->shift_deleted;
 
 Shifts the first element off the array, returning it.
 
-=item shift_modified
+=item C<shift_modified>
 
     my $value = $obj->shift_modified;
 
 Shifts the first element off the array, returning it.
 
-=item shift_unversioned
+=item C<shift_unversioned>
 
     my $value = $obj->shift_unversioned;
 
 Shifts the first element off the array, returning it.
 
-=item splice_added
+=item C<splice_added>
 
     $obj->splice_added(2, 1, $x, $y);
     $obj->splice_added(-1);
@@ -514,7 +503,7 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item splice_deleted
+=item C<splice_deleted>
 
     $obj->splice_deleted(2, 1, $x, $y);
     $obj->splice_deleted(-1);
@@ -534,7 +523,7 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item splice_modified
+=item C<splice_modified>
 
     $obj->splice_modified(2, 1, $x, $y);
     $obj->splice_modified(-1);
@@ -554,7 +543,7 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item splice_unversioned
+=item C<splice_unversioned>
 
     $obj->splice_unversioned(2, 1, $x, $y);
     $obj->splice_unversioned(-1);
@@ -574,31 +563,31 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item unshift_added
+=item C<unshift_added>
 
     $obj->unshift_added(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item unshift_deleted
+=item C<unshift_deleted>
 
     $obj->unshift_deleted(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item unshift_modified
+=item C<unshift_modified>
 
     $obj->unshift_modified(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item unshift_unversioned
+=item C<unshift_unversioned>
 
     $obj->unshift_unversioned(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item unversioned
+=item C<unversioned>
 
     my @values    = $obj->unversioned;
     my $array_ref = $obj->unversioned;
@@ -610,19 +599,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item unversioned_clear
+=item C<unversioned_clear>
 
     $obj->unversioned_clear;
 
 Deletes all elements from the array.
 
-=item unversioned_count
+=item C<unversioned_count>
 
     my $count = $obj->unversioned_count;
 
 Returns the number of elements in the array.
 
-=item unversioned_index
+=item C<unversioned_index>
 
     my $element   = $obj->unversioned_index(3);
     my @elements  = $obj->unversioned_index(@indices);
@@ -633,19 +622,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item unversioned_pop
+=item C<unversioned_pop>
 
     my $value = $obj->unversioned_pop;
 
 Pops the last element off the array, returning it.
 
-=item unversioned_push
+=item C<unversioned_push>
 
     $obj->unversioned_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item unversioned_set
+=item C<unversioned_set>
 
     $obj->unversioned_set(1 => $x, 5 => $y);
 
@@ -653,13 +642,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item unversioned_shift
+=item C<unversioned_shift>
 
     my $value = $obj->unversioned_shift;
 
 Shifts the first element off the array, returning it.
 
-=item unversioned_splice
+=item C<unversioned_splice>
 
     $obj->unversioned_splice(2, 1, $x, $y);
     $obj->unversioned_splice(-1);
@@ -679,7 +668,7 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item unversioned_unshift
+=item C<unversioned_unshift>
 
     $obj->unversioned_unshift(@values);
 
@@ -732,7 +721,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -740,7 +729,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

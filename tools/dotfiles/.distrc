@@ -1,7 +1,0 @@
-change:
-    tagbase: &tagbase //local/cpan/tags
-props:
-    manifest_skip: ~/code/coderepos/Dist-Joseki/tools/MANIFEST.SKIP
-tagcheck:
-    tagbase: *tagbase
-

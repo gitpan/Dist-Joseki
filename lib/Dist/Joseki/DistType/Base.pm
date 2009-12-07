@@ -1,40 +1,27 @@
 package Dist::Joseki::DistType::Base;
-
 use warnings;
 use strict;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Dist::Joseki::Base);
-
 
 sub _call_action {
     my ($self, $action) = @_;
     return if $self->{_completed_actions}{$action}++;
-
     local $self->{action} = $action;
     my $method = "ACTION_$action";
-    $self->$method; 
+    $self->$method;
 }
-
 
 sub depends_on {
     my ($self, @depend) = @_;
     $self->_call_action($_) for @depend;
 }
 
-
 sub finish {
     my $self = shift;
     $self->ACTION_distclean;
 }
-
-
 1;
-
-
 __END__
 
 
@@ -105,7 +92,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -113,7 +100,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,56 +1,38 @@
 package Dist::Joseki::SVK;
-
 use strict;
 use warnings;
 use Module::Changes;
 use Dist::Joseki::SVK::Status;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Dist::Joseki::Base);
-
-
 __PACKAGE__->mk_scalar_accessors(qw(tag_base changes_filename));
-
 
 sub dist_current_version_is_tagged {
     my $self = shift;
-
     $self->assert_is_dist_base_dir;
-
     my $changes =
-        Module::Changes->make_object_for_type('parser_yaml')
-        ->parse_from_file($self->changes_filename);
-
+      Module::Changes->make_object_for_type('parser_yaml')
+      ->parse_from_file($self->changes_filename);
     my $version = $changes->newest_release->version;
     my $name    = $changes->name;
-
     $self->svk_has_tagged_version($name, $version);
 }
 
-
 sub svk_has_tagged_version {
     my ($self, $name, $version) = @_;
-
     unless ($self->{svk_tag_cache}) {
         my @tags = $self->read_from_cmd('svk ls ' . $self->tag_base);
         chomp @tags;
         s{/$}{} for @tags;
         $self->{svk_tag_cache}{$_} = 1 for @tags;
     }
-
     exists $self->{svk_tag_cache}{"$name-$version"};
 }
-
 
 sub status {
     my $self = shift;
     chomp(my @status = $self->read_from_cmd('svk status'));
-
     my $status = Dist::Joseki::SVK::Status->new;
-
     for my $status_line (@status) {
         my ($type, $file);
         if ($status_line =~ /^(.)\s+(.*)/) {
@@ -58,9 +40,7 @@ sub status {
         } else {
             die "can't parse svk status line:\n$status_line\n";
         }
-
         next if $file =~ /\.swp$/;
-
         if ($type eq 'M') {
             $status->modified_push($file);
         } elsif ($type eq 'A') {
@@ -70,23 +50,18 @@ sub status {
         } elsif ($type eq '?') {
             $status->unversioned_push($file);
         } else {
-            die "unknown svk status in line:$status_line\n"
+            die "unknown svk status in line:$status_line\n";
         }
     }
     $status;
 }
-
 
 sub add {
     my ($self, @files) = @_;
     my $files = join ' ' => @files;
     $self->safe_system("svk add $files");
 }
-
-
 1;
-
-
 __END__
 
 
@@ -107,7 +82,7 @@ None yet.
 
 =over 4
 
-=item changes_filename
+=item C<changes_filename>
 
     my $value = $obj->changes_filename;
     $obj->changes_filename($value);
@@ -115,25 +90,25 @@ None yet.
 A basic getter/setter method. If called without an argument, it returns the
 value. If called with a single argument, it sets the value.
 
-=item changes_filename_clear
+=item C<changes_filename_clear>
 
     $obj->changes_filename_clear;
 
 Clears the value.
 
-=item clear_changes_filename
+=item C<clear_changes_filename>
 
     $obj->clear_changes_filename;
 
 Clears the value.
 
-=item clear_tag_base
+=item C<clear_tag_base>
 
     $obj->clear_tag_base;
 
 Clears the value.
 
-=item tag_base
+=item C<tag_base>
 
     my $value = $obj->tag_base;
     $obj->tag_base($value);
@@ -141,7 +116,7 @@ Clears the value.
 A basic getter/setter method. If called without an argument, it returns the
 value. If called with a single argument, it sets the value.
 
-=item tag_base_clear
+=item C<tag_base_clear>
 
     $obj->tag_base_clear;
 
@@ -194,7 +169,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -202,7 +177,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

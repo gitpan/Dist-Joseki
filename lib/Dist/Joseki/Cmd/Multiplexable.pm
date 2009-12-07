@@ -1,38 +1,29 @@
 package Dist::Joseki::Cmd::Multiplexable;
-
 use strict;
 use warnings;
 use Dist::Joseki::Find;
 use Error ':try';
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Dist::Joseki::Cmd::Command);
-
 
 sub options {
     my ($self, $app, $cmd_config) = @_;
     return (
         $self->SUPER::options($app, $cmd_config),
-        [ 'proj|p'   => 'Repeat this for all distributions in the project' ],
+        [ 'proj|p' => 'Repeat this for all distributions in the project' ],
     );
 }
 
-
 sub run {
     my $self = shift;
-
     $self->SUPER::run(@_);
     if (defined $self->opt('proj')) {
-
         $self->hook_before_dist_loop;
         for my $dist (Dist::Joseki::Find->new->find_dists) {
-                chdir $dist or die "can't chdir to $dist: $!\n";
-                $self->hook_in_dist_loop_begin($dist);
-                $self->try_single($dist);
-                $self->hook_in_dist_loop_end($dist);
+            chdir $dist or die "can't chdir to $dist: $!\n";
+            $self->hook_in_dist_loop_begin($dist);
+            $self->try_single($dist);
+            $self->hook_in_dist_loop_end($dist);
         }
         $self->hook_after_dist_loop;
     } else {
@@ -40,34 +31,27 @@ sub run {
     }
 }
 
-
 sub try_single {
     my ($self, $dist) = @_;
     $dist = 'current' unless defined $dist;
     try {
         $self->run_single;
-    } catch Error with {
+    }
+    catch Error with {
         $self->handle_dist_error($dist, $_[0]);
     };
 }
-
 
 sub handle_dist_error {
     my ($self, $dist, $error) = @_;
     warn "distribution [$dist] had an error:\n$error\n";
 }
-
-
-sub hook_before_dist_loop   {}
-sub hook_after_dist_loop    {}
-sub hook_in_dist_loop_begin {}
-sub hook_in_dist_loop_end   {}
-sub run_single              {}
-
-
+sub hook_before_dist_loop   { }
+sub hook_after_dist_loop    { }
+sub hook_in_dist_loop_begin { }
+sub hook_in_dist_loop_end   { }
+sub run_single              { }
 1;
-
-
 __END__
 
 
@@ -159,7 +143,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -167,7 +151,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -1,13 +1,9 @@
 package Dist::Joseki::DistType;
-
 use warnings;
 use strict;
 use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
-
-
-our $VERSION = '0.17';
-
+our $VERSION = '0.18';
 
 sub new {
     my $class = shift;
@@ -15,11 +11,7 @@ sub new {
     return Dist::Joseki::DistType::MakeMaker->new   if -e "Makefile.PL";
     die "Can't determine dist type. Is this a perl distribution root dir?\n";
 }
-
-
 1;
-
-
 __END__
 
 
@@ -52,7 +44,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -60,7 +52,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

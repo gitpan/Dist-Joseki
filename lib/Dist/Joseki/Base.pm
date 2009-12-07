@@ -1,17 +1,9 @@
 package Dist::Joseki::Base;
-
 use strict;
 use warnings;
-
-
-our $VERSION = '0.17';
-
-
+our $VERSION = '0.18';
 use base qw(Class::Accessor::Complex);
-
-
 __PACKAGE__->mk_new;
-
 
 sub read_from_cmd {
     my ($self, $cmd) = @_;
@@ -21,19 +13,16 @@ sub read_from_cmd {
     wantarray ? @result : join '' => @result;
 }
 
-
 sub safe_system {
     my ($self, @args) = @_;
     system(@args) == 0 or die "system @args failed: $?";
 }
 
-
 sub assert_is_dist_base_dir {
     my $self = shift;
     die "Looks like this is not a distribution base directory\n"
-        unless -e 'Makefile.PL' || -e 'Build.PL';
+      unless -e 'Makefile.PL' || -e 'Build.PL';
 }
-
 
 sub print_header {
     my ($self, $text) = @_;
@@ -42,11 +31,7 @@ sub print_header {
     print "$text\n";
     print '-' x 75, "\n\n";
 }
-
-
 1;
-
-
 __END__
 
 
@@ -67,7 +52,7 @@ None yet.
 
 =over 4
 
-=item new
+=item C<new>
 
     my $obj = Dist::Joseki::Base->new;
     my $obj = Dist::Joseki::Base->new(%args);
@@ -120,7 +105,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Dist-Joseki/>.
 
 =head1 AUTHORS
 
@@ -128,7 +113,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+Copyright 2007-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
