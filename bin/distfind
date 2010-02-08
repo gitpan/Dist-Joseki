@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use Dist::Joseki::Find;
 use Getopt::Attribute;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 our $prefix : Getopt(prefix|p=s);
 our $suffix : Getopt(suffix|s=s);
 our $join : Getopt(join|j=s);

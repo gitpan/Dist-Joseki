@@ -1,5 +1,17 @@
 Revision history for Perl extension Dist-Joseki
 
+0.19  Mon 2010.02.08 14:03:44 CET (Marcel Gruenauer <marcel@cpan.org>)
+     - v0.18 had loads of requirements but most of them came from a few very
+       seldomly used commands, so I moved those out to their own distributions.
+     - command plugins now live in Dist::Joseki::Command::*, so it's a nicer
+       namespace for putting extra commands in separate CPAN dists
+     - removed bin/chkbundle - unclear concept
+     - removed bin/version - handled by 'dist version'
+     - moved the 'depends' command into its own distribution:
+       Dist::Joseki::Command::depends
+     - moved the 'depends' command into its own distribution:
+       Dist::Joseki::Command::depends
+
 0.18  Mon 2009.12.07 22:59:20 CET (Marcel Gruenauer <marcel@cpan.org>)
      - reduced dependencies using author tests
      - better dist engineering (INSTALL, README, README.mkdn etc.)

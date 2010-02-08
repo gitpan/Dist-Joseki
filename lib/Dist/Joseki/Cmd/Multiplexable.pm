@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Dist::Joseki::Find;
 use Error ':try';
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base qw(Dist::Joseki::Cmd::Command);
 
 sub options {

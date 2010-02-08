@@ -1,53 +1,17 @@
-package Dist::Joseki::Cmd::Command::version;
+package Dist::Joseki::Command::test;
 use strict;
 use warnings;
-use Dist::Joseki::Version;
-our $VERSION = '0.18';
-use base 'Dist::Joseki::Cmd::Command';
-sub usage_desc { 'version %o' }
+use Dist::Joseki;
+our $VERSION = '0.19';
+use base 'Dist::Joseki::Cmd::Multiplexable';
 
-sub options {
-    my ($self, $app, $cmd_config) = @_;
-    return (
-        $self->SUPER::options($app, $cmd_config),
-        [ 'version|v=s', 'new version number', ],
-        [   'file|f=s',
-            'location of the Changes file',
-            { default => $cmd_config->{file} || 'Changes' },
-        ],
-        [ 'sync|s', 'use most recent version number from Changes file', ],
-        [   'dir|d=s@',
-            'directories in which to set the version number',
-            { default => $cmd_config->{dir} || [qw(bin lib)] },
-        ],
-    );
-}
-
-sub validate {
+sub run_single {
     my $self = shift;
-    $self->SUPER::validate(@_);
-
-    # either --sync or a --version number will do
-    if (defined $self->opt('sync')) {
-        die "can't use --sync together with --version\n"
-          if defined $self->opt('version');
-        $self->opt(
-            version => Dist::Joseki::Version->new->get_newest_version(
-                $self->opt('file')
-            ),
-        );
-    } else {
-        die "Version number is missing; use --version or -v\n"
-          unless defined $self->opt('version');
-    }
-}
-
-sub run {
-    my $self = shift;
-    $self->SUPER::run(@_);
+    $self->SUPER::run_single(@_);
     $self->assert_is_dist_base_dir;
-    Dist::Joseki::Version->new->set_version($self->opt('version'),
-        @{ $self->opt('dir') || [] });
+    my $dist = Dist::Joseki->get_dist_type;
+    $dist->ACTION_disttest;
+    $dist->finish;
 }
 1;
 __END__
@@ -56,11 +20,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::version - 'version' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::test - 'test' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::version->new;
+    Dist::Joseki::Command::test->new;
 
 =head1 DESCRIPTION
 
@@ -74,8 +38,15 @@ None yet.
 
 =back
 
-Dist::Joseki::Cmd::Command::version inherits from
-L<Dist::Joseki::Cmd::Command>.
+Dist::Joseki::Command::test inherits from
+L<Dist::Joseki::Cmd::Multiplexable>.
+
+The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
+and functions:
+
+    handle_dist_error(), hook_after_dist_loop(), hook_before_dist_loop(),
+    hook_in_dist_loop_begin(), hook_in_dist_loop_end(), options(), run(),
+    try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -86,12 +57,12 @@ functions:
     index_args(), keys_opt(), opt(), opt_clear(), opt_delete(),
     opt_exists(), opt_has_value(), opt_keys(), opt_spec(), opt_values(),
     pop_args(), push_args(), set_args(), shift_args(), splice_args(),
-    unshift_args(), validate_args(), values_opt()
+    unshift_args(), validate(), validate_args(), values_opt()
 
 The superclass L<App::Cmd::Command> defines these methods and functions:
 
     new(), _option_processing_params(), _usage_text(), abstract(), app(),
-    command_names(), prepare(), usage(), usage_error()
+    command_names(), prepare(), usage(), usage_desc(), usage_error()
 
 The superclass L<App::Cmd::ArgProcessor> defines these methods and
 functions:

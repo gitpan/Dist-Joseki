@@ -3,8 +3,22 @@ use strict;
 use warnings;
 use YAML 'LoadFile';
 use Data::Rmap;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base 'App::Cmd';
+
+# The default command base namespace, set by App::Cmd, would be
+# Dist::Joseki::Cmd::Command, but if we want to create various CPAN
+# distributions for pluggable commands, this path is a bit unwieldy. So we
+# create a custom path here.
+
+use constant _default_command_base => 'Dist::Joseki::Command';
+
+sub _module_pluggable_options {
+    (   @Devel::SearchINC::inc
+        ? (search_dirs => \@Devel::SearchINC::inc)
+        : ()
+    ),
+}
 
 sub config {
     my $app         = shift;

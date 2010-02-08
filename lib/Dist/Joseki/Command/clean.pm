@@ -1,50 +1,26 @@
-package Dist::Joseki::Cmd::Command::props;
+package Dist::Joseki::Command::clean;
 use strict;
 use warnings;
 use Dist::Joseki;
 use Dist::Joseki::Find;
-use File::Copy;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base 'Dist::Joseki::Cmd::Multiplexable';
-
-sub options {
-    my ($self, $app, $cmd_config) = @_;
-    return (
-        $self->SUPER::options($app, $cmd_config),
-        [   'manifestskip|m=s',
-            'location of master MANIFEST.SKIP file',
-            { default => $cmd_config->{manifest_skip} },
-        ],
-    );
-}
-
-sub svk_ignore {
-    my ($self, @files) = @_;
-    $self->safe_system(sprintf 'svk ignore %s', join ' ' => @files);
-}
 
 sub run_single {
     my $self = shift;
     $self->SUPER::run_single(@_);
     $self->assert_is_dist_base_dir;
-    $self->svk_ignore(
-        qw(
-          Makefile META.yml inc blib pm_to_blib Build _build cover_db
-          smoke.html smoke.yaml smoketee.txt BUILD.SKIP COVER.SKIP CPAN.SKIP
-          private "t/000_standard__*"
-          )
-    );
-    if (defined $self->opt('manifestskip')) {
-        copy($self->opt('manifestskip'), 'MANIFEST.SKIP')
-          || die sprintf "can't cp %s to MANIFEST.SKIP: $!\n",
-          $self->opt('manifestskip');
-    }
+    my $dist = Dist::Joseki->get_dist_type;
+    $dist->ACTION_distclean;
+    $dist->finish;
+    unlink 'smoke.html', 'smoke.yaml', 'smoketee.txt';
+    $self->safe_system('cover -delete') if -d 'cover_db';
 }
 
 sub hook_after_dist_loop {
     my $self = shift;
     $self->SUPER::hook_after_dist_loop(@_);
-    $self->svk_ignore("$_/smoke.html") for Dist::Joseki::Find->new->projroot;
+    unlink "$_/smoke.html" for Dist::Joseki::Find->new->projroot;
 }
 
 sub hook_in_dist_loop_begin {
@@ -59,11 +35,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::props - 'props' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::clean - 'clean' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::props->new;
+    Dist::Joseki::Command::clean->new;
 
 =head1 DESCRIPTION
 
@@ -77,14 +53,14 @@ None yet.
 
 =back
 
-Dist::Joseki::Cmd::Command::props inherits from
+Dist::Joseki::Command::clean inherits from
 L<Dist::Joseki::Cmd::Multiplexable>.
 
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
     handle_dist_error(), hook_before_dist_loop(), hook_in_dist_loop_end(),
-    run(), try_single()
+    options(), run(), try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:

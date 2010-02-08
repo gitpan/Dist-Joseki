@@ -2,7 +2,7 @@ package Dist::Joseki::DistType::MakeMaker;
 use warnings;
 use strict;
 use base 'Dist::Joseki::DistType::Base';
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 sub is_built {
     my $self = shift;

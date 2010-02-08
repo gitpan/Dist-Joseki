@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Module::Changes;
 use Dist::Joseki::SVK::Status;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base qw(Dist::Joseki::Base);
 __PACKAGE__->mk_scalar_accessors(qw(tag_base changes_filename));
 

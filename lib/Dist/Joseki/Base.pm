@@ -1,7 +1,7 @@
 package Dist::Joseki::Base;
 use strict;
 use warnings;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base qw(Class::Accessor::Complex);
 __PACKAGE__->mk_new;
 

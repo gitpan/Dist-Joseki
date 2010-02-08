@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use Dist::Joseki::DistType::ModuleBuild;
 use Dist::Joseki::DistType::MakeMaker;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 sub new {
     my $class = shift;

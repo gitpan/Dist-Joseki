@@ -1,4 +1,4 @@
-package Dist::Joseki::Cmd::Command::change;
+package Dist::Joseki::Command::change;
 use strict;
 use warnings;
 use Dist::Joseki::SVK;
@@ -6,7 +6,7 @@ use Dist::Joseki::Version;
 use File::Temp 'tempfile';
 use IO::Prompt;
 use ShipIt::Conf;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base 'Dist::Joseki::Cmd::Command';
 __PACKAGE__->mk_concat_accessors(qw(commit_msg));
 
@@ -135,11 +135,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::change - 'change' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::change - 'change' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::change->new;
+    Dist::Joseki::Command::change->new;
 
 =head1 DESCRIPTION
 
@@ -171,7 +171,7 @@ Clears the value.
 
 =back
 
-Dist::Joseki::Cmd::Command::change inherits from
+Dist::Joseki::Command::change inherits from
 L<Dist::Joseki::Cmd::Command>.
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and

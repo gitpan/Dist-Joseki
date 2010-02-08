@@ -31,17 +31,7 @@ requires:
   Getopt::Attribute: 0
   IO::Prompt: 0
   Module::Changes: 0
-  Module::CoreList: 0
-  Module::ExtractUse: 0
-  Parse::CPAN::Packages: 0
-  Perl::Version: 0
   ShipIt: 0
-  Template: 0
-  Test::TAP::HTMLMatrix: 0
-  Text::Diff: 0
-  UNIVERSAL::require: 0
-  URI: 0
-  Web::Scraper: 0
   YAML: 0
   perl: 5.6.0
 resources:
@@ -49,4 +39,4 @@ resources:
   homepage: http://search.cpan.org/dist/Dist-Joseki/
   license: http://dev.perl.org/licenses/
   repository: git://github.com/hanekomu/dist-joseki.git
-version: 0.18
+version: 0.19

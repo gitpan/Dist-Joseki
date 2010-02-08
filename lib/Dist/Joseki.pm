@@ -3,7 +3,7 @@ use 5.006;
 use warnings;
 use strict;
 use Dist::Joseki::DistType;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 sub get_dist_type { Dist::Joseki::DistType->new }
 1;
 __END__

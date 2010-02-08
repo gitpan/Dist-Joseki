@@ -2,7 +2,7 @@ package Dist::Joseki::SVK::Status;
 use strict;
 use warnings;
 use Module::Changes;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base qw(Dist::Joseki::Base);
 __PACKAGE__->mk_array_accessors(qw(added deleted modified unversioned));
 1;

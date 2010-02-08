@@ -1,17 +1,66 @@
-package Dist::Joseki::Cmd::Command::test;
+package Dist::Joseki::Command::tagcheck;
 use strict;
 use warnings;
-use Dist::Joseki;
-our $VERSION = '0.18';
+use Dist::Joseki::SVK;
+use ShipIt::Conf;
+our $VERSION = '0.19';
 use base 'Dist::Joseki::Cmd::Multiplexable';
+sub usage_desc { 'tagcheck %o' }
+
+sub options {
+    my ($self, $app, $cmd_config) = @_;
+    return (
+        $self->SUPER::options($app, $cmd_config),
+        [   'tagbase|b=s',
+            'depot path where tagged versions are',
+
+            # no defaults here, they are more complicated. see get_tagbase()
+        ],
+        [   'file|f=s',
+            'location of the Changes file',
+            { default => $cmd_config->{file} || 'Changes' },
+        ],
+        [ 'verbose|v', 'be verbose', { default => 0 }, ],
+    );
+}
+
+sub get_tagbase {
+    my $self = shift;
+    return $self->opt('tagbase') if defined $self->opt('tagbase');
+    my $shipit_conf = ShipIt::Conf->parse('.shipit');
+    my $tagbase     = $shipit_conf->value('svk.tagpattern');
+    if (defined $tagbase) {
+
+        # svk.tagpattern will be the complete pattern, but we need the tag
+        # base path. Usually it will be the last '/tags/' directory in the
+        # pattern, so let's try to be smart.
+        $tagbase =~ s!^(.*/tags)/.*$!$1!;
+        return $tagbase;
+    }
+    return $self->app->config->{tagcheck};
+}
 
 sub run_single {
     my $self = shift;
     $self->SUPER::run_single(@_);
-    $self->assert_is_dist_base_dir;
-    my $dist = Dist::Joseki->get_dist_type;
-    $dist->ACTION_disttest;
-    $dist->finish;
+    my $tagbase = $self->get_tagbase;
+    print "tagbase [$tagbase]\n" if $self->opt('verbose');
+    my $svk = Dist::Joseki::SVK->new(
+        tag_base         => $tagbase,
+        changes_filename => $self->opt('file'),
+    );
+    if ($svk->dist_current_version_is_tagged) {
+        print "Current version is tagged\n";
+    } else {
+        print "Current version is not tagged\n";
+    }
+}
+
+sub hook_in_dist_loop_begin {
+    my ($self, $dist) = @_;
+    $self->SUPER::hook_in_dist_loop_begin($dist);
+    $dist =~ s!.*/!!;
+    print "$dist: ";
 }
 1;
 __END__
@@ -20,11 +69,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::test - 'test' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::tagcheck - Check whether the distribution is tagged
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::test->new;
+    Dist::Joseki::Command::tagcheck->new;
 
 =head1 DESCRIPTION
 
@@ -38,15 +87,14 @@ None yet.
 
 =back
 
-Dist::Joseki::Cmd::Command::test inherits from
+Dist::Joseki::Command::tagcheck inherits from
 L<Dist::Joseki::Cmd::Multiplexable>.
 
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
     handle_dist_error(), hook_after_dist_loop(), hook_before_dist_loop(),
-    hook_in_dist_loop_begin(), hook_in_dist_loop_end(), options(), run(),
-    try_single()
+    hook_in_dist_loop_end(), run(), try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:
@@ -62,7 +110,7 @@ functions:
 The superclass L<App::Cmd::Command> defines these methods and functions:
 
     new(), _option_processing_params(), _usage_text(), abstract(), app(),
-    command_names(), prepare(), usage(), usage_desc(), usage_error()
+    command_names(), prepare(), usage(), usage_error()
 
 The superclass L<App::Cmd::ArgProcessor> defines these methods and
 functions:

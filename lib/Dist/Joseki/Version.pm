@@ -4,7 +4,7 @@ use warnings;
 use File::Find;
 use File::Slurp;
 use Module::Changes;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base qw(Dist::Joseki::Base);
 
 sub get_newest_version {

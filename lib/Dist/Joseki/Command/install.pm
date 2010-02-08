@@ -1,9 +1,8 @@
-package Dist::Joseki::Cmd::Command::clean;
+package Dist::Joseki::Command::install;
 use strict;
 use warnings;
 use Dist::Joseki;
-use Dist::Joseki::Find;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base 'Dist::Joseki::Cmd::Multiplexable';
 
 sub run_single {
@@ -11,22 +10,8 @@ sub run_single {
     $self->SUPER::run_single(@_);
     $self->assert_is_dist_base_dir;
     my $dist = Dist::Joseki->get_dist_type;
-    $dist->ACTION_distclean;
+    $dist->ACTION_distinstall;
     $dist->finish;
-    unlink 'smoke.html', 'smoke.yaml', 'smoketee.txt';
-    $self->safe_system('cover -delete') if -d 'cover_db';
-}
-
-sub hook_after_dist_loop {
-    my $self = shift;
-    $self->SUPER::hook_after_dist_loop(@_);
-    unlink "$_/smoke.html" for Dist::Joseki::Find->new->projroot;
-}
-
-sub hook_in_dist_loop_begin {
-    my ($self, $dist) = @_;
-    $self->SUPER::hook_in_dist_loop_begin($dist);
-    $self->print_header($dist);
 }
 1;
 __END__
@@ -35,11 +20,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::clean - 'clean' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::install - 'install' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::clean->new;
+    Dist::Joseki::Command::install->new;
 
 =head1 DESCRIPTION
 
@@ -53,14 +38,15 @@ None yet.
 
 =back
 
-Dist::Joseki::Cmd::Command::clean inherits from
+Dist::Joseki::Command::install inherits from
 L<Dist::Joseki::Cmd::Multiplexable>.
 
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
 and functions:
 
-    handle_dist_error(), hook_before_dist_loop(), hook_in_dist_loop_end(),
-    options(), run(), try_single()
+    handle_dist_error(), hook_after_dist_loop(), hook_before_dist_loop(),
+    hook_in_dist_loop_begin(), hook_in_dist_loop_end(), options(), run(),
+    try_single()
 
 The superclass L<Dist::Joseki::Cmd::Command> defines these methods and
 functions:

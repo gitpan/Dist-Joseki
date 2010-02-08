@@ -1,8 +1,8 @@
-package Dist::Joseki::Cmd::Command::manifest;
+package Dist::Joseki::Command::manifest;
 use strict;
 use warnings;
 use Dist::Joseki;
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 use base 'Dist::Joseki::Cmd::Multiplexable';
 
 sub run_single {
@@ -26,11 +26,11 @@ __END__
 
 =head1 NAME
 
-Dist::Joseki::Cmd::Command::manifest - 'manifest' command for Dist::Joseki::Cmd
+Dist::Joseki::Command::manifest - 'manifest' command for Dist::Joseki::Cmd
 
 =head1 SYNOPSIS
 
-    Dist::Joseki::Cmd::Command::manifest->new;
+    Dist::Joseki::Command::manifest->new;
 
 =head1 DESCRIPTION
 
@@ -44,7 +44,7 @@ None yet.
 
 =back
 
-Dist::Joseki::Cmd::Command::manifest inherits from
+Dist::Joseki::Command::manifest inherits from
 L<Dist::Joseki::Cmd::Multiplexable>.
 
 The superclass L<Dist::Joseki::Cmd::Multiplexable> defines these methods
