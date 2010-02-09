@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use YAML 'LoadFile';
 use Data::Rmap;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base 'App::Cmd';
 
 # The default command base namespace, set by App::Cmd, would be

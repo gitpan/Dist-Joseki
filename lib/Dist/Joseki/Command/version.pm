@@ -2,7 +2,7 @@ package Dist::Joseki::Command::version;
 use strict;
 use warnings;
 use Dist::Joseki::Version;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base 'Dist::Joseki::Cmd::Command';
 sub usage_desc { 'version %o' }
 

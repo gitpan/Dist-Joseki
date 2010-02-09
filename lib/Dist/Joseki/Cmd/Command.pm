@@ -1,7 +1,7 @@
 package Dist::Joseki::Cmd::Command;
 use strict;
 use warnings;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base qw(App::Cmd::Command Dist::Joseki::Base);
 #<<<
 __PACKAGE__

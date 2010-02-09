@@ -2,7 +2,7 @@ package Dist::Joseki::Find;
 use strict;
 use warnings;
 use File::Find;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base qw(Dist::Joseki::Base);
 
 sub projroot {

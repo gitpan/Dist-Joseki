@@ -1,5 +1,10 @@
 Revision history for Perl extension Dist-Joseki
 
+0.20  Tue 2010.02.09 14:45:30 CET (Marcel Gruenauer <marcel@cpan.org>)
+     - dropped SVK support - I only use git, and there are better ways of doing
+       these things in git
+     - thereby removed dependencies on Module::Changes, IO::Prompt, ShipIt
+
 0.19  Mon 2010.02.08 14:03:44 CET (Marcel Gruenauer <marcel@cpan.org>)
      - v0.18 had loads of requirements but most of them came from a few very
        seldomly used commands, so I moved those out to their own distributions.

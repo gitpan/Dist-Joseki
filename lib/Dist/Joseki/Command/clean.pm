@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Dist::Joseki;
 use Dist::Joseki::Find;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base 'Dist::Joseki::Cmd::Multiplexable';
 
 sub run_single {

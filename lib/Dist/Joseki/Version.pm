@@ -3,24 +3,15 @@ use strict;
 use warnings;
 use File::Find;
 use File::Slurp;
-use Module::Changes;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base qw(Dist::Joseki::Base);
-
-sub get_newest_version {
-    my ($self, $changes_filename) = @_;
-    die "can't find $changes_filename\n" unless -f $changes_filename;
-    die "can't read $changes_filename\n" unless -e $changes_filename;
-    Module::Changes->make_object_for_type('parser_yaml')
-      ->parse_from_file($changes_filename)->newest_release->version;
-}
 
 sub set_version {
     my ($self, $version, @dir) = @_;
     $self->assert_is_dist_base_dir;
     find(
         sub {
-            if ($_ eq '.svn') {
+            if ($_ eq '.svn' || $_ eq '.git') {
                 $File::Find::prune = 1;
                 return;
             }

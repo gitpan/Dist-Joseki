@@ -1,7 +1,7 @@
 package Dist::Joseki::DistType::Base;
 use warnings;
 use strict;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base qw(Dist::Joseki::Base);
 
 sub _call_action {

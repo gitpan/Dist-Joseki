@@ -28,12 +28,10 @@ lib/Dist/Joseki/Base.pm
 lib/Dist/Joseki/Cmd.pm
 lib/Dist/Joseki/Cmd/Command.pm
 lib/Dist/Joseki/Cmd/Multiplexable.pm
-lib/Dist/Joseki/Command/change.pm
 lib/Dist/Joseki/Command/clean.pm
 lib/Dist/Joseki/Command/install.pm
 lib/Dist/Joseki/Command/manifest.pm
 lib/Dist/Joseki/Command/props.pm
-lib/Dist/Joseki/Command/tagcheck.pm
 lib/Dist/Joseki/Command/test.pm
 lib/Dist/Joseki/Command/version.pm
 lib/Dist/Joseki/DistType.pm
@@ -41,8 +39,6 @@ lib/Dist/Joseki/DistType/Base.pm
 lib/Dist/Joseki/DistType/MakeMaker.pm
 lib/Dist/Joseki/DistType/ModuleBuild.pm
 lib/Dist/Joseki/Find.pm
-lib/Dist/Joseki/SVK.pm
-lib/Dist/Joseki/SVK/Status.pm
 lib/Dist/Joseki/Version.pm
 LICENSE
 Makefile.PL

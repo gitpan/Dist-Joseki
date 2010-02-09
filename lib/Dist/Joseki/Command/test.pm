@@ -2,7 +2,7 @@ package Dist::Joseki::Command::test;
 use strict;
 use warnings;
 use Dist::Joseki;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 use base 'Dist::Joseki::Cmd::Multiplexable';
 
 sub run_single {

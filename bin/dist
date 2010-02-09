@@ -2,5 +2,5 @@
 use warnings;
 use strict;
 use Dist::Joseki::Cmd;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 Dist::Joseki::Cmd->new->run;
